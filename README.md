@@ -2,6 +2,7 @@
 ## General Resources
 - [`Rust` | Rust Language Cheat Sheet](https://cheats.rs/)
 - [`Rust` | A bunch of links to blog posts, articles, videos, etc for learning Rust](https://github.com/ctjhoa/rust-learning)
+- [`Rust` | "Pin, Unpin and why Rust needs them" by Cloudflare](https://blog.cloudflare.com/pin-and-unpin-in-rust/)
 ## Courses
 - [`Couuse` | `Rust` | Design Patterns in Rust](https://rust-unofficial.github.io/patterns/): Learn common design patterns & anti-pattern in Rust
 - [`Course` | `Rust` | Comprehensive Rust (by Google Android Team)](https://github.com/google/comprehensive-rust): This is a free Rust course developed by the Android team at Google. The course covers the full spectrum of Rust, from basic syntax to advanced topics like generics and error handling.
