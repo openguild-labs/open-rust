@@ -12,6 +12,8 @@
 - [`Tutorial | `WASM` | WebAssembly Fizzbuzz](https://github.com/diekmann/wasm-fizzbuzz): WebAssembly crash course
 - [`Tutorial` | `WASM` | Port 1997 DOOM to Web Assembly](https://github.com/diekmann/wasm-fizzbuzz/tree/main/doom): This course is in a [WebAssembly Fizzbuzz course collection](https://github.com/diekmann/wasm-fizzbuzz/)
 ## Advanced Concepts
+### Asynchronous Programming
+- [`Rust` | Rust Forum - Pin use in `Future::poll()`](https://users.rust-lang.org/t/pin-use-in-futures-poll/80264/7): Discussion thread about `Future::pollPint(<&mut self>, _)` on Rust Forum
 - [`Rust` | Advanced Concepts | Typelevel Recursion](https://beachape.com/blog/2017/03/12/gentle-intro-to-type-level-recursion-in-Rust-from-zero-to-frunk-hlist-sculpting/)
 - [`Rust` | Advanced Concepts | Actor Model by Actix](https://actix.rs/docs/actix/actor/)
 - [`Rust` | "Pin, Unpin and why Rust needs them" by Cloudflare](https://blog.cloudflare.com/pin-and-unpin-in-rust/)
