@@ -16,6 +16,7 @@
 - [`Rust` | "Move, copies and clones in Rust" by HashRust](https://hashrust.com/blog/moves-copies-and-clones-in-rust/)
 ### Asynchronous Programming
 - [`Rust` | Advanced Concepts | Actor Model by Actix](https://actix.rs/docs/actix/actor/): Actor basically has their own execution context, communicates with each other through messaging channel
-- [`Rust` | Rust Forum - Pin use in `Future::poll()`](https://users.rust-lang.org/t/pin-use-in-futures-poll/80264/7): Discussion thread about `Future::pollPint(<&mut self>, _)` on Rust Forum
+- [`Rust` | Rust Forum - Pin use in `Future::poll()`](https://users.rust-lang.org/t/pin-use-in-futures-poll/80264/7): Discussion thread about `Future::pollPint(<&mut self>, _)` on Rust Forum, the discussion explains the `Pin` trait in a very deep level of low-level knowledge.
 - [`Rust` | "Pin, Unpin and why Rust needs them" by Cloudflare](https://blog.cloudflare.com/pin-and-unpin-in-rust/)
+- [`Rust` | "Understanding pinning in Rust futures" on Hackernoon](https://hackernoon.com/pin-safety-understanding-pinning-in-rust-futures): This resource is very easy to understand, it gives a clear cut about `Future` and `Pinning`
 
