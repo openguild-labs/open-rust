@@ -1,4 +1,4 @@
-# Open Rust: Courses & Workshops made by OpenGuild
+# Open Rust: Essential Rust for Substrate Developers
 ## General Resources
 - [`Rust` | Rust Language Cheat Sheet](https://cheats.rs/)
 - [`Rust` | A bunch of links to blog posts, articles, videos, etc for learning Rust](https://github.com/ctjhoa/rust-learning)
