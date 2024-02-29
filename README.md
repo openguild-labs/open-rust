@@ -1,4 +1,7 @@
 # Open Rust: Essential Rust for Substrate Developers
+
+![-OpenRust-2-29-2024](https://github.com/openguild-labs/open-rust/assets/56880684/36780f74-079c-45ab-986a-f69e414a3a30)
+
 ## General Resources
 - [`Rust` | Rust Language Cheat Sheet](https://cheats.rs/)
 - [`Rust` | A bunch of links to blog posts, articles, videos, etc for learning Rust](https://github.com/ctjhoa/rust-learning)
