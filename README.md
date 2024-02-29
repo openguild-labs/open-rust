@@ -19,4 +19,5 @@
 - [`Rust` | Rust Forum - Pin use in `Future::poll()`](https://users.rust-lang.org/t/pin-use-in-futures-poll/80264/7): Discussion thread about `Future::pollPint(<&mut self>, _)` on Rust Forum, the discussion explains the `Pin` trait in a very deep level of low-level knowledge.
 - [`Rust` | "Pin, Unpin and why Rust needs them" by Cloudflare](https://blog.cloudflare.com/pin-and-unpin-in-rust/)
 - [`Rust` | "Understanding pinning in Rust futures" on Hackernoon](https://hackernoon.com/pin-safety-understanding-pinning-in-rust-futures): This resource is very easy to understand, it gives a clear cut about `Future` and `Pinning`
+- [`Rust` | `std::pin::Pin`: Pin Projection](https://doc.rust-lang.org/std/pin/index.html#projections-and-structural-pinning): Learn more about [pin_project](https://docs.rs/pin-project/latest/pin_project/) crate for safe pin projection
 
