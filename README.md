@@ -5,10 +5,12 @@
 ## General Resources
 - [`Rust` | Rust Language Cheat Sheet](https://cheats.rs/)
 - [`Rust` | A bunch of links to blog posts, articles, videos, etc for learning Rust](https://github.com/ctjhoa/rust-learning)
+## Learn by Practice
+- [`Exercise` | `Rust` | Polkadot Blockchain Academy - Qualification Exam](https://github.com/Polkadot-Blockchain-Academy/pba-qualifier-exam/): This exam is maintained by the Polkadot Blockchain Academy, for the benefit of the entire Rust community. The Academy accepts individuals modestly skilled in Rust, and maintains this exam to help everyone asses their proficiency being of a level we would consider for the program.
+- [`Exercise` | `Rust` | Rust by Practice](https://practice.course.rs/why-exercise.html): Practice Rust with challenging examples, exercises and projects
 ## Courses, Videos & Tutorials
 - [`Couuse` | `Rust` | Design Patterns in Rust](https://rust-unofficial.github.io/patterns/): Learn common design patterns & anti-pattern in Rust
 - [`Course` | `Rust` | Comprehensive Rust (by Google Android Team)](https://github.com/google/comprehensive-rust): This is a free Rust course developed by the Android team at Google. The course covers the full spectrum of Rust, from basic syntax to advanced topics like generics and error handling.
-- [`Course` | `Rust` | Rust by Practice](https://practice.course.rs/why-exercise.html): Practice Rust with challenging examples, exercises and projects
 - [`Tutorial` | `WASM` | WebAssembly Fizzbuzz](https://github.com/diekmann/wasm-fizzbuzz): WebAssembly crash course
 - [`Tutorial` | `WASM` | Port 1997 DOOM to Web Assembly](https://github.com/diekmann/wasm-fizzbuzz/tree/main/doom): This course is in a [WebAssembly Fizzbuzz course collection](https://github.com/diekmann/wasm-fizzbuzz/)
 - [`Video` | What and How about Futures and async/await in Rust - Jon Gjengset](https://www.youtube.com/watch?v=9_3krAQtD2k)
