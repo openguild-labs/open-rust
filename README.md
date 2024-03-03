@@ -31,6 +31,7 @@ How to setup your Rust environment and necessary resources
 - [`Tutorial` | `WASM` | Port 1997 DOOM to Web Assembly](https://github.com/diekmann/wasm-fizzbuzz/tree/main/doom): This course is in a [WebAssembly Fizzbuzz course collection](https://github.com/diekmann/wasm-fizzbuzz/)
 - [`Video` | What and How about Futures and async/await in Rust - Jon Gjengset](https://www.youtube.com/watch?v=9_3krAQtD2k)
 ### Programming Concepts
+- [`Rust` | Advanced Concepts | Scheduling Internals](https://tontinton.com/posts/scheduling-internals/)
 - [`Rust` | Advanced Concepts | Typelevel Recursion](https://beachape.com/blog/2017/03/12/gentle-intro-to-type-level-recursion-in-Rust-from-zero-to-frunk-hlist-sculpting/)
 - [`Rust` | "Move, copies and clones in Rust" by HashRust](https://hashrust.com/blog/moves-copies-and-clones-in-rust/)
 #### Asynchronous Programming
