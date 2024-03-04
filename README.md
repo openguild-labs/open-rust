@@ -9,13 +9,18 @@ How to setup your Rust environment and necessary resources
 1. Common programming concepts: primitive data types...
 2. Program life cycle: iterators, conditional statements...
 3. Ownership & Borrow checker
-4. Common data structures
+4. Common data structures: `LinkedList`, `Vector`, `HashMap`
 5. Struct, trait and enum
 6. Generic types, trait extension and advanced types (newtype, associated type)
 7. Lifetime notation
 8. Smart pointers and macros 
 9. How to structure your Rust project?
 ### Rust for Substrate
+1. Substrate state machine
+2. Common blockchain data structures: `header`, `extrinsic`, `block`
+3. Defining shared behaviour of traits
+4. WebAssembly & WASM executor
+5. Advanced macros used in Substrate: `construct_runtime!`, `pallet::macro`
 --------------------------------------------------------
 ## Self-taught Resources
 ### General Resources
@@ -23,7 +28,7 @@ How to setup your Rust environment and necessary resources
 - [`Rust` | A bunch of links to blog posts, articles, videos, etc for learning Rust](https://github.com/ctjhoa/rust-learning)
 ### Learn by Practice
 - [`Exercise` | `Rust` | Polkadot Blockchain Academy - Qualification Exam](https://github.com/Polkadot-Blockchain-Academy/pba-qualifier-exam/): This exam is maintained by the Polkadot Blockchain Academy, for the benefit of the entire Rust community. The Academy accepts individuals modestly skilled in Rust, and maintains this exam to help everyone asses their proficiency being of a level we would consider for the program.
-- [`Exercise` | `Rust` | Rust by Practice](https://practice.course.rs/why-exercise.html): Practice Rust with challenging examples, exercises and projects
+- [`Exercise` | `Rust` | Rust by Practice](https://practice.course.rs/why-exercise.html): Practice Rust with challenging examples, exercises and projects 
 ### Courses, Videos & Tutorials
 - [`Couuse` | `Rust` | Design Patterns in Rust](https://rust-unofficial.github.io/patterns/): Learn common design patterns & anti-pattern in Rust
 - [`Course` | `Rust` | Comprehensive Rust (by Google Android Team)](https://github.com/google/comprehensive-rust): This is a free Rust course developed by the Android team at Google. The course covers the full spectrum of Rust, from basic syntax to advanced topics like generics and error handling.
