@@ -1,36 +1,51 @@
-# Polkadot Blockchain Academy
+# Open Rust: Essential Rust for Substrate Developers
 
-The Polkadot Blockchain Academy is an intensive academic program teaching Blockchain, Substrate and Polkadot to talented developers.
+![-OpenRust-2-29-2024](https://github.com/openguild-labs/open-rust/assets/56880684/36780f74-079c-45ab-986a-f69e414a3a30)
 
-This program aims at:
+## Curriculum
+### Getting started
+How to setup your Rust environment and necessary resources
+### Learn Rust
+1. Common programming concepts: primitive data types...
+2. Program life cycle: iterators, conditional statements...
+3. Ownership & Borrow checker
+4. Common data structures: `LinkedList`, `Vector`, `HashMap`
+5. Struct, trait and enum
+6. Generic types, trait extension and advanced types (newtype, associated type)
+7. Lifetime notation
+8. Smart pointers and macros 
+9. How to structure your Rust project?
+### Rust for Substrate
+1. Substrate state machine
+2. Common blockchain data structures: `header`, `extrinsic`, `block`
+3. Defining shared behaviour of traits
+4. WebAssembly & WASM executor
+5. Advanced macros used in Substrate: `construct_runtime!`, `pallet::macro`
+--------------------------------------------------------
+## Self-taught Resources
+### General Resources
+- [`Rust` | Rust Language Cheat Sheet](https://cheats.rs/)
+- [`Rust` | A bunch of links to blog posts, articles, videos, etc for learning Rust](https://github.com/ctjhoa/rust-learning)
+### Learn by Practice
+- [`Exercise` | `Rust` | Polkadot Blockchain Academy - Qualification Exam](https://github.com/Polkadot-Blockchain-Academy/pba-qualifier-exam/): This exam is maintained by the Polkadot Blockchain Academy, for the benefit of the entire Rust community. The Academy accepts individuals modestly skilled in Rust, and maintains this exam to help everyone asses their proficiency being of a level we would consider for the program.
+- [`Exercise` | `Rust` | Rust by Practice](https://practice.course.rs/why-exercise.html): Practice Rust with challenging examples, exercises and projects 
+### Courses, Videos & Tutorials
+- [`Couuse` | `Rust` | Design Patterns in Rust](https://rust-unofficial.github.io/patterns/): Learn common design patterns & anti-pattern in Rust
+- [`Course` | `Rust` | Comprehensive Rust (by Google Android Team)](https://github.com/google/comprehensive-rust): This is a free Rust course developed by the Android team at Google. The course covers the full spectrum of Rust, from basic syntax to advanced topics like generics and error handling.
+- [`Tutorial` | `WASM` | WebAssembly Fizzbuzz](https://github.com/diekmann/wasm-fizzbuzz): WebAssembly crash course
+- [`Tutorial` | `WASM` | Port 1997 DOOM to Web Assembly](https://github.com/diekmann/wasm-fizzbuzz/tree/main/doom): This course is in a [WebAssembly Fizzbuzz course collection](https://github.com/diekmann/wasm-fizzbuzz/)
+- [`Video` | What and How about Futures and async/await in Rust - Jon Gjengset](https://www.youtube.com/watch?v=9_3krAQtD2k)
+### Programming Concepts
+- [`Rust` | Advanced Concepts | Typelevel Recursion](https://beachape.com/blog/2017/03/12/gentle-intro-to-type-level-recursion-in-Rust-from-zero-to-frunk-hlist-sculpting/)
+- [`Rust` | "Move, copies and clones in Rust" by HashRust](https://hashrust.com/blog/moves-copies-and-clones-in-rust/)
+#### Asynchronous Programming
+- [`Rust` | Advanced Concepts | Actor Model by Actix](https://actix.rs/docs/actix/actor/): Actor basically has their own execution context, communicates with each other through messaging channel
+- [`Rust` | Rust Forum - Pin use in `Future::poll()`](https://users.rust-lang.org/t/pin-use-in-futures-poll/80264/7): Discussion thread about `Future::pollPint(<&mut self>, _)` on Rust Forum, the discussion explains the `Pin` trait in a very deep level of low-level knowledge.
+- [`Rust` | "Pin, Unpin and why Rust needs them" by Cloudflare](https://blog.cloudflare.com/pin-and-unpin-in-rust/)
+- [`Rust` | "Understanding pinning in Rust futures" on Hackernoon](https://hackernoon.com/pin-safety-understanding-pinning-in-rust-futures): This resource is very easy to understand, it gives a clear cut about `Future` and `Pinning`
+#### Asynchronous Runtime - Scheduler
+- [`Rust` | `std::pin::Pin`: Pin Projection](https://doc.rust-lang.org/std/pin/index.html#projections-and-structural-pinning): Learn more about [pin_project](https://docs.rs/pin-project/latest/pin_project/) crate for safe pin projection
+- [`Rust` | "How Tokio schedule tasks?" on Rust Magazine](https://rustmagazine.org/issue-4/how-tokio-schedule-tasks/)
+- [`Rust` | Advanced Concepts | Scheduling Internals](https://tontinton.com/posts/scheduling-internals/)
+- [`Rust` | About Tokio scheduler internal](https://tokio.rs/blog/2019-10-scheduler): Understanding how Tokio scheduler works under the hood
 
-- Improving our core dev hiring pipeline in both quantity and quality of candidates
-- Seeding the industry with Substrate knowledge and advocates
-- Building a surplus of developers for lesser product prototyping if they’re not hired out
-- Improving our non-dev onboarding processes
-
-Selected through an admission process, candidates will receive an intensive education taught by a mix of professionals from Parity, Web3 and some visiting professors.
-
-## Curriculum Versions
-
-The curriculum is expected to change per cohort in the first run. You can find the snapshot of the slides at the end of each cohort here:
-
-- [Cambridge - August 2022](https://github.com/Polkadot-Blockchain-Academy/pba-content/tree/cambridge-2022)
-- [Buenos Aires - January 2023](https://github.com/Polkadot-Blockchain-Academy/pba-content/tree/buenos-aires-2023)
-- [Berkeley - July 2023](https://github.com/Polkadot-Blockchain-Academy/pba-content/tree/berkeley-2023)
-- [Hong Kong - January 2024](https://github.com/Polkadot-Blockchain-Academy/pba-content/tree/hong-kong-2024)
-
-## Venue Suggestions
-
-This curriculum is designed to be taught as an in-person course with ~25-60 students. (Although it may be somewhat useful for online or independent learning). The venue where the course is taught should provide the following. These may be a single space with flexible seating, or two different spaces for lecture- and collaboration-style work.
-
-- Overhead projector that all students can easily see
-- Aisles for instructors to easily move among students to answer questions or help debug
-- Group work stations where student groups of 5-10 students can gather
-- A large whiteboard for instructors to share diagrams
-- Internet connection that can support >10Mbps while all students are connected
-- LAN connection that allows P2P connections to start a private blockchain network
-
-## Contributing
-
-Subject Matter Experts (SMEs) should explore [./CONTRIBUTING.md](./CONTRIBUTING.md) to learn how to use this repo.
