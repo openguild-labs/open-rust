@@ -1,9 +1,7 @@
 {
-  "title": "Polkadot Blockchain Academy",
+  "title": "OpenRust Course",
   "theme": "assets/styles/PBA-theme.css",
-  "css": [
-    "assets/styles/custom-classes.css"
-  ],
+  "css": ["assets/styles/custom-classes.css"],
   "assetsDir": ".",
   "separator": "\r?\n---\r?\n",
   "verticalSeparator": "\r?\n---v\r?\n",
@@ -12,9 +10,7 @@
   "listingTemplate": "./assets/templates/listing-template.html",
   "host": "localhost",
   "staticDir": "build",
-  "staticDirs": [
-    "assets"
-  ],
+  "staticDirs": ["assets"],
   "preprocessor": null,
   "glob": "**/*[Ss]lides.md"
 }
