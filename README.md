@@ -5,6 +5,18 @@
 ## Curriculum
 ### Getting started
 How to setup your Rust environment and necessary resources
+
+| Module Index      | Module Name|
+| ----------- | ----------- |
+| Module `0`       | OVERVIEW OF RUST POLKADOT SDK |
+| Module `0.1`      | [Introduction to Rust](/syllabus/module/0.1-slides.md) |
+| Module `0.2`      | [Introduction to Polkadot SDK](/syllabus/module/0.2-slides.md) |
+| Module `1`       | RUST BASIC CONCEPTS |
+| Module `1.1`       | [Common programming concepts](/syllabus/module/1.1-slides.md) |
+| Module `1.2`       | [Program life cycle](/syllabus/module/1.2-slides.md) |
+| Module `1.3`       | [Ownership & Borrow checker](/syllabus/module/1.3-slides.md) |
+| Module `1.4`       | [Common Data Structures](/syllabus/module/1.4-slides.md) |
+
 ### Learn Rust
 1. Common programming concepts: primitive data types...
 2. Program life cycle: iterators, conditional statements...

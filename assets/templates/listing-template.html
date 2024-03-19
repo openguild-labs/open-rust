@@ -155,7 +155,7 @@
 
 <body class="site">
   <header class="site-header site-header--small">
-    <menu class="menu menu--header">
+    <menu class="menu menu--header" style="min-width: 1000px;">
       <li class="menu-item">
         <img style="height: 2.5vw; border-radius: 50px; margin-right: 20px;" class="watermark-logo" src="{{{base}}}/assets/img/0-Shared/logo/openguild-logo.png"
         alt="PBA Logo">
@@ -170,7 +170,7 @@
   <main class="site-main">
     <ul class="slide-list">
       {{#files}}
-      <li {{#filePath}}data-template="{{filePath}}" {{/filePath}}>
+      <li style="margin-top: 10px;" {{#filePath}}data-template="{{filePath}}" {{/filePath}}>
         <a href="{{filePath}}" title="{{title}}" class="slide-card">
           {{#title}}
           <span class="slide-card-name">{{.}}</span>
