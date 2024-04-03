@@ -8,8 +8,6 @@
     "help-rmd": "reveal-md --help",
     "tag:current": "git checkout main && yarn && yarn run build:all && mv build current",
     "move-tags": "mv current build",
-    "move-frontpage": "cp -r ./frontpage/* ./build/.",
-    "prepare-deployment": "git fetch --tags && yarn run clean yarn run tag:current && mkdir build && yarn run move-tags && yarn run move-frontpage",
     "clean": "rm -rf build",
     "build": "yarn run clean && reveal-md ./ --static build",
     "deploy": "gh-pages -d build",
