@@ -4,35 +4,31 @@
 
 ## Curriculum
 ### Getting started
-How to setup your Rust environment and necessary resources
+| Module Index      | Module Name | Assignments |
+| ----------- | ----------- | ---------- |
+| **Module 0**       | **Overview of Rust and Polkadot SDK** | 2 in total |
+| Module 0.1      | [Introduction to Rust](/syllabus/module/0.1-slides.md) |
+| Module 0.2      | [Introduction to Polkadot SDK](/syllabus/module/0.2-slides.md) | 1 multiple select question |
+| **Module 1**      | **Rust Basic Concepts** | 2 in total |
+| Module 1.1       | [Common programming concepts](/syllabus/module/1.1-slides.md) |
+| Module 1.2       | [Program life cycle](/syllabus/module/1.2-slides.md) | 1 exercise-based assignment |
+| Module 1.3       | [Ownership & Borrow checker](/syllabus/module/1.3-slides.md) |
+| Module 1.4       | [Common Data Structures](/syllabus/module/1.4-slides.md) | 1 project-based assignment |
+| **Module 2**       | **Advanced Rust Concepts** | 2 in total |
+| Module 2.1       | [Generic types, trait extension and advanced types](/syllabus/module/2.1-slides.md) | |
+| Module 2.2       | [Lifetimes](/syllabus/module/2.2-slides.md) | 1 exercise-based assignment | 
+| Module 2.3       | [Smart pointers & Macros](/syllabus/module/2.3-slides.md) | |
+| Module 2.4       | [Common design patterns in Rust](/syllabus/module/2.4-slides.md) | |
+| Module 2.5       | [Package Management & How to structure your Rust project](/syllabus/module/2.5-slides.md) | 1 project-based assignment |
+| Module 2.6 | [Overview of the Rust ecosystem: Libraries & Resources](/syllabus/module/2.6-slides.md) | |
+| **Module 3**       | **Rust in Substrate** | 2 in total |
+| Module 3.1       | [Common blockchain data structures: Header, Block, Extrinsic, etc.](/syllabus/module/3.1-slides.md) | |
+| Module 3.2       | [Substrate State Machine in Rust](https://github.com/shawntabrizi/rust-state-machine) | 1 exercise-based assignment | 
+| Module 3.3       | [Common Rust libraries used in Substrate Node](/syllabus/module/3.3-slides.md) | |
+| Module 3.4       | [Modular architecture of Substrate FRAME system. Defining shared behaviour of traits](/syllabus/module/3.4-slides.md) | |
+| Module 3.5       | [WebAssembly in Rust & WASM executor](/syllabus/module/3.5-slides.md) | 1 project-based assignment |
+| Module 3.6 | [Advanced macros used in Substrate](/syllabus/module/3.6-slides.md) | |
 
-| Module Index      | Module Name|
-| ----------- | ----------- |
-| Module `0`       | OVERVIEW OF RUST POLKADOT SDK |
-| Module `0.1`      | [Introduction to Rust](/syllabus/module/0.1-slides.md) |
-| Module `0.2`      | [Introduction to Polkadot SDK](/syllabus/module/0.2-slides.md) |
-| Module `1`       | RUST BASIC CONCEPTS |
-| Module `1.1`       | [Common programming concepts](/syllabus/module/1.1-slides.md) |
-| Module `1.2`       | [Program life cycle](/syllabus/module/1.2-slides.md) |
-| Module `1.3`       | [Ownership & Borrow checker](/syllabus/module/1.3-slides.md) |
-| Module `1.4`       | [Common Data Structures](/syllabus/module/1.4-slides.md) |
-
-### Learn Rust
-1. Common programming concepts: primitive data types...
-2. Program life cycle: iterators, conditional statements...
-3. Ownership & Borrow checker
-4. Common data structures: `LinkedList`, `Vector`, `HashMap`
-5. Struct, trait and enum
-6. Generic types, trait extension and advanced types (newtype, associated type)
-7. Lifetime notation
-8. Smart pointers and macros 
-9. How to structure your Rust project?
-### Rust for Substrate
-1. Substrate state machine
-2. Common blockchain data structures: `header`, `extrinsic`, `block`
-3. Defining shared behaviour of traits
-4. WebAssembly & WASM executor
-5. Advanced macros used in Substrate: `construct_runtime!`, `pallet::macro`
 --------------------------------------------------------
 ## Self-taught Resources
 ### General Resources
