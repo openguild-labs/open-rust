@@ -1,5 +1,5 @@
 ---
-title: Community Call Boilerplate 
+title: Viet Nam Community Call Boilerplate 
 description: For Weekly Community Call 
 duration: 20-30 mins
 ---
@@ -39,4 +39,4 @@ OpenGuild is an open-source community for Web3 builders interested in the Polkad
 
 ## Rust's meme of the week
 
----
+!(meme)[]
