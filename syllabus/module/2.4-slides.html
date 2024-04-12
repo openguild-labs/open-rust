@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Module 2.4 - Common design patterns in Rust</title>
+  <link rel="icon" href="./../../assets/favicon.svg" />
+  <link rel="shortcut icon" href="./../../assets/favicon.png" />
+  <link rel="stylesheet" href="./../../dist/reset.css" />
+  <link rel="stylesheet" href="./../../dist/reveal.css" />
+  <link rel="stylesheet" href="./../.././assets/styles/PBA-theme.css" id="theme" />
+  <link rel="stylesheet" href="./../../css/highlight/shades-of-purple.css" />
+
+  <link rel="stylesheet" href="./../.././assets/styles/custom-classes.css" />
+
+</head>
+
+<body class="site">
+  <header class="site-header">
+    <!-- This logo is a link only on the watching server, not the production build -->
+    <a href="">
+      <img style="height: 2.5vw;" class="watermark-logo" src="./../../assets/img/0-Shared/logo/openguild-logo.png"
+        alt="PBA Logo">
+    </a>
+  </header>
+  <main class="reveal">
+    <article class="slides">
+      <section  data-markdown><script type="text/template">
+
+## Overlapping Patterns
+
+- Patterns easily overlap.
+- Minimize number of match arms to avoid bugs
+
+```rust
+match slice {
+    [first, ..] => (),
+    [.., last] => (),
+    [] => (),
+}
+
+```
+
+Second arm always ignored
+</script></section><section  data-markdown><script type="text/template">
+## Prevent Overlapping Patterns
+
+- Match the largest patterns first, followed by smaller patterns
+
+```rust
+match slice {
+    [] => (),
+    [a, ..] => (),
+    [a, b, ..] => (),
+    [a, b, c, ..] => (),
+    [a, b, c, d, ..] => (),
+}
+// "First two arms cover all cases, remaining will be ignored"
+match slice {
+    [a, b, c, d, ..] => (),
+    [a, b, c, ..] => (),
+    [a, b, ..] => (),
+    [a, ..] => (),
+    [] => (),
+}
+// "All arms can be matched"
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Guards
+
+```rust
+let nums = vec![7, 8, 9];
+match nums.as_slice() {
+    [first @ 1..=3, rest @ ..] => {
+        // 'first' is always 1, 2 or 3
+        // 'rest' is the remaining slice
+    },
+    [single] if single == &5 || single == &6 => (),
+    [a, b] => (),
+    [..] => (),
+    [] => (),
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Typestates Patterns
+
+- Leverage type system to encode state changes
+- Implemented by creating a type for each state
+  - Use move semantics to invalidate a state
+  - Return next state from previous state
+  - Optionally drop the state
+    - Close file, connection dropped, etc
+  - Compile time enforcement of logic
+</script></section><section  data-markdown><script type="text/template">
+## Example
+
+```rust
+struct BusTicket;
+struct BoardedBusTicket;
+
+impl BusTicket {
+    fn board(self) -> BoardedBusTicket {
+        BoardedBusTicket
+    }
+}
+
+let ticket = BusTicket;
+let boarded = ticket.board();
+
+// Compile error
+ticket.board();
+```
+</script></section><section  data-markdown><script type="text/template">
+## Example
+
+```rust
+struct File<'a>(&'a str);
+
+impl<'a> File<'a> {
+    fn read_bytes(&self) -> Vec<u8> {
+        // ... read data ...
+    }
+
+    fn delete(self) {
+        // ... delete file ...
+    }
+}
+
+let file = File("data.txt");
+let data = file.read_bytes();
+file.delete();
+
+// Compile error
+let read_again = file.read_bytes();
+
+```</script></section>
+    </article>
+  </main>
+
+  <script src="./../../dist/reveal.js"></script>
+
+  <script src="./../../plugin/markdown/markdown.js"></script>
+  <script src="./../../plugin/highlight/highlight.js"></script>
+  <script src="./../../plugin/zoom/zoom.js"></script>
+  <script src="./../../plugin/notes/notes.js"></script>
+  <script src="./../../plugin/math/math.js"></script>
+
+  <script src="./../../assets/plugin/mermaid.js"></script>
+  <script src="./../../assets/plugin/mermaid-theme.js"></script>
+
+  <script src="./../../assets/plugin/chart/chart.js"></script>
+  <script src="./../../assets/plugin/chart/chart.min.js"></script>
+
+  <script src="./../../assets/plugin/tailwindcss.min.js"></script>
+
+  <script>
+    function extend() {
+      var target = {};
+      for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (source.hasOwnProperty(key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+      return target;
+    }
+
+    // default options to init reveal.js
+    var defaultOptions = {
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'default', // none/fade/slide/convex/concave/zoom
+      slideNumber: true,
+      mermaid: {
+        startOnLoad: false,
+        logLevel: 3,
+        theme: 'base',
+        themeVariables: {
+          primaryColor: purple,
+          primaryTextColor: white,
+          primaryBorderColor: pink,
+          lineColor: pink,
+          secondaryColor: lightPurple,
+          tertiaryColor: lightPurple,
+        },
+      },
+      chart: {
+        defaults: {
+          color: 'lightgray', // color of labels
+          scale: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 },
+            grid: { color: "lightgray" }, // color of grid lines
+          },
+        },
+        line: { borderColor: ["#ccc", "#E6007A", "#6D3AEE"], "borderDash": [[5, 10], [0, 0]] },
+        bar: { backgroundColor: ["#ccc", "#E6007A", "#6D3AEE"] },
+      },
+      plugins: [
+        RevealMarkdown,
+        RevealHighlight,
+        RevealZoom,
+        RevealNotes,
+        RevealMath,
+        RevealMermaid,
+        RevealChart
+      ]
+    };
+
+    // options from URL query string
+    var queryOptions = Reveal().getQueryHash() || {};
+
+    var options = extend(defaultOptions, {"width":1400,"height":900,"margin":0,"minScale":0.2,"maxScale":2,"transition":"none","controls":true,"progress":true,"center":true,"slideNumber":true,"backgroundTransition":"fade"}, queryOptions);
+  </script>
+
+
+  <script>
+    Reveal.initialize(options);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Module 2.1 - Generic types, trait extension and advanced types (newtype, associated type)</title>
+  <link rel="icon" href="./../../assets/favicon.svg" />
+  <link rel="shortcut icon" href="./../../assets/favicon.png" />
+  <link rel="stylesheet" href="./../../dist/reset.css" />
+  <link rel="stylesheet" href="./../../dist/reveal.css" />
+  <link rel="stylesheet" href="./../.././assets/styles/PBA-theme.css" id="theme" />
+  <link rel="stylesheet" href="./../../css/highlight/shades-of-purple.css" />
+
+  <link rel="stylesheet" href="./../.././assets/styles/custom-classes.css" />
+
+</head>
+
+<body class="site">
+  <header class="site-header">
+    <!-- This logo is a link only on the watching server, not the production build -->
+    <a href="">
+      <img style="height: 2.5vw;" class="watermark-logo" src="./../../assets/img/0-Shared/logo/openguild-logo.png"
+        alt="PBA Logo">
+    </a>
+  </header>
+  <main class="reveal">
+    <article class="slides">
+      <section  data-markdown><script type="text/template">
+
+## Traits
+
+- A way to specify that some functionality exists
+- Used to standardize functionality across multiple different types
+  - Standardization permits functions to operate on multiple different types
+    - Code deduplication
+</script></section><section  data-markdown><script type="text/template">
+## Example
+
+```rust
+trait Noise {
+    fn make_noise(&self);
+}
+
+fn hello(noisy: impl Noise) {
+    noisy.make_noise();
+}
+
+fn main() {
+    hello(Person {});
+    hello(Dog {});
+}
+
+struct Person;
+impl Noise for Person {
+    fn make_noise(&self) {
+        println!("hello");
+    }
+}
+
+struct Dog;
+impl Noise for Dog {
+    fn make_noise(&self) {
+        println!("woof");
+    }
+}
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Example
+
+```rust
+trait Racer {
+    fn go(&self);
+    fn is_ready(&self) -> bool;
+    fn checkpoint(&self, position: i32);
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## What Are Generic Functions?
+
+- A way to write a function that can have a single parameter with multiple data types
+- Trait is used as function parameter instead of data
+type
+  - Function depends on existence of functions declared by trait
+- Less code to write
+  - Automatically works when new data types are introduced
+</script></section><section  data-markdown><script type="text/template">
+## Quick Review: Traits
+
+```rust
+trait Move {
+    fn move_to(&self, x: i32, y: i32);
+}
+
+struct Snake;
+impl Move for Snake {
+    fn move_to(&self, x: i32, y: i32) {
+        println!("slither to ({},{})", x, y);
+    }
+}
+
+struct Grasshopper;
+impl Move for Grasshopper {
+    fn move_to(&self, x: i32, y: i32) {
+        println!("hop to ({},{})", x, y);
+    }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Quick Review: Traits
+
+```rust
+trait Move {
+    fn move_to(&self, x: i32, y: i32);
+}
+
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+let python = Snake {};
+make_move(python, 1, 1);
+
+// Output:
+// slither to (1,1)
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Syntax
+
+```rust
+fn function<T: Trait1, U: Trait2>(param1: T, param2: U) {
+    /* body */
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Syntax
+
+```rust
+fn function<T: Trait1, U: Trait2>(param1: T, param2: U) {
+    /* body */
+}
+
+fn function<T, U>(param1: T, param2: U) 
+    where T: Trait1 + Trait2,
+          U: Trait1 + Trait2 + Trait3,
+{
+    /* body */
+}
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Example
+
+```rust
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+fn make_move<T: Move>(thing: T, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Example
+
+```rust
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+fn make_move<T>(thing: T, x: i32, y: i32)
+where
+    T: Move,
+{
+    thing.move_to(x, y);
+}
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Which syntax to choose?
+
+```rust
+fn function(param1: impl Trait1, param2: impl Trait2) {
+    /* body */
+}
+
+impl Move for Grasshopper {
+    fn move_to(&self, x: i32, y: i32) {
+        println!("hop to ({},{})", x, y);
+    }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Which syntax to choose?
+
+```rust
+fn function(param1: impl Trait1, param2: impl Trait2) {
+    /* body */
+}
+
+fn function<T: Trait1, U: Trait2>(param1: T, param2: U) {
+    /* body */
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Which syntax to choose?
+
+```rust
+fn function(param1: impl Trait1, param2: impl Trait2) {
+    /* body */
+}
+
+fn function<T: Trait1, U: Trait2>(param1: T, param2: U) {
+    /* body */
+}
+
+fn function<T, U>(param1: T, param2: U)
+where
+    T: Trait1 + Trait2,
+    U: Trait1 + Trait2 + Trait3,
+{
+    /* body */
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Details - Monomorphization
+
+```rust
+
+trait Move {
+    fn move_to(&self, x: i32, y: i32);
+}
+
+fn make_move<T: Move>(thing: T, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 3, 3);
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Details - Monomorphization
+
+```rust
+trait Move {
+    fn move_to(&self, x: i32, y: i32);
+}
+
+fn make_move<T: Move>(thing: T, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 3, 3);
+
+fn make_move(thing: Snake, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+fn make_move(thing: Grasshopper, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Structures
+
+- Store data of any type within a structure
+  - Trait bounds restrict the type of data the structure can utilize
+    - Also known as “generic constraints”
+- Useful when making your own data collections
+- Reduces technical debt as program expands
+  - New data types can utilize generic structures and be easily integrated into the program
+</script></section><section  data-markdown><script type="text/template">
+## Conceptual Example
+
+- Generic structure for template rendering
+  - Template Source Paths
+  - Variable substitution data
+  - Generic render target
+    - File
+    - Terminal
+    - Image
+    - Bytes
+</script></section><section  data-markdown><script type="text/template">
+## Syntax
+
+```rust
+struct Name<T: Trait1 + Trait2, U: Trait3> {
+    field1: T,
+    field2: U,
+}
+
+struct Name<T, U>
+where
+    T: Trait1 + Trait2,
+    U: Trait3,
+{
+    field1: T,
+    field2: U,
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Example - Definition
+
+```rust
+trait Seat {
+    fn show(&self);
+}
+
+struct Ticket<T: Seat> {
+    location: T,
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Example – Types of seating
+
+```rust
+#[derive(Clone, Copy)]
+enum ConcertSeat {
+    FrontRow,
+    MidSection(u32),
+    Back(u32),
+}
+
+impl Seat for ConcertSeat {
+    fn show(&self) { /* ... */ }
+}
+
+#[derive(Clone, Copy)]
+enum AirlineSeat {
+    BusinessClass,
+    Economy,
+    FirstClass,
+}
+
+impl Seat for AirlineSeat {
+    fn show(&self) { /* ... */ }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Example – Usage with single type
+
+```rust
+trait Seat {
+    fn show(&self);
+}
+
+struct Ticket<T: Seat> {
+    location: T,
+}
+
+fn ticket_info(ticket: Ticket<AirlineSeat>) {
+    ticket.location.show();
+}
+
+let airline = Ticket { location: AirlineSeat::FirstClass };
+ticket_info(airline);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Example – Usage with generic type
+
+```rust
+trait Seat {
+    fn show(&self);
+}
+
+struct Ticket<T: Seat> {
+    location: T,
+}
+
+fn ticket_info<T: Seat>(ticket: Ticket<T>) {
+    ticket.location.show();
+}
+
+let airline = Ticket { location: AirlineSeat::FirstClass };
+let concert = Ticket { location: ConcertSeat::FrontRow };
+ticket_info(airline);
+ticket_info(concert);
+
+```
+</script></section><section  data-markdown><script type="text/template">
+## Details
+
+```rust
+struct Ticket<T: Seat> {
+    location: T,
+}
+
+fn ticket_info<T: Seat>(ticket: Ticket<T>) {
+    ticket.location.show();
+}
+
+let airline = Ticket { location: AirlineSeat::FirstClass };
+let concert = Ticket { location: ConcertSeat::FrontRow };
+ticket_info(airline);
+ticket_info(concert);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Details – Behind the scenes
+
+```rust
+struct AirlineTicket {
+    location: AirlineSeat,
+}
+
+struct ConcertTicket {
+    location: ConcertSeat,
+}
+
+fn airline_ticket_info(ticket: AirlineTicket) {
+    ticket.location.show();
+}
+
+fn concert_ticket_info(ticket: ConcertTicket) {
+    ticket.location.show();
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Details – Heterogeneous vector
+
+    let airline = Ticket { location: AirlineSeat::FirstClass };
+    let concert = Ticket { location: ConcertSeat::FrontRow };
+    ticket_info(airline);
+    ticket_info(concert);
+    
+    let tickets = vec![airline, concert];
+    
+    error[E0308]: mismatched types
+      --> src/main.rs:89:33
+       |
+    89 |     let tickets = vec![airline, concert];
+       |                                 ^^^^^^^ expected enum `AirlineSeat`, found enum `ConcertSeat`
+       = <aside class="notes"><p>expected type <code>Ticket&lt;AirlineSeat&gt;</code>
+                  found struct <code>Ticket&lt;ConcertSeat&gt;</code></p>
+</aside></script></section><section  data-markdown><script type="text/template">
+## Implementing Functionality
+
+- Generic implementation
+  - Implements functionality for any type that can be used with the structure
+- Concrete implementation
+  - Implements functionality for only the type specified
+</script></section><section  data-markdown><script type="text/template">
+## Concrete Implementation - Setup
+
+```rust
+trait Game {
+    fn name(&self) -> String;
+}
+
+enum BoardGame {
+    Chess,
+    Monopoly,
+}
+
+impl Game for BoardGame {
+    // Implementation would go here
+}
+
+enum VideoGame {
+    PlayStation,
+    Xbox,
+}
+
+impl Game for VideoGame {
+    // Implementation would go here
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Concrete Implementation - Usage
+
+```rust
+struct PlayRoom<T: Game> {
+    game: T,
+}
+
+impl PlayRoom<BoardGame> {
+    pub fn cleanup(&self) { /* ... */ }
+}
+
+// The rest of the code is using the PlayRoom struct with different types of games.
+let video_room = PlayRoom {
+    game: VideoGame::Xbox,
+};
+
+let board_room = PlayRoom {
+    game: BoardGame::Monopoly,
+};
+
+// Assuming similar cleanup method implementation for VideoGame as for BoardGame
+board_room.cleanup();
+video_room.cleanup();
+```
+</script></section><section  data-markdown><script type="text/template">
+## Concrete Implementation - Error
+
+```rust
+struct PlayRoom<T: Game> {
+    // ...
+}
+
+// ...
+
+video_room.cleanup();
+//     ^^^^^^^ method not found in `PlayRoom<VideoGame>`
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Implementation - Syntax
+
+```rust
+struct Name<T: Trait1 + Trait2, U: Trait3> {
+    field1: T,
+    field2: U,
+}
+
+impl<T: Trait1 + Trait2, U: Trait3> Name<T, U> {
+    fn func(&self, arg1: T, arg2: U) { }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Implementation - Syntax
+
+```rust
+struct Name<T, U>
+where
+    T: Trait1 + Trait2,
+    U: Trait3,
+{
+    field1: T,
+    field2: U,
+}
+
+impl<T, U> Name<T, U>
+where
+    T: Trait1 + Trait2,
+    U: Trait3,
+{
+    fn func(&self, arg1: T, arg2: U) { }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Implementation - Example
+
+```rust
+trait Game {
+    fn name(&self) -> String;
+}
+
+struct PlayRoom<T: Game> {
+    game: T,
+}
+
+impl<T: Game> PlayRoom<T> {
+    pub fn game_info(&self) {
+        println!("{}", self.game.name());
+    }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Generic Implementation - Usage
+
+```rust
+impl<T: Game> PlayRoom<T> {
+    pub fn game_info(&self) { /* ... */ }
+}
+
+let video_room = PlayRoom {
+    game: VideoGame::Xbox,
+};
+
+let board_room = PlayRoom {
+    game: BoardGame::Monopoly,
+};
+
+video_room.game_info();
+board_room.game_info();
+```
+</script></section><section  data-markdown><script type="text/template">
+## Intermediate memory refresh
+
+- All data has a memory address
+  - Addresses determine the location of data in memory
+- Offsets can be used to access adjacent addresses
+  - Also called indexes/indices
+</script></section><section  data-markdown><script type="text/template">
+## Stack
+
+- Data placed sequentially
+- Limited space
+- All variables stored on the stack
+  - Not all data
+- Very fast to work with
+  - Offsets to access
+</script></section><section  data-markdown><script type="text/template">
+## Stack Visualization
+
+
+    |   |     | 3 |     | 2 |     | 1 |     |   |     |   |
+    |---|     |---|     |---|     |---|     |---|     |---|
+    |   |     | 2 |     | 2 |     | 2 |     |   |     |   |
+    |---|     |---|     |---|     |---|     |---|     |---|
+    |   |     | 1 |     | 1 |     | 1 |     | 1 |     | 1 |
+    |---|     |---|     |---|     |---|     |---|     |---|
+    |   | --> |   | --> |   | --> |   | --> |   | --> |   |
+     Empty    Push 3    Push 2    Push 1    Pop 1     Pop 2
+
+</script></section><section  data-markdown><script type="text/template">
+## Heap
+
+- Data placed algorithmically
+  - Slower than stack
+- Unlimited space (RAM/disk limits apply)
+- Uses pointers
+  - Pointers are a fixed size
+  - usize data type
+- Vectors & HashMaps stored on the heap
+  -All dynamically sized collections
+</script></section><section  data-markdown><script type="text/template">
+## Heap Visual w/Pointers on Stack
+
+    Stack:    Heap:
+    +-----+   +--------------------------------+
+    |  2  |   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    +-----+   +--------------------------------+
+    |  5  |   | 5 | 9 | 6 | 14| 11| 8 | 10| 17|
+    +-----+   +--------------------------------+
+    |  1  |   |   |   ^   |   ^     |   ^   |  
+    +-----+   +---|-------|-----------|-------+
+    | ... |       |       |           |        
+    +-----+     [2]     [5]         [1]       
+    | ptr |                                    
+    +-----+                                    
+    [Stack pointers refer to indices in the Heap]
+</script></section><section  data-markdown><script type="text/template">
+## Example
+
+```rust
+struct Entry {
+    id: i32,
+}
+
+fn main() {
+    let data = Entry { id: 5 };
+    let data_ptr: Box<Entry> = Box::new(data);
+    let data_stack = *data_ptr;
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Sized Error
+
+    error[E0746]: return type cannot have an unboxed trait object
+     --> src/main.rs:1:16
+      |
+    1 | fn sample() -> Fn() {
+      |                ^^^ doesn't have a size known at compile-time
+      |
+      = <aside class="notes"><p>for information on <code>impl Trait</code>, see <a href="https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits">https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits</a></p>
+</aside></script></section><section  data-markdown><script type="text/template">
+## Trait Object Basics
+
+- Dynamically allocated object
+  - “Runtime generics”
+    - More flexible than generics
+    - “Dynamic Dispatch” vs “Static Dispatch”
+- Allows mixed types in a collection
+  - Easier to work with similar data types
+  - Polymorphic program behavior
+    - Dynamically change program behavior at runtime
+    - Easily add new behaviors just by creating a new struct
+- Small performance penalty
+</script></section><section  data-markdown><script type="text/template">
+## Creating a Trait Object
+
+```rust
+trait Clicky {
+    fn click(&self);
+}
+
+struct Keyboard;
+
+impl Clicky for Keyboard {
+    fn click(&self) {
+        println!("click clack");
+    }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Creating a Trait Object
+
+```rust
+let keeb = Keyboard;
+let keeb_obj: &dyn Clicky = &keeb;
+
+let keeb: &dyn Clicky = &Keyboard;
+
+let keeb: Box<dyn Clicky> = Box::new(Keyboard);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Trait Object Parameter - Borrow
+
+```rust
+fn borrow_clicky(obj: &dyn Clicky) {
+    obj.click();
+}
+
+let keeb = Keyboard;
+borrow_clicky(&keeb);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Trait Object Parameter - Move
+
+```rust
+fn move_clicky(obj: Box<dyn Clicky>) {
+    obj.click();
+}
+
+let keeb = Box::new(Keyboard);
+move_clicky(keeb);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Heterogeneous Vector
+
+```rust
+struct Mouse;
+
+impl Clicky for Mouse {
+    fn click(&self) {
+        println!("click");
+    }
+}
+
+let keeb: Box<dyn Clicky> = Box::new(Keyboard);
+let mouse: Box<dyn Clicky> = Box::new(Mouse);
+let clickers = vec![keeb, mouse];
+```
+</script></section><section  data-markdown><script type="text/template">
+## Heterogeneous Vector
+
+```rust
+fn make_clicks(clickies: Vec<Box<dyn Clicky>>) {
+    for clicker in clickies {
+        clicker.click();
+    }
+}
+
+let keeb = Box::new(Keyboard);
+let mouse = Box::new(Mouse);
+let clickers: Vec<Box<dyn Clicky>> = vec![keeb, mouse];
+
+make_clicks(clickers);
+```
+</script></section>
+    </article>
+  </main>
+
+  <script src="./../../dist/reveal.js"></script>
+
+  <script src="./../../plugin/markdown/markdown.js"></script>
+  <script src="./../../plugin/highlight/highlight.js"></script>
+  <script src="./../../plugin/zoom/zoom.js"></script>
+  <script src="./../../plugin/notes/notes.js"></script>
+  <script src="./../../plugin/math/math.js"></script>
+
+  <script src="./../../assets/plugin/mermaid.js"></script>
+  <script src="./../../assets/plugin/mermaid-theme.js"></script>
+
+  <script src="./../../assets/plugin/chart/chart.js"></script>
+  <script src="./../../assets/plugin/chart/chart.min.js"></script>
+
+  <script src="./../../assets/plugin/tailwindcss.min.js"></script>
+
+  <script>
+    function extend() {
+      var target = {};
+      for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (source.hasOwnProperty(key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+      return target;
+    }
+
+    // default options to init reveal.js
+    var defaultOptions = {
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'default', // none/fade/slide/convex/concave/zoom
+      slideNumber: true,
+      mermaid: {
+        startOnLoad: false,
+        logLevel: 3,
+        theme: 'base',
+        themeVariables: {
+          primaryColor: purple,
+          primaryTextColor: white,
+          primaryBorderColor: pink,
+          lineColor: pink,
+          secondaryColor: lightPurple,
+          tertiaryColor: lightPurple,
+        },
+      },
+      chart: {
+        defaults: {
+          color: 'lightgray', // color of labels
+          scale: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 },
+            grid: { color: "lightgray" }, // color of grid lines
+          },
+        },
+        line: { borderColor: ["#ccc", "#E6007A", "#6D3AEE"], "borderDash": [[5, 10], [0, 0]] },
+        bar: { backgroundColor: ["#ccc", "#E6007A", "#6D3AEE"] },
+      },
+      plugins: [
+        RevealMarkdown,
+        RevealHighlight,
+        RevealZoom,
+        RevealNotes,
+        RevealMath,
+        RevealMermaid,
+        RevealChart
+      ]
+    };
+
+    // options from URL query string
+    var queryOptions = Reveal().getQueryHash() || {};
+
+    var options = extend(defaultOptions, {"width":1400,"height":900,"margin":0,"minScale":0.2,"maxScale":2,"transition":"none","controls":true,"progress":true,"center":true,"slideNumber":true,"backgroundTransition":"fade"}, queryOptions);
+  </script>
+
+
+  <script>
+    Reveal.initialize(options);
+  </script>
+</body>
+
+</html>

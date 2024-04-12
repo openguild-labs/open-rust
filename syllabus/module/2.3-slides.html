@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Module 2.3 - Smart pointers & Macros</title>
+  <link rel="icon" href="./../../assets/favicon.svg" />
+  <link rel="shortcut icon" href="./../../assets/favicon.png" />
+  <link rel="stylesheet" href="./../../dist/reset.css" />
+  <link rel="stylesheet" href="./../../dist/reveal.css" />
+  <link rel="stylesheet" href="./../.././assets/styles/PBA-theme.css" id="theme" />
+  <link rel="stylesheet" href="./../../css/highlight/shades-of-purple.css" />
+
+  <link rel="stylesheet" href="./../.././assets/styles/custom-classes.css" />
+
+</head>
+
+<body class="site">
+  <header class="site-header">
+    <!-- This logo is a link only on the watching server, not the production build -->
+    <a href="">
+      <img style="height: 2.5vw;" class="watermark-logo" src="./../../assets/img/0-Shared/logo/openguild-logo.png"
+        alt="PBA Logo">
+    </a>
+  </header>
+  <main class="reveal">
+    <article class="slides">
+      <section  data-markdown><script type="text/template">
+
+## Smart Pointers
+
+- Allow multiple owners of data
+- Reference counted – “Rc”
+  - Data deleted only when last owner is dropped
+- Atomic reference counted – “Arc”
+  - Safe to use with multiple threads
+</script></section><section  data-markdown><script type="text/template">
+```rust
+use std::rc::Rc;
+
+#[derive(Debug)]
+struct Vehicle {
+    vin: String,
+}
+
+#[derive(Debug)]
+struct Door {
+    vehicle: Rc<Vehicle>,
+}
+
+let car = Rc::new(Vehicle {
+    vin: "123".to_owned(),
+});
+
+let left_door = Door {
+    vehicle: Rc::clone(&car),
+};
+
+let right_door = Door {
+    vehicle: Rc::clone(&car),
+};
+
+drop(car);
+
+println!("vehicle = {:?}", left_door.vehicle);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Declarative Macros
+</script></section><section  data-markdown><script type="text/template">
+## Writing Declarative Macros
+
+- Consist of two parts: Matchers and Transcribers
+- Matchers define input patterns to match upon
+  - The input patterns are different than patterns used in (for example) match and if let
+    - Completely different ruleset
+  - Multiple matchers may be defined for one macro
+    - Checked from top to bottom
+- Transcribers read the input captured by the matchers and then emit Rust code
+  - Code transcribed completely replaces the macro invocation
+- Macros must appear before usage in code
+</script></section><section  data-markdown><script type="text/template">
+## Matchers
+
+- Matchers consist of four components:
+  - Metavariables
+  - Fragment specifiers
+  - Repetitions (covered later)
+  - Glyphs: anything not listed above
+    - Dollar ($) is used by metavariables and cannot be used for glyphs
+- Whitespace is ignored
+  - Can be used for clarity in macro and by invoker
+</script></section><section  data-markdown><script type="text/template">
+## Metavariables
+
+- Contain Rust code supplied by macro invoker
+- Used by the transcriber to make substitutions
+  - Metavariable will be substituted with the code provided by the invoker
+- Metavariables start with a dollar ($)
+
+```rust
+  $fn
+  $my_metavar
+  $varname
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifiers
+
+- Fragment specifiers determine what kind of data is allowed in a metavariable
+- Available specifiers are:
+  - item
+  - block
+  - stmt
+  - pat_param / pat
+  - expr
+  - ty
+  - ident
+  - path
+  - tt
+  - meta
+  - lifetime
+  - vis
+  - literal
+</script></section><section  data-markdown><script type="text/template">
+## Creating a Macro
+
+    macro_rules! your_macro_name {
+        ($metavariable_name:fragment_specifier) => {
+            // Can use $metavariable_name
+        };
+        ($a:ident, $b:literal, $c:tt) => {
+            // Can use $a $b $c
+        };
+        () => {};
+    }    ^     ^
+         |     | 
+    Matcher    Transcriber
+</script></section><section  data-markdown><script type="text/template">
+## Glyphs
+
+```rust
+macro_rules! demo {
+    (_ wow! _ any | thing? yes.#meta (^.^)) => { };
+}
+
+demo!(_ wow! _ any|thing?yes.#meta(^.^));
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: item
+
+```rust
+macro_rules! demo {
+    ($i:item) => { $i };
+}
+
+demo!(const a: char = 'g');
+demo! {fn hello(){}}
+demo! {mod demo{}}
+struct MyNum(i32);
+demo! {
+    impl MyNum {
+        pub fn demo(&self) {
+            println!("my num is {}", self.0);
+        }
+    }
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: block
+
+```rust
+macro_rules! demo {
+    ($b:block) => { $b };
+}
+
+let num = demo!(
+    {
+        if 1 == 1 { 1 } else { 2 }
+    }
+);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: stmt
+
+```rust
+macro_rules! demo {
+    ($s:stmt) => { $s };
+}
+
+demo!( let a = 5 );
+let mut myvec = vec![];
+demo!( myvec.push(a) );
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: pat / pat_param
+
+```rust
+macro_rules! demo {
+    ($p:pat) => {{
+        let num = 3;
+        match num {
+            $p => (),
+            1 => (),
+            _ => (),
+        }
+    }};
+}
+
+demo!( 2 );
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: expr
+
+```rust
+macro_rules! demo {
+    ($e:expr) => { $e };
+}
+
+demo!( loop {} );
+demo!( 2 + 2 );
+demo!({
+    panic!();
+});
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: ty
+
+```rust
+macro_rules! demo {
+    ($t:ty) => {{
+        let d: $t = 4;
+        fn add(lhs: $t, rhs: $t) -> $t {
+            lhs + rhs
+        }
+    }};
+}
+
+demo!(i32);
+demo!(usize);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: ident
+
+```rust
+macro_rules! demo {
+    ($i:ident, $i2:ident) => {
+        fn $i() {
+            println!("hello");
+        }
+        let $i2 = 5;
+    };
+}
+
+demo!(say_hi, five);
+
+say_hi();
+assert_eq!(5, five);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: path
+
+```rust
+macro_rules! demo {
+    ($p:path) => {
+        use $p;
+    };
+}
+
+demo!(std::collections::HashMap);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: tt
+
+```rust
+macro_rules! demo {
+    ($t:tt) => {
+        $t
+    };
+}
+
+demo!(loop);
+
+demo!({
+    println!("hello");
+});
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: meta
+
+```rust
+macro_rules! demo {
+    ($m:meta) => {
+        #[derive($m)]
+        struct MyNum(i32);
+    };
+}
+
+demo!(Debug);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: lifetime
+
+```rust
+macro_rules! demo {
+    ($l:lifetime) => {
+        let a: &$l str = "sample";
+    };
+}
+
+demo!('static);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: vis
+
+```rust
+macro_rules! demo {
+    ($v:vis) => {
+        $v fn sample() {}
+    };
+}
+
+demo!(pub);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Fragment Specifier: literal
+
+```rust
+macro_rules! demo {
+    ($l:literal) => { $l };
+}
+
+let five = demo!(5);
+let hi = demo!("hello");
+``` 
+</script></section><section  data-markdown><script type="text/template">
+## Allowed Syntax
+
+- Some specifiers have restrictions on what can follow
+  - Prevent ambiguities between custom syntax and Rust syntax
+
+- Specifiers with restrictions:
+  - expr, stmt, pat, path, ty, vis
+  - Compiler error will indicate what is allowed
+
+https://doc.rust-lang.org/reference/macros-by-example.html
+</script></section><section  data-markdown><script type="text/template">
+## Imports
+
+- When using external crates in a macro, use the full path prefixed with two colons (::)
+  - use ::std::collections::HashMap;
+
+- When using modules from the current crate, use $crate:
+  - $crate::module1::func();
+
+- This helps resolve import issues since macros can be invoked from any location
+</script></section><section  data-markdown><script type="text/template">
+## Declarative Macros
+
+- A form of metaprogramming (code that writes code)
+- Hygienic:
+  - Unable to emit invalid code
+  - Data cannot “leak” in to (or out of) a macro
+    - Macros cannot capture information like closures
+    - All names / bindings / variables must be provided by the caller
+- Uses macro-specific pattern matching to emit code
+- Invoked using an exclamation point: macro_name!()
+</script></section><section  data-markdown><script type="text/template">
+## Invoking a Macro
+
+```rust
+your_macro_name!();
+your_macro_name![];
+your_macro_name!{}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Valid Positions
+
+- Macros can only be used in specific parts of Rust code:
+  - Expressions & Statements
+  - Patterns
+  - Types
+  - Items & Associated Items
+  - macro_rules transcribers
+  - External blocks
+</script></section><section  data-markdown><script type="text/template">
+## Expression & Statement Position
+
+```rust
+// Expressions
+let nums = vec![1, 2, 3];
+
+match vec![1, 2, 3].as_slice() {
+    _ => format!("hello"),
+}
+
+// Statements
+println!("Hello!");
+dbg!(9_i64.pow(2));
+```
+</script></section><section  data-markdown><script type="text/template">
+## Pattern Position
+
+```rust
+macro_rules! pat {
+    ($i:ident) => (Some($i))
+}
+
+// Patterns
+if let pat!(x) = Some(1) {
+    assert_eq!(x, 1);
+}
+
+match Some(1) {
+    pat!(x) => (),
+    _ => (),
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## Type Position
+
+```rust
+macro_rules! Tuple {
+    ($A:ty, $B:ty) => { ($A, $B) };
+}
+
+// Types
+type N2 = Tuple!(i32, i32);
+
+let nums: Tuple!(i32, char) = (1, 'a');
+```
+</script></section><section  data-markdown><script type="text/template">
+## Item Position
+
+```rust
+macro_rules! constant {
+    ($name:ident) => { const $name: &'static str = "Jayson"; }
+}
+
+macro_rules! newtype {
+    ($name:ident, $typ:ty) => { struct $name($typ); }
+}
+
+// Items
+constant!(NAME);
+assert_eq!(NAME, "Jayson");
+
+newtype!(DemoStruct, usize);
+let demo = DemoStruct(5);
+```
+</script></section><section  data-markdown><script type="text/template">
+## Associated Item Position
+
+```rust
+macro_rules! msg {
+    ($msg:literal) => {
+        pub fn msg() {
+            println!("{}", $msg);
+        }
+    };
+}
+
+struct Demo;
+
+// Associated item
+impl Demo {
+    msg!("demo struct");
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+## macro_rules Transcribers
+
+```rust
+// macro_rules transcribers
+macro_rules! demo {
+    () => {
+        println!("{}", format!("demo{}", '!'));
+    };
+}
+
+demo!();
+```
+</script></section><section  data-markdown><script type="text/template">
+
+</script></section>
+    </article>
+  </main>
+
+  <script src="./../../dist/reveal.js"></script>
+
+  <script src="./../../plugin/markdown/markdown.js"></script>
+  <script src="./../../plugin/highlight/highlight.js"></script>
+  <script src="./../../plugin/zoom/zoom.js"></script>
+  <script src="./../../plugin/notes/notes.js"></script>
+  <script src="./../../plugin/math/math.js"></script>
+
+  <script src="./../../assets/plugin/mermaid.js"></script>
+  <script src="./../../assets/plugin/mermaid-theme.js"></script>
+
+  <script src="./../../assets/plugin/chart/chart.js"></script>
+  <script src="./../../assets/plugin/chart/chart.min.js"></script>
+
+  <script src="./../../assets/plugin/tailwindcss.min.js"></script>
+
+  <script>
+    function extend() {
+      var target = {};
+      for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (source.hasOwnProperty(key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+      return target;
+    }
+
+    // default options to init reveal.js
+    var defaultOptions = {
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'default', // none/fade/slide/convex/concave/zoom
+      slideNumber: true,
+      mermaid: {
+        startOnLoad: false,
+        logLevel: 3,
+        theme: 'base',
+        themeVariables: {
+          primaryColor: purple,
+          primaryTextColor: white,
+          primaryBorderColor: pink,
+          lineColor: pink,
+          secondaryColor: lightPurple,
+          tertiaryColor: lightPurple,
+        },
+      },
+      chart: {
+        defaults: {
+          color: 'lightgray', // color of labels
+          scale: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 },
+            grid: { color: "lightgray" }, // color of grid lines
+          },
+        },
+        line: { borderColor: ["#ccc", "#E6007A", "#6D3AEE"], "borderDash": [[5, 10], [0, 0]] },
+        bar: { backgroundColor: ["#ccc", "#E6007A", "#6D3AEE"] },
+      },
+      plugins: [
+        RevealMarkdown,
+        RevealHighlight,
+        RevealZoom,
+        RevealNotes,
+        RevealMath,
+        RevealMermaid,
+        RevealChart
+      ]
+    };
+
+    // options from URL query string
+    var queryOptions = Reveal().getQueryHash() || {};
+
+    var options = extend(defaultOptions, {"width":1400,"height":900,"margin":0,"minScale":0.2,"maxScale":2,"transition":"none","controls":true,"progress":true,"center":true,"slideNumber":true,"backgroundTransition":"fade"}, queryOptions);
+  </script>
+
+
+  <script>
+    Reveal.initialize(options);
+  </script>
+</body>
+
+</html>
