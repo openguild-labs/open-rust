@@ -1,6 +1,6 @@
 # Open Rust: Essential Rust for Substrate Developers
 
-![-OpenRust-2-29-2024](https://github.com/openguild-labs/open-rust/assets/56880684/36780f74-079c-45ab-986a-f69e414a3a30)
+![RUST_COURSE](https://github.com/openguild-labs/open-rust/assets/56880684/47b7f8e9-1717-4210-ac5f-e88b67890428)
 
 ## Curriculum
 ### Getting started
