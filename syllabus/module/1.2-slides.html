@@ -39,7 +39,18 @@
     - “if”
     - “else”
     - “else if”
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Mã được thực thi theo từng dòng:</p>
+<p>Trong hầu hết các ngôn ngữ lập trình, mã được thực thi theo trình tự từng dòng một. Trình tự này xác định thứ tự các lệnh được thực hiện.
+Các hành động được thực hiện và luồng điều khiển có thể thay đổi:</p>
+<p>Khi mã được thực thi, các hành động hoặc lệnh được thực hiện và luồng điều khiển của chương trình có thể thay đổi dựa trên các điều kiện nhất định.
+Các điều kiện cụ thể có thể thay đổi luồng điều khiển:</p>
+<p>Các cấu trúc điều khiển như if, else, và else if cho phép thay đổi luồng thực thi dựa trên các điều kiện cụ thể:
+if: Sử dụng để kiểm tra một điều kiện. Nếu điều kiện đúng, khối mã bên trong sẽ được thực hiện.
+else: Sử dụng kết hợp với if để chỉ định khối mã sẽ được thực hiện nếu điều kiện if là sai.
+else if: Sử dụng để kiểm tra một điều kiện khác nếu điều kiện if ban đầu là sai. Điều này cho phép kiểm tra nhiều điều kiện khác nhau và thực thi khối mã tương ứng.
+Các cấu trúc điều khiển này rất quan trọng để lập trình viên có thể điều chỉnh luồng thực thi của chương trình dựa trên các điều kiện cụ thể, giúp chương trình trở nên linh hoạt và đáp ứng được các tình huống khác nhau.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – if..else
 
 ```rust
@@ -65,7 +76,9 @@ if a > 99 {
     println!("Small number");
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>cấu trúc điều khiển lồng nhau (nested if..else) trong lập trình</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – if..else if..else
 
 ```rust
@@ -87,14 +100,25 @@ if a > 99 {
     println!("Small number");
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Vì điều kiện a &gt; 99 được kiểm tra trước và nó đã đúng với giá trị 99, chương trình sẽ luôn in ra &quot;Big number&quot; và bỏ qua các điều kiện sau đó. Điều này không đúng với logic mong muốn khi kiểm tra các giá trị lớn hơn 200 trước.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Repetition
 
 - Called “looping” or “iteration”
 - Multiple types of loops
   - “loop” - infinite loop
   - “while” – conditional loop
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Gọi là &quot;looping&quot; hoặc &quot;iteration&quot;:</p>
+<p>Lặp lại trong lập trình thường được gọi là &quot;looping&quot; hoặc &quot;iteration&quot;. Đây là quá trình thực hiện một đoạn mã nhiều lần.
+Nhiều loại vòng lặp khác nhau:</p>
+<p>Có nhiều loại vòng lặp khác nhau trong lập trình, mỗi loại có cách thức hoạt động và mục đích sử dụng riêng. Hai loại vòng lặp phổ biến được liệt kê trong hình là:
+loop - vòng lặp vô hạn (infinite loop):
+Vòng lặp loop sẽ chạy mã bên trong nó vô hạn lần cho đến khi có lệnh dừng (như break) được gọi. Điều này có nghĩa là nếu không có lệnh dừng, vòng lặp sẽ tiếp tục chạy mãi mãi.
+while - vòng lặp điều kiện (conditional loop):
+Vòng lặp while sẽ tiếp tục chạy mã bên trong nó miễn là điều kiện kiểm tra là đúng. Khi điều kiện trở nên sai, vòng lặp sẽ dừng lại. Điều này cho phép thực hiện mã lặp đi lặp lại dựa trên một điều kiện cụ thể.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Loop
 
 ```rust
@@ -125,7 +149,15 @@ while a != 5 {
 - Similar to if..else
 - Exhaustive
   - All options must be accounted for
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Thêm logic vào chương trình:</p>
+<p>Cấu trúc match được sử dụng để thêm logic vào chương trình bằng cách so sánh giá trị của một biến với các mẫu (patterns) khác nhau và thực hiện các hành động tương ứng.
+Tương tự như if..else:</p>
+<p>Cấu trúc match có chức năng tương tự như if..else, nhưng thường dễ đọc và gọn gàng hơn khi cần kiểm tra nhiều điều kiện khác nhau.
+Toàn diện (Exhaustive):</p>
+<p>Cấu trúc match yêu cầu phải kiểm tra tất cả các khả năng có thể xảy ra của biến, đảm bảo rằng không có trường hợp nào bị bỏ sót. Nếu không, trình biên dịch sẽ báo lỗi.
+Tất cả các tùy chọn phải được tính đến (All options must be accounted for): Mọi giá trị khả thi của biến phải được xử lý, điều này giúp đảm bảo rằng chương trình không bỏ sót bất kỳ trường hợp nào và tăng cường tính an toàn của mã nguồn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example with boolean
 
 ```rust
@@ -160,7 +192,17 @@ fn main() {
   - If a new possibility is added, you will be notified when this occurs
 - else..if is not checked by the compiler
   - If a new possibility is added, your code may contain a bug
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>So sánh match và else..if
+match sẽ được kiểm tra bởi trình biên dịch:</p>
+<p>Trình biên dịch Rust sẽ kiểm tra cấu trúc match để đảm bảo rằng tất cả các trường hợp có thể xảy ra đều được xử lý.
+Nếu một khả năng mới được thêm vào, bạn sẽ được thông báo khi điều này xảy ra:
+Nếu có một giá trị mới hoặc trường hợp mới được thêm vào, trình biên dịch sẽ báo lỗi nếu bạn không xử lý trường hợp đó trong cấu trúc match. Điều này giúp tránh lỗi và đảm bảo rằng tất cả các trường hợp đều được xử lý đúng cách.
+else..if không được kiểm tra bởi trình biên dịch:</p>
+<p>Cấu trúc else..if không được trình biên dịch Rust kiểm tra toàn diện như match.
+Nếu một khả năng mới được thêm vào, mã của bạn có thể chứa lỗi:
+Nếu có một giá trị mới hoặc trường hợp mới được thêm vào, bạn sẽ không được trình biên dịch cảnh báo nếu bạn quên xử lý trường hợp đó. Điều này có thể dẫn đến lỗi trong chương trình.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Iterator
 
 - Iteration is provided by the Iterator trait
@@ -169,7 +211,18 @@ fn main() {
   - Access to all iterator adapters
     - map, take, filter, etc
 - Can be implemented for any structure
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Quá trình lặp được cung cấp bởi đặc tính Iterator:</p>
+<p>Trong Rust, quá trình lặp lại trên các phần tử của một cấu trúc dữ liệu được cung cấp bởi đặc tính (trait) Iterator.
+Chỉ cần triển khai một hàm:</p>
+<p>Để tạo một iterator tùy chỉnh, bạn chỉ cần triển khai một hàm duy nhất, đó là hàm next. Hàm này trả về phần tử kế tiếp trong chuỗi hoặc None khi không còn phần tử nào.
+Cung cấp cú pháp for..in:</p>
+<p>Khi một cấu trúc dữ liệu triển khai đặc tính Iterator, bạn có thể sử dụng cú pháp for..in để lặp qua các phần tử của nó một cách dễ dàng.
+Truy cập tất cả các bộ chuyển đổi iterator:</p>
+<p>Khi một iterator đã được tạo, bạn có thể truy cập và sử dụng tất cả các bộ chuyển đổi iterator (iterator adapters) như map, take, filter, v.v. Các bộ chuyển đổi này giúp thao tác và biến đổi các phần tử của iterator.
+Có thể được triển khai cho bất kỳ cấu trúc nào:</p>
+<p>Đặc tính Iterator có thể được triển khai cho bất kỳ cấu trúc dữ liệu nào, cho phép bạn tạo ra các iterator tùy chỉnh cho các kiểu dữ liệu cụ thể của bạn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Iterator Trait
 
 ```rust
@@ -178,7 +231,17 @@ trait Iterator {
     fn next(&mut self) -> Option<Self::Item>;
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Định nghĩa trait Iterator
+trait Iterator:</p>
+<p>Đây là định nghĩa của một trait tên là Iterator. Trong Rust, trait là một tập hợp các phương thức mà một kiểu dữ liệu có thể triển khai.
+type Item:</p>
+<p>Đây là một kiểu liên kết (associated type). Item đại diện cho kiểu dữ liệu của các phần tử mà iterator sẽ trả về. Khi triển khai trait Iterator cho một kiểu dữ liệu cụ thể, bạn cần chỉ định kiểu dữ liệu cho Item.
+fn next(&amp;mut self) -&gt; OptionSelf::Item:</p>
+<p>Đây là phương thức bắt buộc cần phải triển khai khi một kiểu dữ liệu triển khai trait Iterator.
+Phương thức next nhận một tham chiếu thay đổi đến chính nó (&amp;mut self) và trả về Option<a href="Self::Item">Self::Item</a>.
+Option<a href="Self::Item">Self::Item</a> có thể là Some(Item) nếu iterator có phần tử kế tiếp hoặc None nếu iterator đã hoàn thành việc lặp.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example - Iterator
 
 ```rust
@@ -200,7 +263,51 @@ impl Iterator for Odd {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>struct Odd:
+Đây là định nghĩa của một cấu trúc (struct) tên là Odd. Cấu trúc này chứa hai trường:
+number: một số nguyên kiểu isize.
+max: một số nguyên kiểu isize.</p>
+<p>Ví dụ này minh họa cách triển khai trait Iterator cho một cấu trúc tùy chỉnh trong Rust. Cụ thể, chúng ta triển khai Iterator cho cấu trúc Odd để lặp qua các số lẻ. Dưới đây là giải thích chi tiết về từng phần của đoạn mã:</p>
+<p>Định nghĩa cấu trúc Odd
+rust
+Copy code
+struct Odd {
+    number: isize,
+    max: isize,
+}
+struct Odd:
+Đây là định nghĩa của một cấu trúc (struct) tên là Odd. Cấu trúc này chứa hai trường:
+number: một số nguyên kiểu isize.
+max: một số nguyên kiểu isize.
+Triển khai trait Iterator cho Odd
+rust
+Copy code
+impl Iterator for Odd {
+    type Item = isize;</p>
+<pre><code>fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+    self.number += 2;
+    if self.number &lt;= self.max {
+        Some(self.number)
+    } else {
+        None
+    }
+}
+</code></pre>
+<p>}
+impl Iterator for Odd:</p>
+<p>Đây là phần triển khai trait Iterator cho cấu trúc Odd.
+type Item = isize:</p>
+<p>Xác định kiểu dữ liệu cho các phần tử mà iterator sẽ trả về. Trong trường hợp này, Item là isize, nghĩa là iterator sẽ trả về các số nguyên kiểu isize.
+fn next(&amp;mut self) -&gt; OptionSelf::Item:</p>
+<p>Đây là phương thức next được triển khai từ trait Iterator.
+self.number += 2;:
+Tăng giá trị của self.number thêm 2 để di chuyển đến số lẻ tiếp theo.
+if self.number &lt;= self.max {:
+Kiểm tra xem giá trị của self.number có nhỏ hơn hoặc bằng self.max không.
+Some(self.number): Nếu điều kiện đúng, trả về Some(self.number), đại diện cho số lẻ tiếp theo.
+None: Nếu điều kiện sai, trả về None, đại diện cho việc iterator đã hoàn thành.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example - Iterator
 
 ```rust
@@ -219,7 +326,23 @@ fn main() {
     println!("{:?}", odds.next()); // None
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>impl Odd:</p>
+<p>Đây là phần triển khai các phương thức cho cấu trúc Odd.
+fn new(max: isize) -&gt; Self:</p>
+<p>Đây là phương thức khởi tạo (constructor) cho cấu trúc Odd.
+Self { number: -1, max }:
+Phương thức này tạo ra một đối tượng Odd mới với giá trị ban đầu của number là -1 và giá trị max được truyền vào.
+fn main():</p>
+<p>Đây là hàm chính của chương trình, nơi chương trình bắt đầu thực thi.
+let mut odds = Odd::new(7);:</p>
+<p>Tạo một đối tượng Odd mới với giá trị tối đa là 7 bằng cách gọi phương thức khởi tạo new.
+println!(&quot;{:?}&quot;, odds.next()); // Some(1):</p>
+<p>Gọi phương thức next trên đối tượng odds và in ra kết quả.
+Kết quả sẽ là Some(1) vì giá trị ban đầu của number là -1, và sau khi gọi next, giá trị được tăng thêm 2 và trở thành 1.
+Các lệnh println! tiếp theo:</p>
+<p>Tiếp tục gọi next và in ra kết quả. Mỗi lần gọi next, giá trị của number được tăng thêm 2 cho đến khi vượt quá giá trị max là 7. Sau đó, next sẽ trả về None.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – for..in
 
 ```rust
@@ -234,7 +357,30 @@ for o in odds {
 // odd: 7
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Sử dụng cú pháp for..in
+Khởi tạo một đối tượng Odd mới:</p>
+<p>rust
+Copy code
+let mut odds = Odd::new(7);
+Tạo một đối tượng Odd mới với giá trị tối đa là 7 bằng cách gọi phương thức khởi tạo new.
+Sử dụng cú pháp for..in để lặp qua các phần tử:</p>
+<p>rust
+Copy code
+for o in odds {
+    println!(&quot;odd: {}&quot;, o);
+}
+Cú pháp for..in được sử dụng để lặp qua tất cả các phần tử mà iterator odds cung cấp.
+Mỗi phần tử o sẽ được in ra bằng lệnh println!.
+Kết quả mong đợi
+Khi đoạn mã này được thực thi, kết quả sẽ là:</p>
+<p>plaintext
+Copy code
+odd: 1
+odd: 3
+odd: 5
+odd: 7</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – Adapters
 
 ```rust
@@ -248,7 +394,36 @@ for e in evens.map(|odd| odd + 1) {
 // even: 6
 // even: 8
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Sử dụng map để chuyển đổi các phần tử của iterator
+rust
+Copy code
+let mut evens = Odd::new(8);
+for e in evens.map(|odd| odd + 1) {
+    println!(&quot;even: {}&quot;, e);
+}
+Khởi tạo một đối tượng Odd mới:</p>
+<p>rust
+Copy code
+let mut evens = Odd::new(8);
+Tạo một đối tượng Odd mới với giá trị tối đa là 8 bằng cách gọi phương thức khởi tạo new.
+Sử dụng map để chuyển đổi các phần tử:</p>
+<p>rust
+Copy code
+for e in evens.map(|odd| odd + 1) {
+    println!(&quot;even: {}&quot;, e);
+}
+Sử dụng bộ chuyển đổi map để chuyển đổi mỗi phần tử của iterator evens. Hàm map nhận vào một hàm closure (|odd| odd + 1), áp dụng hàm này cho mỗi phần tử của iterator evens và trả về một iterator mới với các giá trị đã được chuyển đổi.
+Cú pháp for e in evens.map(...) được sử dụng để lặp qua các phần tử của iterator đã được chuyển đổi và in ra các số chẵn tương ứng.
+Kết quả mong đợi
+Khi đoạn mã này được thực thi, kết quả sẽ là:</p>
+<p>plaintext
+Copy code
+even: 2
+even: 4
+even: 6
+even: 8</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Iterator Trait
 
 - By default requires mutable access to structure
@@ -258,13 +433,37 @@ for e in evens.map(|odd| odd + 1) {
 - Solution:
   - Implement IntoIterator trait & call .iter() on inner collection
     - Vector, HashMap
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Đặc tính Iterator
+Mặc định yêu cầu truy cập thay đổi vào cấu trúc dữ liệu:</p>
+<p>Bất tiện (Inconvenient):
+Điều này có thể gây bất tiện trong một số trường hợp khi bạn không muốn thay đổi dữ liệu mà chỉ muốn lặp qua nó.
+Không phải lúc nào cũng có thể (Not always possible):
+Trong một số tình huống, bạn không thể hoặc không muốn thay đổi dữ liệu, chẳng hạn như khi dữ liệu được chia sẻ giữa nhiều luồng.
+Không phải lúc nào cũng cần thay đổi (Mutation not always needed):
+Trong nhiều trường hợp, bạn chỉ cần đọc dữ liệu mà không cần thay đổi nó.
+Giải pháp:</p>
+<p>Triển khai đặc tính IntoIterator và gọi .iter() trên bộ sưu tập bên trong:
+Để giải quyết vấn đề này, bạn có thể triển khai đặc tính IntoIterator cho cấu trúc dữ liệu của mình và sử dụng phương thức .iter() để lặp qua các phần tử mà không cần thay đổi chúng.
+Ví dụ với Vector và HashMap:
+Vector và HashMap là hai ví dụ về các bộ sưu tập có thể triển khai đặc tính IntoIterator và sử dụng .iter() để lặp qua các phần tử một cách an toàn và hiệu quả mà không cần thay đổi dữ liệu.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## IntoIterator Trait
 
 - Yields an Iterator (yield items/values)
   - Implementation details determine how items are accessed
   - Borrow, mutable, move
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Đặc tính IntoIterator
+Trả về một Iterator (yield items/values):</p>
+<p>Đặc tính IntoIterator cho phép một cấu trúc dữ liệu có thể chuyển đổi thành một iterator. Điều này có nghĩa là bạn có thể lấy các phần tử từ cấu trúc dữ liệu đó một cách tuần tự.
+Chi tiết triển khai xác định cách truy cập các phần tử:</p>
+<p>Cách triển khai đặc tính IntoIterator xác định cách các phần tử được truy cập trong iterator.
+Borrow, mutable, move:
+Borrow: Cho phép mượn (borrow) các phần tử mà không thay đổi chúng.
+Mutable: Cho phép thay đổi (mutate) các phần tử khi chúng được lặp qua.
+Move: Di chuyển (move) các phần tử ra khỏi cấu trúc dữ liệu, nghĩa là sau khi iterator kết thúc, các phần tử không còn trong cấu trúc dữ liệu ban đầu nữa.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## IntoIterator Trait
 
 ```rust
@@ -275,7 +474,18 @@ trait IntoIterator {
     fn into_iter(self) -> Self::IntoIter;
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>trait IntoIterator:</p>
+<p>Đây là định nghĩa của một trait tên là IntoIterator. Trait này cho phép một kiểu dữ liệu có thể được chuyển đổi thành một iterator.
+type Item:</p>
+<p>Đây là một kiểu liên kết (associated type). Item đại diện cho kiểu dữ liệu của các phần tử mà iterator sẽ trả về.
+type IntoIter: Iterator&lt;Item = Self::Item&gt;:</p>
+<p>IntoIter là một kiểu liên kết khác, đại diện cho kiểu của iterator mà trait IntoIterator sẽ trả về.
+Iterator&lt;Item = Self::Item&gt; chỉ ra rằng kiểu này phải triển khai trait Iterator và trả về các phần tử có kiểu Item.
+fn into_iter(self) -&gt; Self::IntoIter:</p>
+<p>Phương thức into_iter chuyển đổi self (một đối tượng của kiểu triển khai trait IntoIterator) thành một iterator.
+Phương thức này trả về Self::IntoIter, nghĩa là nó trả về một iterator có kiểu được xác định bởi kiểu IntoIter.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Move
 
 ```rust
@@ -292,7 +502,41 @@ impl IntoIterator for Friends {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Ví dụ này minh họa cách triển khai trait IntoIterator cho một cấu trúc dữ liệu tùy chỉnh trong Rust, cụ thể là Friends. Đây là cách triển khai IntoIterator cho phép di chuyển (move) các phần tử ra khỏi cấu trúc dữ liệu. Dưới đây là giải thích chi tiết về từng phần của đoạn mã:</p>
+<p>Định nghĩa và triển khai cấu trúc Friends
+rust
+Copy code
+struct Friends {
+    names: Vec<String>,
+}
+struct Friends:
+Đây là định nghĩa của một cấu trúc (struct) tên là Friends. Cấu trúc này chứa một trường:
+names: một vector chứa các chuỗi ký tự (Vec<String>).
+Triển khai trait IntoIterator cho Friends
+rust
+Copy code
+impl IntoIterator for Friends {
+    type Item = String;
+    type IntoIter = std::vec::IntoIter<a href="Self::Item">Self::Item</a>;</p>
+<pre><code>fn into_iter(self) -&gt; Self::IntoIter {
+    self.names.into_iter()
+}
+</code></pre>
+<p>}
+impl IntoIterator for Friends:</p>
+<p>Đây là phần triển khai trait IntoIterator cho cấu trúc Friends.
+type Item = String:</p>
+<p>Xác định kiểu dữ liệu cho các phần tử mà iterator sẽ trả về. Trong trường hợp này, Item là String, nghĩa là iterator sẽ trả về các chuỗi ký tự.
+type IntoIter = std::vec::IntoIterSelf::Item:</p>
+<p>IntoIter là kiểu của iterator mà trait IntoIterator sẽ trả về. Trong trường hợp này, IntoIter là std::vec::IntoIter<a href="Self::Item">Self::Item</a>, một iterator cho vector các chuỗi ký tự.
+fn into_iter(self) -&gt; Self::IntoIter:</p>
+<p>Phương thức into_iter chuyển đổi self (một đối tượng của kiểu Friends) thành một iterator.
+self.names.into_iter():
+Phương thức này gọi into_iter trên trường names của đối tượng Friends, di chuyển các phần tử ra khỏi vector và trả về một iterator cho vector đó.
+Kết luận
+Trong ví dụ này, chúng ta đã triển khai trait IntoIterator cho cấu trúc Friends để cho phép di chuyển các phần tử ra khỏi cấu trúc dữ liệu khi iterator được tạo. Điều này cho phép chúng ta lặp qua các phần tử của Friends mà không cần giữ lại dữ liệu ban đầu, giúp giải phóng bộ nhớ và tối ưu hóa hiệu suất. Việc triển khai IntoIterator như vậy mang lại sự linh hoạt và mạnh mẽ trong việc xử lý dữ liệu trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ```rust
 struct Friends {
     names: Vec<String>,
@@ -311,7 +555,51 @@ for f in friends {
     println!("{:?}", f);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Ví dụ này minh họa cách triển khai trait IntoIterator cho cấu trúc Friends và sử dụng nó để lặp qua các phần tử của cấu trúc này. Dưới đây là giải thích chi tiết về từng phần của đoạn mã:</p>
+<p>Định nghĩa và triển khai cấu trúc Friends
+rust
+Copy code
+struct Friends {
+    names: Vec<String>,
+}
+struct Friends:
+Đây là định nghĩa của một cấu trúc (struct) tên là Friends. Cấu trúc này chứa một trường:
+names: một vector chứa các chuỗi ký tự (Vec<String>).
+Triển khai trait IntoIterator cho Friends
+rust
+Copy code
+impl IntoIterator for Friends {
+    type Item = String;
+    type IntoIter = std::vec::IntoIter<a href="Self::Item">Self::Item</a>;</p>
+<pre><code>fn into_iter(self) -&gt; Self::IntoIter {
+    self.names.into_iter()
+}
+</code></pre>
+<p>}
+impl IntoIterator for Friends:</p>
+<p>Đây là phần triển khai trait IntoIterator cho cấu trúc Friends.
+type Item = String:</p>
+<p>Xác định kiểu dữ liệu cho các phần tử mà iterator sẽ trả về. Trong trường hợp này, Item là String, nghĩa là iterator sẽ trả về các chuỗi ký tự.
+type IntoIter = std::vec::IntoIterSelf::Item:</p>
+<p>IntoIter là kiểu của iterator mà trait IntoIterator sẽ trả về. Trong trường hợp này, IntoIter là std::vec::IntoIter<a href="Self::Item">Self::Item</a>, một iterator cho vector các chuỗi ký tự.
+fn into_iter(self) -&gt; Self::IntoIter:</p>
+<p>Phương thức into_iter chuyển đổi self (một đối tượng của kiểu Friends) thành một iterator.
+self.names.into_iter():
+Phương thức này gọi into_iter trên trường names của đối tượng Friends, di chuyển các phần tử ra khỏi vector và trả về một iterator cho vector đó.
+Sử dụng IntoIterator để lặp qua các phần tử
+rust
+Copy code
+for f in friends {
+    println!(&quot;{:?}&quot;, f);
+}
+for f in friends:</p>
+<p>Sử dụng cú pháp for..in để lặp qua tất cả các phần tử của cấu trúc Friends. Cú pháp này sẽ gọi phương thức into_iter được triển khai phía trên để chuyển đổi friends thành một iterator.
+println!(&quot;{:?}&quot;, f):</p>
+<p>In ra từng phần tử f của iterator. Trong trường hợp này, các phần tử sẽ là các chuỗi ký tự từ vector names.
+Kết luận
+Ví dụ này cho thấy cách triển khai trait IntoIterator cho cấu trúc Friends và cách sử dụng nó để lặp qua các phần tử của cấu trúc này. Bằng cách triển khai IntoIterator, bạn có thể lặp qua các phần tử của một cấu trúc dữ liệu tùy chỉnh một cách dễ dàng và hiệu quả trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Value Moved – Error!
 
 ```rust
@@ -326,7 +614,37 @@ for f in friends {
 // ^^^^^^ value used here after move
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>minh họa một lỗi phổ biến trong Rust khi di chuyển (move) một giá trị và sau đó cố gắng sử dụng lại giá trị đó. Dưới đây là giải thích chi tiết về vấn đề và lỗi này:</p>
+<p>Di chuyển giá trị và lỗi &quot;value used here after move&quot;
+rust
+Copy code
+for f in friends {
+    println!(&quot;{:?}&quot;, f);
+}
+// <code>friends</code> moved due to this implicit call to <code>.into_iter()</code></p>
+<p>for f in friends {
+    println!(&quot;{:?}&quot;, f);
+}
+// ^^^^^^ value used here after move
+Vòng lặp đầu tiên:</p>
+<p>for f in friends:
+Khi vòng lặp for được thực hiện trên friends, một cuộc gọi ngầm (implicit call) tới into_iter được thực hiện. Điều này chuyển quyền sở hữu (move) của friends vào iterator.
+println!(&quot;{:?}&quot;, f):
+In ra từng phần tử f từ iterator.
+Giải thích:</p>
+<p>Khi into_iter được gọi, quyền sở hữu của friends bị di chuyển (move) vào iterator, nghĩa là friends không còn khả dụng để sử dụng sau cuộc gọi này.
+Vòng lặp thứ hai:</p>
+<p>for f in friends:
+Vòng lặp for thứ hai cố gắng sử dụng lại friends, nhưng friends đã bị di chuyển trong vòng lặp trước đó.
+println!(&quot;{:?}&quot;, f):
+Rust sẽ phát hiện lỗi này tại thời điểm biên dịch (compile-time) và báo lỗi rằng giá trị friends đã bị di chuyển và không thể sử dụng lại.
+Lỗi biên dịch:</p>
+<p>value used here after move:
+Rust sẽ thông báo rằng giá trị friends đã bị sử dụng sau khi di chuyển. Đây là một cơ chế an toàn của Rust để ngăn chặn lỗi truy cập vào vùng nhớ không hợp lệ.
+Kết luận
+Ví dụ này minh họa cách Rust quản lý quyền sở hữu (ownership) và di chuyển (move) giá trị để đảm bảo an toàn bộ nhớ. Khi một giá trị bị di chuyển vào một iterator (hoặc bất kỳ nơi nào khác), giá trị đó không thể được sử dụng lại trừ khi được trả lại quyền sở hữu. Điều này giúp tránh lỗi truy cập vào vùng nhớ không hợp lệ và làm cho Rust trở thành một ngôn ngữ an toàn về bộ nhớ.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Borrow
 
 ```rust
@@ -343,7 +661,41 @@ impl<'a> IntoIterator for &'a Friends {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>triển khai trait IntoIterator cho một tham chiếu mượn (borrowed reference) của cấu trúc Friends. Điều này cho phép lặp qua các phần tử của Friends mà không di chuyển (move) quyền sở hữu của Friends. Dưới đây là giải thích chi tiết về đoạn mã này:</p>
+<p>Định nghĩa và triển khai cấu trúc Friends
+rust
+Copy code
+struct Friends {
+    names: Vec<String>,
+}
+struct Friends:
+Đây là định nghĩa của một cấu trúc (struct) tên là Friends. Cấu trúc này chứa một trường:
+names: một vector chứa các chuỗi ký tự (Vec<String>).
+Triển khai trait IntoIterator cho tham chiếu mượn &amp;Friends
+rust
+Copy code
+impl&lt;&#39;a&gt; IntoIterator for &amp;&#39;a Friends {
+    type Item = &amp;&#39;a String;
+    type IntoIter = std::slice::Iter&lt;&#39;a, String&gt;;</p>
+<pre><code>fn into_iter(self) -&gt; Self::IntoIter {
+    self.names.iter()
+}
+</code></pre>
+<p>}
+impl&lt;&#39;a&gt; IntoIterator for &amp;&#39;a Friends:</p>
+<p>Đây là phần triển khai trait IntoIterator cho một tham chiếu mượn (&amp;Friends) của cấu trúc Friends. &#39;a là một tham số vòng đời (lifetime parameter).
+type Item = &amp;&#39;a String:</p>
+<p>Xác định kiểu dữ liệu cho các phần tử mà iterator sẽ trả về. Trong trường hợp này, Item là một tham chiếu tới String với vòng đời &#39;a.
+type IntoIter = std::slice::Iter&lt;&#39;a, String&gt;:</p>
+<p>IntoIter là kiểu của iterator mà trait IntoIterator sẽ trả về. Trong trường hợp này, IntoIter là std::slice::Iter&lt;&#39;a, String&gt;, một iterator cho một lát cắt (slice) của vector các chuỗi ký tự.
+fn into_iter(self) -&gt; Self::IntoIter:</p>
+<p>Phương thức into_iter chuyển đổi self (một tham chiếu tới đối tượng của kiểu Friends) thành một iterator.
+self.names.iter():
+Phương thức này gọi iter trên trường names của đối tượng Friends, trả về một iterator cho các phần tử của vector.
+Kết luận
+Ví dụ này minh họa cách triển khai trait IntoIterator cho một tham chiếu mượn của cấu trúc Friends, cho phép lặp qua các phần tử mà không di chuyển quyền sở hữu của Friends. Điều này giúp tránh lỗi sử dụng lại giá trị sau khi di chuyển (move) và cho phép lặp qua các phần tử của một cấu trúc dữ liệu tùy chỉnh một cách an toàn và hiệu quả trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Iteration
 
 ```rust
@@ -351,7 +703,27 @@ for f in friends {
     println!("{:?}", f);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích ví dụ về vòng lặp với IntoIterator trait trong Rust
+Đoạn mã sau đây minh họa cách sử dụng vòng lặp for để lặp qua các phần tử của đối tượng friends sau khi đã triển khai trait IntoIterator cho kiểu Friends:</p>
+<p>rust
+Copy code
+for f in friends {
+    println!(&quot;{:?}&quot;, f);
+}
+Giải thích chi tiết:
+Vòng lặp for:</p>
+<p>Câu lệnh for f in friends là cách viết ngắn gọn để lặp qua các phần tử của một iterable trong Rust.
+Biến f sẽ nhận giá trị của từng phần tử trong friends trong mỗi lần lặp.
+Trait IntoIterator:</p>
+<p>Để sử dụng vòng lặp for với một kiểu dữ liệu tùy chỉnh như Friends, cần phải triển khai trait IntoIterator cho kiểu đó.
+Đoạn mã trước đó đã triển khai trait IntoIterator cho &amp;Friends (mượn Friends).
+Phương thức into_iter:</p>
+<p>Khi vòng lặp for được sử dụng, phương thức into_iter sẽ được gọi ngầm định để lấy một iterator cho các phần tử của friends.
+Phương thức println!:</p>
+<p>Câu lệnh println!(&quot;{:?}&quot;, f); sẽ in ra giá trị của từng phần tử f trong friends.
+{:?} là format specifier được sử dụng để in các giá trị dưới dạng debug (hữu ích cho việc kiểm tra và gỡ lỗi).</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Mutable Borrow
 
 ```rust
@@ -368,7 +740,36 @@ impl<'a> IntoIterator for &'a mut Friends {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích ví dụ về Mutable Borrow với IntoIterator trait trong Rust
+Ví dụ này minh họa cách triển khai trait IntoIterator cho một tham chiếu mutable (&amp;mut) tới kiểu dữ liệu Friends. Điều này cho phép bạn lặp qua các phần tử của Friends và thay đổi chúng.</p>
+<p>Đoạn mã:
+rust
+Copy code
+struct Friends {
+    names: Vec<String>,
+}</p>
+<p>impl&lt;&#39;a&gt; IntoIterator for &amp;&#39;a mut Friends {
+    type Item = &amp;&#39;a mut String;
+    type IntoIter = std::slice::IterMut&lt;&#39;a, String&gt;;</p>
+<pre><code>fn into_iter(self) -&gt; Self::IntoIter {
+    self.names.iter_mut()
+}
+</code></pre>
+<p>}
+Giải thích chi tiết:
+Cấu trúc Friends:</p>
+<p>struct Friends chứa một trường names là một vector của các chuỗi (Vec<String>).
+Triển khai IntoIterator cho &amp;mut Friends:</p>
+<p>Life time &#39;a: impl&lt;&#39;a&gt; cho biết rằng chúng ta đang làm việc với các tham chiếu có life time &#39;a.
+type Item: Định nghĩa loại phần tử (Item) của iterator là một tham chiếu mutable đến một chuỗi (&amp;&#39;a mut String).
+type IntoIter: Định nghĩa loại iterator (IntoIter) là std::slice::IterMut&lt;&#39;a, String&gt;, cung cấp iterator mutable qua các phần tử của vector String.
+Phương thức into_iter:</p>
+<p>Phương thức này trả về một iterator mutable (IterMut) qua các phần tử của names.
+self.names.iter_mut() tạo ra một iterator mutable cho phép thay đổi các phần tử của names.
+Kết luận
+Với triển khai này, bạn có thể sử dụng vòng lặp for để lặp qua các phần tử của Friends một cách mutable, cho phép bạn thay đổi các phần tử trong quá trình lặp. Điều này rất hữu ích khi bạn cần sửa đổi các giá trị trong một cấu trúc dữ liệu khi lặp qua nó.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Iteration
 
 ```rust
@@ -384,7 +785,28 @@ for f in &mut friends {
     println!("{:?}", f);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích ví dụ về Iteration trong Rust với IntoIterator trait và mutable borrow
+Giải thích chi tiết:
+Cấu trúc Friends:</p>
+<p>struct Friends chứa một trường names là một vector của các chuỗi (Vec<String>).
+Triển khai IntoIterator cho &amp;mut Friends:</p>
+<p>Life time &#39;a: impl&lt;&#39;a&gt; cho biết rằng chúng ta đang làm việc với các tham chiếu có life time &#39;a.
+type Item: Định nghĩa loại phần tử (Item) của iterator là một tham chiếu mutable đến một chuỗi (&amp;&#39;a mut String).
+type IntoIter: Định nghĩa loại iterator (IntoIter) là std::slice::IterMut&lt;&#39;a, String&gt;, cung cấp iterator mutable qua các phần tử của vector String.
+Phương thức into_iter: Phương thức này trả về một iterator mutable (IterMut) qua các phần tử của names.
+Khởi tạo và sử dụng trong hàm main:</p>
+<p>Tạo một vector names chứa các chuỗi &quot;Albert&quot; và &quot;Sara&quot;.
+Khởi tạo một biến mutable friends thuộc kiểu Friends với vector names.
+Sử dụng vòng lặp for để lặp qua các phần tử của friends một cách mutable.
+Trong vòng lặp, mỗi phần tử (f) là một tham chiếu mutable đến một chuỗi.
+Gán giá trị &quot;Frank&quot; cho mỗi phần tử.
+In ra giá trị của mỗi phần tử sau khi gán.
+Chương trình sẽ thay đổi tất cả các tên trong vector names của friends thành &quot;Frank&quot; và in chúng ra. Đầu ra sẽ là:</p>
+<p>&quot;Frank&quot;
+&quot;Frank&quot;
+Ví dụ này minh họa cách sử dụng trait IntoIterator để lặp qua các phần tử của một cấu trúc dữ liệu và thay đổi chúng một cách mutable trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Iter Methods
 
 - Convention for exposing iteration is to provide up to two methods:
@@ -394,7 +816,22 @@ for f in &mut friends {
     - Iteration over borrowed mutable values
 - Implement these by simply calling into_iter() after implementing the IntoIterator trait
 - These are optional, but allow for easy combinator usage without the for loop
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Các phương thức Iter
+Giải thích các ý chính:
+Convention for exposing iteration is to provide up to two methods:</p>
+<p>Điều này có nghĩa là có một chuẩn mực hoặc phương pháp phổ biến để tạo ra các cách lặp qua các phần tử trong các cấu trúc dữ liệu trong Rust. Cụ thể, người ta thường cung cấp hai phương thức cho việc lặp này:</p>
+<p>.iter()</p>
+<p>Iteration over borrowed values (Lặp qua các giá trị được mượn)</p>
+<p>Phương thức .iter() được sử dụng để lặp qua các tham chiếu tới các phần tử trong cấu trúc dữ liệu. Điều này có nghĩa là bạn có thể lặp qua các phần tử mà không cần sở hữu chúng, cho phép bạn truy cập các phần tử mà không thay đổi hoặc tiêu thụ cấu trúc dữ liệu gốc.</p>
+<p>.iter_mut()</p>
+<p>Iteration over borrowed mutable values (Lặp qua các giá trị mượn có thể thay đổi)</p>
+<p>Phương thức .iter_mut() được sử dụng để lặp qua các tham chiếu có thể thay đổi tới các phần tử trong cấu trúc dữ liệu. Điều này cho phép bạn không chỉ truy cập mà còn có thể thay đổi các phần tử trong khi lặp qua cấu trúc dữ liệu.</p>
+<p>Implement these by simply calling into_iter() after implementing the IntoIterator trait</p>
+<p>Khi bạn đã triển khai trait IntoIterator cho cấu trúc dữ liệu của mình, bạn có thể dễ dàng triển khai các phương thức .iter() và .iter_mut() bằng cách gọi into_iter(). Điều này tận dụng iterator mà bạn đã định nghĩa, đảm bảo rằng cấu trúc dữ liệu của bạn có thể được lặp qua một cách nhất quán.</p>
+<p>These are optional, but allow for easy combinator usage without the for loop</p>
+<p>Mặc dù việc triển khai .iter() và .iter_mut() là không bắt buộc, nhưng làm như vậy mang lại nhiều lợi ích. Một lợi ích lớn là nó cho phép bạn sử dụng các combinator của iterator (như map, filter, v.v.) trực tiếp trên cấu trúc dữ liệu của bạn. Điều này có thể dẫn đến mã nguồn ngắn gọn và biểu cảm hơn, vì bạn có thể chuỗi các thao tác lại với nhau thay vì viết các vòng lặp tường minh.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -410,7 +847,8 @@ impl Friends {
 
 let total = friends.iter().count();
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"></aside></script></section><section  data-markdown><script type="text/template">
 # Implementing IntoIterator Using a Custom Iterator
 </script></section><section  data-markdown><script type="text/template">
 ## Mini Iterator Review
