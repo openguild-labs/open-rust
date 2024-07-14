@@ -40,7 +40,31 @@
   - Function calls, variable reassignment, and closures
 - Possible to “borrow” data from an owner
   - Owner still responsible for clean up
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một cái nhìn tổng quan về hệ thống sở hữu (ownership) trong Rust, một trong những tính năng quan trọng giúp Rust quản lý bộ nhớ một cách an toàn và hiệu quả mà không cần garbage collector.</p>
+<p>Nội dung chính của slide:
+Dữ liệu trong chương trình Rust có một người sở hữu (owner):</p>
+<p>Người sở hữu chịu trách nhiệm dọn dẹp dữ liệu:
+Quản lý bộ nhớ (Memory management).
+Chỉ có một người sở hữu (theo mặc định):</p>
+<p>Chỉ có một người sở hữu duy nhất của một mảng dữ liệu tại bất kỳ thời điểm nào.
+Các chức năng, closures, structs, enums và phạm vi (scopes) là người sở hữu:</p>
+<p>Khi bạn khai báo một biến bên trong một hàm hoặc một phạm vi, nó sẽ trở thành người sở hữu của dữ liệu đó.
+Dữ liệu có thể được chuyển (moved) từ người sở hữu này sang người sở hữu khác:</p>
+<p>Các cuộc gọi hàm, tái gán biến và closures có thể chuyển quyền sở hữu dữ liệu.
+Ví dụ: Khi bạn truyền một biến vào một hàm, quyền sở hữu của biến đó được chuyển sang hàm đó.
+Có thể &quot;mượn&quot; dữ liệu từ một người sở hữu:</p>
+<p>Rust cho phép bạn mượn dữ liệu thay vì chuyển quyền sở hữu, giúp bạn tránh việc sao chép không cần thiết.
+Khi bạn mượn dữ liệu, người sở hữu vẫn chịu trách nhiệm dọn dẹp dữ liệu.
+Người sở hữu vẫn chịu trách nhiệm dọn dẹp:</p>
+<p>Mặc dù bạn có thể mượn dữ liệu, người sở hữu ban đầu vẫn chịu trách nhiệm dọn dẹp dữ liệu khi nó không còn được sử dụng.
+Tóm tắt
+Ownership là một phần quan trọng của Rust, giúp quản lý bộ nhớ một cách an toàn và hiệu quả.
+Sự duy nhất: Mỗi mảng dữ liệu chỉ có một người sở hữu tại một thời điểm.
+Chuyển quyền sở hữu: Dữ liệu có thể được chuyển giữa các người sở hữu thông qua các cuộc gọi hàm, tái gán biến, và closures.
+Mượn dữ liệu: Rust cho phép bạn mượn dữ liệu để sử dụng tạm thời mà không cần chuyển quyền sở hữu.
+Trách nhiệm dọn dẹp: Người sở hữu ban đầu vẫn chịu trách nhiệm dọn dẹp dữ liệu, ngay cả khi dữ liệu đó được mượn bởi các phần khác của chương trình.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Ownership Review - Example
 
 ```rust
@@ -65,7 +89,77 @@ fn main() {
     // cube no longer available
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một ví dụ cụ thể về cách quản lý ownership trong Rust, sử dụng một hàm để thêm một item vào một freezer.</p>
+<p>Nội dung chính của slide:
+Hàm place_item:</p>
+<p>rust
+Copy code
+fn place_item(freezer: &amp;mut Freezer, item: FrozenItem) {
+    freezer.contents.push(item);
+}
+Tham số:
+freezer: &amp;mut Freezer: Đây là một tham chiếu mutable đến một struct Freezer. Sử dụng &amp;mut cho phép thay đổi nội dung của freezer bên trong hàm.
+item: FrozenItem: Đây là một item thuộc kiểu FrozenItem được chuyển giao quyền sở hữu cho hàm place_item.
+Chức năng:
+Thêm item vào vector contents của freezer.
+Enum FrozenItem:</p>
+<p>rust
+Copy code
+#[derive(Debug)]
+enum FrozenItem {
+    IceCube,
+}
+Định nghĩa một enum đơn giản với một giá trị là IceCube.
+Sử dụng #[derive(Debug)] để cho phép in giá trị của enum ra console dễ dàng.
+Struct Freezer:</p>
+<p>rust
+Copy code
+#[derive(Debug)]
+struct Freezer {
+    contents: Vec<FrozenItem>,
+}
+Định nghĩa một struct Freezer với một trường contents, là một vector chứa các FrozenItem.
+Sử dụng #[derive(Debug)] để cho phép in giá trị của struct ra console dễ dàng.
+Hàm main:</p>
+<p>rust
+Copy code
+fn main() {
+    let mut freezer = Freezer { contents: vec![] };
+    let cube = FrozenItem::IceCube;
+    place_item(&amp;mut freezer, cube);
+    // cube no longer available
+}
+Khởi tạo một freezer:
+rust
+Copy code
+let mut freezer = Freezer { contents: vec![] };
+Tạo một biến mutable freezer thuộc kiểu Freezer với một vector rỗng contents.
+Khởi tạo một cube:
+rust
+Copy code
+let cube = FrozenItem::IceCube;
+Tạo một biến cube thuộc kiểu FrozenItem với giá trị IceCube.
+Gọi hàm place_item:
+rust
+Copy code
+place_item(&amp;mut freezer, cube);
+Truyền freezer như một tham chiếu mutable và cube như một giá trị để thêm vào freezer.
+Ghi chú:
+rust
+Copy code
+// cube no longer available
+Sau khi cube được chuyển vào hàm place_item, quyền sở hữu của cube không còn thuộc về main nữa. Điều này có nghĩa là cube không còn khả dụng sau khi nó được chuyển vào hàm.
+Tóm tắt
+Ownership và Borrowing:
+place_item mượn mutable tham chiếu đến freezer và nhận quyền sở hữu của item.
+Sau khi item được chuyển vào hàm, nó không còn thuộc về hàm gọi (main) nữa.
+Mutable Borrowing:
+Sử dụng &amp;mut cho phép thay đổi nội dung của biến được mượn bên trong hàm.
+Chuyển giao quyền sở hữu:
+Quyền sở hữu của cube được chuyển vào hàm place_item, và sau đó cube không còn khả dụng trong phạm vi của main.
+Điều này minh họa cách quản lý bộ nhớ an toàn và hiệu quả trong Rust thông qua hệ thống ownership.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Lifetimes
 
 - A way to inform the compiler that borrowed data will be valid at a specific point in time
@@ -74,16 +168,47 @@ fn main() {
   - Returning borrowed data from functions
 - All data has a Lifetime
   - Most cases are elided
-</script></section><section  data-markdown><script type="text/template">
-## Lifetime Syntax - struct
 
-```rust
-```
+<aside class="notes"><p>Slide này giải thích về khái niệm &quot;lifetime&quot; trong Rust và tại sao chúng lại quan trọng.</p>
+<p>Nội dung chính của slide:
+Định nghĩa về Lifetimes:</p>
+<p>Lifetimes là một cách để thông báo cho trình biên dịch Rust rằng dữ liệu mượn sẽ hợp lệ tại một thời điểm cụ thể.
+Điều này giúp đảm bảo rằng các tham chiếu đến dữ liệu không trở thành không hợp lệ (dangling references) khi dữ liệu gốc không còn tồn tại.
+Khi nào cần sử dụng Lifetimes:</p>
+<p>Storing borrowed data in structs or enums:
+Khi bạn muốn lưu trữ tham chiếu mượn trong các struct hoặc enum, bạn cần phải chỉ định lifetime để đảm bảo rằng các tham chiếu này sẽ vẫn hợp lệ trong suốt thời gian tồn tại của struct hoặc enum.
+Returning borrowed data from functions:
+Khi bạn trả về tham chiếu mượn từ một hàm, bạn cần phải đảm bảo rằng dữ liệu mà tham chiếu này trỏ đến vẫn hợp lệ sau khi hàm kết thúc. Lifetimes giúp trình biên dịch kiểm tra điều này.
+Tất cả dữ liệu đều có Lifetime:</p>
+<p>Mọi dữ liệu trong Rust đều có lifetime, dù bạn có rõ ràng khai báo hay không.
+Most cases are elided:
+Trong nhiều trường hợp, trình biên dịch Rust có thể suy luận ra lifetime một cách tự động, do đó bạn không cần phải khai báo rõ ràng. Điều này được gọi là &quot;lifetime elision&quot;.
+Tóm tắt
+Lifetimes là một khái niệm quan trọng trong Rust để đảm bảo an toàn bộ nhớ khi làm việc với tham chiếu.
+Chúng giúp đảm bảo rằng tham chiếu đến dữ liệu không trở thành không hợp lệ sau khi dữ liệu gốc không còn tồn tại.
+Bạn cần sử dụng lifetimes khi lưu trữ tham chiếu trong struct hoặc enum, hoặc khi trả về tham chiếu từ một hàm.
+Mọi dữ liệu đều có lifetime, và trong nhiều trường hợp, trình biên dịch Rust có thể tự động suy luận lifetime mà không cần khai báo rõ ràng.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
+## Lifetime Syntax - struct
 
 - Convention uses 'a, 'b, 'c
 - 'static is reserved
   - 'static data stays in memory until the program terminates
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cú pháp sử dụng lifetimes trong cấu trúc (struct) trong Rust.</p>
+<p>Nội dung chính của slide:
+Convention uses &#39;a, &#39;b, &#39;c:</p>
+<p>Quy ước đặt tên cho lifetimes thường sử dụng các chữ cái nhỏ bắt đầu bằng dấu nháy đơn, chẳng hạn như &#39;a, &#39;b, &#39;c.
+Đây là cách thông dụng và dễ hiểu để biểu diễn lifetimes khi bạn làm việc với nhiều lifetimes khác nhau trong code của bạn.
+&#39;static is reserved:</p>
+<p>&#39;static là một lifetime đặc biệt và được dành riêng.
+Dữ liệu với lifetime &#39;static sẽ tồn tại trong bộ nhớ cho đến khi chương trình kết thúc.
+Điều này có nghĩa là dữ liệu &#39;static không bị xóa hoặc thu hồi trong suốt thời gian chương trình đang chạy.
+Tóm tắt
+Quy ước đặt tên: Khi khai báo lifetimes, sử dụng các chữ cái nhỏ như &#39;a, &#39;b, &#39;c để biểu diễn các lifetimes khác nhau.
+&#39;static Lifetime: Lifetime &#39;static được dành riêng cho dữ liệu tồn tại trong suốt thời gian chương trình chạy, nghĩa là dữ liệu này sẽ không bị thu hồi cho đến khi chương trình kết thúc.
+Việc sử dụng lifetimes giúp đảm bảo rằng các tham chiếu dữ liệu trong Rust sẽ hợp lệ và không gây ra lỗi bộ nhớ. Khi làm việc với struct hoặc các thành phần khác, việc khai báo và quản lý lifetimes đúng cách là rất quan trọng.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Lifetime Example - struct
 
 ```rust
@@ -112,13 +237,98 @@ fn main() {
     // arm no longer exists
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một ví dụ cụ thể về cách sử dụng lifetimes trong struct trong Rust.</p>
+<p>Nội dung chi tiết của slide:
+Khai báo enum Part:
+enum Part khai báo hai loại phần (part) khác nhau là Bolt và Panel.
+rust
+Copy code
+enum Part {
+    Bolt,
+    Panel,
+}
+Khai báo struct RobotArm:
+struct RobotArm&lt;&#39;a&gt; sử dụng lifetime &#39;a.
+part: &amp;&#39;a Part biểu diễn một tham chiếu đến Part với lifetime &#39;a.
+rust
+Copy code
+struct RobotArm&lt;&#39;a&gt; {
+    part: &amp;&#39;a Part,
+}
+Khai báo struct AssemblyLine:
+struct AssemblyLine chứa một vector các Part.
+rust
+Copy code
+struct AssemblyLine {
+    parts: Vec<Part>,
+}
+Hàm main:
+Tạo một AssemblyLine với các phần tử Bolt và Panel.
+Tạo một RobotArm với tham chiếu đến phần tử đầu tiên của AssemblyLine.
+rust
+Copy code
+fn main() {
+    let line = AssemblyLine {
+        parts: vec![Part::Bolt, Part::Panel],
+    };</p>
+<pre><code>let arm = RobotArm {
+    part: &amp;line.parts[0],
+};
+
+// arm no longer exists
+</code></pre>
+<p>}
+Tóm tắt
+Lifetime trong struct:</p>
+<p>RobotArm chứa tham chiếu đến một phần của AssemblyLine và sử dụng lifetime &#39;a để đảm bảo rằng tham chiếu này sẽ hợp lệ trong suốt thời gian tồn tại của RobotArm.
+Kết hợp giữa enum và struct:</p>
+<p>AssemblyLine chứa một danh sách các phần (parts), và RobotArm tham chiếu đến một phần cụ thể trong danh sách này.
+Chú ý về Lifetime:</p>
+<p>Khi sử dụng tham chiếu trong struct, bạn cần xác định lifetime để đảm bảo rằng tham chiếu sẽ hợp lệ trong suốt thời gian sử dụng struct đó.
+Kết luận
+Việc sử dụng lifetime trong Rust giúp đảm bảo tính an toàn của bộ nhớ bằng cách kiểm tra và quản lý thời gian sống của tham chiếu. Trong ví dụ này, lifetime &#39;a giúp đảm bảo rằng tham chiếu đến các phần tử trong AssemblyLine trong RobotArm luôn hợp lệ trong suốt thời gian RobotArm tồn tại.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Lifetime Syntax - function
 
 ```rust
 fn name<'a>(arg: &'a DataType) -> &'a DataType {}
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giới thiệu cú pháp lifetime trong các hàm của Rust.</p>
+<p>Nội dung chi tiết của slide:
+Khai báo hàm với lifetime:
+Hàm name được khai báo với lifetime &#39;a.
+Tham số arg của hàm là một tham chiếu đến DataType với lifetime &#39;a.
+Hàm trả về một tham chiếu đến DataType cũng với lifetime &#39;a.
+rust
+Copy code
+fn name&lt;&#39;a&gt;(arg: &amp;&#39;a DataType) -&gt; &amp;&#39;a DataType {}
+Giải thích
+Lifetime &#39;a trong khai báo hàm:</p>
+<p>&#39;a là một lifetime parameter, được sử dụng để chỉ định rằng cả tham số arg và giá trị trả về của hàm name sẽ sống (có hiệu lực) trong cùng một khoảng thời gian.
+Tham số arg:</p>
+<p>arg: &amp;&#39;a DataType có nghĩa là arg là một tham chiếu đến DataType với lifetime &#39;a.
+Giá trị trả về:</p>
+<p>-&gt; &amp;&#39;a DataType có nghĩa là hàm này trả về một tham chiếu đến DataType với lifetime &#39;a.
+Tóm tắt
+Lifetime trong hàm:</p>
+<p>Lifetime parameters như &#39;a được sử dụng để liên kết thời gian sống của các tham chiếu trong hàm.
+Lifetime giúp Rust đảm bảo rằng các tham chiếu sẽ không trở nên không hợp lệ, giúp tránh các lỗi về bộ nhớ như truy cập vào vùng nhớ đã bị giải phóng.
+Sử dụng thực tế:</p>
+<p>Khi bạn cần viết một hàm mà tham số và giá trị trả về đều là tham chiếu và bạn muốn đảm bảo rằng giá trị trả về sẽ không sống lâu hơn tham số được truyền vào, bạn sử dụng lifetime parameters.
+Ví dụ:</p>
+<p>rust
+Copy code
+fn longest&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39;a str {
+    if x.len() &gt; y.len() {
+        x
+    } else {
+        y
+    }
+}
+Trong ví dụ này, hàm longest trả về một tham chiếu đến chuỗi dài hơn trong hai chuỗi đầu vào. Lifetime &#39;a đảm bảo rằng giá trị trả về sẽ không sống lâu hơn bất kỳ tham chiếu nào trong các tham số đầu vào.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Solidifying understanding
 
 - Lifetime annotations indicate that there exists some owned data that:
@@ -128,7 +338,27 @@ fn name<'a>(arg: &'a DataType) -> &'a DataType {}
 - Structures utilizing borrowed data must:
   - Always be created after the owner was created
   - Always be destroyed before the owner is destroyed
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giúp củng cố hiểu biết về khái niệm lifetimes trong Rust.</p>
+<p>Nội dung chính của slide:
+Lifetime annotations:</p>
+<p>Các chú thích về lifetime cho biết rằng có tồn tại dữ liệu sở hữu (owned data) nào đó mà:
+&quot;Lives at least as long&quot;: Sống ít nhất là cùng thời gian với dữ liệu được mượn.
+&quot;Outlives or outlasts&quot;: Tồn tại hoặc kéo dài hơn phạm vi của mượn.
+&quot;Exists longer than&quot;: Tồn tại lâu hơn phạm vi của mượn.
+Structures utilizing borrowed data:</p>
+<p>Các cấu trúc sử dụng dữ liệu được mượn phải:
+Always be created after the owner was created: Luôn được tạo ra sau khi chủ sở hữu được tạo.
+Always be destroyed before the owner is destroyed: Luôn bị hủy trước khi chủ sở hữu bị hủy.
+Giải thích chi tiết
+Lifetime annotations:</p>
+<p>Lifetime annotations (chú thích về lifetime) giúp Rust biết cách quản lý bộ nhớ an toàn.
+Khi bạn mượn dữ liệu (borrowing), bạn phải đảm bảo rằng dữ liệu sở hữu tồn tại đủ lâu để các tham chiếu tới nó không trở nên không hợp lệ.
+Lifetime annotations chỉ định thời gian sống của các tham chiếu để tránh các lỗi về bộ nhớ.
+Structures utilizing borrowed data:</p>
+<p>Khi một cấu trúc dữ liệu (struct) chứa tham chiếu (reference) tới dữ liệu được mượn, cấu trúc đó phải được tạo sau khi dữ liệu sở hữu được tạo và phải bị hủy trước khi dữ liệu sở hữu bị hủy.
+Điều này đảm bảo rằng mọi tham chiếu bên trong cấu trúc đều hợp lệ trong suốt vòng đời của cấu trúc đó.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Recap
 
 - Lifetimes allow:
@@ -138,7 +368,53 @@ fn name<'a>(arg: &'a DataType) -> &'a DataType {}
 - Lifetimes are usually elided, but can be specified manually
 - Lifetimes will be checked by the compiler
 
-</script></section>
+<aside class="notes"><p>Slide này tổng kết những điểm chính về lifetimes trong Rust.</p>
+<p>Nội dung chính của slide:
+Lifetimes allow:</p>
+<p>Borrowed data in a structure: Lifetimes cho phép sử dụng dữ liệu mượn trong một cấu trúc (struct).
+Returning references from functions: Lifetimes cho phép trả về các tham chiếu từ các hàm.
+Lifetimes are the mechanism that tracks how long a piece of data resides in memory:</p>
+<p>Lifetimes là cơ chế để theo dõi thời gian một mảnh dữ liệu tồn tại trong bộ nhớ.
+Lifetimes are usually elided, but can be specified manually:</p>
+<p>Lifetimes thường được bỏ qua (elided), nhưng có thể được chỉ định thủ công nếu cần.
+Lifetimes will be checked by the compiler:</p>
+<p>Lifetimes sẽ được kiểm tra bởi trình biên dịch để đảm bảo an toàn bộ nhớ.
+Giải thích chi tiết
+Lifetimes allow:</p>
+<p>Borrowed data in a structure:
+Khi một struct chứa tham chiếu (reference) tới dữ liệu được mượn, chúng ta cần sử dụng lifetimes để chỉ định thời gian sống của tham chiếu đó.
+Ví dụ:
+rust
+Copy code
+struct Book&lt;&#39;a&gt; {
+    title: &amp;&#39;a str,
+}
+Returning references from functions:
+Khi một hàm trả về một tham chiếu, chúng ta cần sử dụng lifetimes để chỉ định thời gian sống của tham chiếu trả về.
+Ví dụ:
+rust
+Copy code
+fn get_title&lt;&#39;a&gt;(book: &amp;&#39;a Book) -&gt; &amp;&#39;a str {
+    book.title
+}
+Lifetimes are the mechanism that tracks how long a piece of data resides in memory:</p>
+<p>Lifetimes giúp Rust biết được dữ liệu sẽ tồn tại trong bộ nhớ bao lâu để tránh các lỗi truy cập vào bộ nhớ không hợp lệ.
+Lifetimes are usually elided, but can be specified manually:</p>
+<p>Trong nhiều trường hợp, Rust có thể suy luận và bỏ qua (elide) các lifetimes, nhưng chúng ta cũng có thể chỉ định thủ công khi cần thiết.
+Ví dụ, lifetimes thường được bỏ qua trong các hàm đơn giản như:
+rust
+Copy code
+fn first_word(s: &amp;str) -&gt; &amp;str {
+    // ...
+}
+Lifetimes will be checked by the compiler:</p>
+<p>Trình biên dịch Rust sẽ kiểm tra lifetimes để đảm bảo rằng không có lỗi truy cập vào bộ nhớ không hợp lệ. Điều này giúp đảm bảo an toàn bộ nhớ trong chương trình Rust.
+Tóm tắt
+Lifetimes cho phép sử dụng dữ liệu mượn trong cấu trúc và trả về các tham chiếu từ các hàm.
+Lifetimes là cơ chế để theo dõi thời gian sống của dữ liệu trong bộ nhớ.
+Lifetimes thường được bỏ qua nhưng có thể được chỉ định thủ công.
+Trình biên dịch Rust sẽ kiểm tra lifetimes để đảm bảo an toàn bộ nhớ.</p>
+</aside></script></section>
     </article>
   </main>
 

@@ -36,7 +36,19 @@
   - Data deleted only when last owner is dropped
 - Atomic reference counted – “Arc”
   - Safe to use with multiple threads
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Nội dung chính của slide:
+Allow multiple owners of data:</p>
+<p>Smart pointers cho phép nhiều owner cùng sở hữu dữ liệu.
+Reference counted – “Rc”:</p>
+<p>Data deleted only when last owner is dropped:
+&quot;Rc&quot; là viết tắt của Reference Counted, nghĩa là số lượng tham chiếu đến dữ liệu sẽ được đếm.
+Dữ liệu sẽ chỉ bị xóa khi owner cuối cùng bị loại bỏ.
+Atomic reference counted – “Arc”:</p>
+<p>Safe to use with multiple threads:
+&quot;Arc&quot; là viết tắt của Atomic Reference Counted, nghĩa là số lượng tham chiếu được đếm theo cách an toàn với nhiều luồng (thread).
+Arc an toàn để sử dụng với nhiều luồng vì nó đảm bảo tính nhất quán dữ liệu trong môi trường đa luồng.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ```rust
 use std::rc::Rc;
 
@@ -66,9 +78,65 @@ drop(car);
 
 println!("vehicle = {:?}", left_door.vehicle);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Import và định nghĩa các cấu trúc dữ liệu:</p>
+<p>rust
+Copy code
+use std::rc::Rc;</p>
+<p>#[derive(Debug)]
+struct Vehicle {
+    vin: String,
+}</p>
+<p>#[derive(Debug)]
+struct Door {
+    vehicle: Rc<Vehicle>,
+}
+use std::rc::Rc: Import Rc từ thư viện chuẩn của Rust.
+Định nghĩa cấu trúc Vehicle với một trường vin kiểu String.
+Định nghĩa cấu trúc Door với một trường vehicle kiểu Rc<Vehicle>.
+Tạo một instance của Vehicle được bọc trong một Rc:</p>
+<p>rust
+Copy code
+let car = Rc::new(Vehicle {
+    vin: &quot;123&quot;.to_owned(),
+});
+Tạo một instance của Vehicle với vin là &quot;123&quot; và bọc nó trong một Rc.
+Tạo các instance của Door và clone Rc của Vehicle:</p>
+<p>rust
+Copy code
+let left_door = Door {
+    vehicle: Rc::clone(&amp;car),
+};</p>
+<p>let right_door = Door {
+    vehicle: Rc::clone(&amp;car),
+};
+Tạo left_door và right_door với vehicle là bản clone của Rc<Vehicle>.
+Rc::clone(&amp;car) tạo một bản sao của Rc mà không sao chép dữ liệu bên trong Vehicle. Điều này chỉ tăng reference count.
+Drop instance car:</p>
+<p>rust
+Copy code
+drop(car);
+drop(car) giảm reference count của Rc<Vehicle>. Dữ liệu bên trong Vehicle sẽ không bị giải phóng vì vẫn còn các owner khác (left_door.vehicle và right_door.vehicle).
+In ra vehicle từ left_door:</p>
+<p>rust
+Copy code
+println!(&quot;vehicle = {:?}&quot;, left_door.vehicle);
+Sử dụng println! để in ra vehicle từ left_door. Vì Vehicle vẫn còn owner (reference count &gt; 0), dữ liệu bên trong nó vẫn tồn tại và sẽ được in ra.
+Kết quả
+Chạy đoạn mã này sẽ in ra:</p>
+<p>css
+Copy code
+vehicle = Vehicle { vin: &quot;123&quot; }
+Tóm tắt
+Rc (Reference Counted) cho phép nhiều owner sở hữu cùng một dữ liệu.
+Reference count được tăng lên mỗi khi clone Rc.
+Dữ liệu bên trong Rc chỉ bị giải phóng khi reference count giảm về 0.
+drop(car) giảm reference count, nhưng dữ liệu vẫn tồn tại vì left_door và right_door vẫn giữ reference.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Declarative Macros
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Macros Khai báo</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Writing Declarative Macros
 
 - Consist of two parts: Matchers and Transcribers
@@ -80,7 +148,20 @@ println!("vehicle = {:?}", left_door.vehicle);
 - Transcribers read the input captured by the matchers and then emit Rust code
   - Code transcribed completely replaces the macro invocation
 - Macros must appear before usage in code
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Macros khai báo trong Rust bao gồm hai phần chính: Matchers và Transcribers.</p>
+<p>Matchers
+Matchers định nghĩa các mẫu đầu vào để khớp.
+Các mẫu đầu vào này khác với các mẫu được sử dụng trong match và if let.
+Có một tập luật hoàn toàn khác.
+Có thể định nghĩa nhiều matcher cho một macro.
+Các matcher được kiểm tra từ trên xuống dưới.
+Transcribers
+Transcribers đọc đầu vào được các matcher khớp và sau đó phát ra mã Rust.
+Mã được chuyển hoàn toàn thay thế lời gọi macro.
+Lưu ý quan trọng
+Macros phải xuất hiện trước khi sử dụng trong mã.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Matchers
 
 - Matchers consist of four components:
@@ -91,7 +172,21 @@ println!("vehicle = {:?}", left_door.vehicle);
     - Dollar ($) is used by metavariables and cannot be used for glyphs
 - Whitespace is ignored
   - Can be used for clarity in macro and by invoker
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Matchers trong Rust macros bao gồm bốn thành phần chính:</p>
+<p>Metavariables</p>
+<p>Là các biến đại diện cho một giá trị đầu vào trong macro.
+Được đánh dấu bằng dấu $ (ví dụ: $var).
+Fragment Specifiers</p>
+<p>Chỉ định loại đoạn mã mà metavariable sẽ đại diện.
+Ví dụ: expr cho biểu thức, ty cho loại, ident cho định danh.
+Repetitions</p>
+<p>Sử dụng để lặp lại một mẫu nhiều lần.
+Sẽ được đề cập chi tiết sau.
+Glyphs</p>
+<p>Là bất kỳ ký tự nào không thuộc các loại trên.
+Dấu $ được sử dụng bởi metavariables và không thể được sử dụng cho glyphs.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Metavariables
 
 - Contain Rust code supplied by macro invoker
@@ -104,7 +199,18 @@ println!("vehicle = {:?}", left_door.vehicle);
   $my_metavar
   $varname
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Metavariables:
+Chứa mã Rust được cung cấp bởi người gọi macro</p>
+<p>Các metavariables sẽ được thay thế bằng đoạn mã mà người gọi cung cấp khi gọi macro.
+Sử dụng bởi transcriber để thực hiện các thay thế</p>
+<p>Metavariable sẽ được thay thế bằng mã được cung cấp bởi người gọi.
+Metavariables bắt đầu bằng ký hiệu đô la ($)</p>
+<p>Ví dụ về Metavariables:
+$fn: Metavariable đại diện cho một hàm hoặc tên hàm.
+$my_metavar: Metavariable với tên tùy chỉnh.
+$varname: Metavariable đại diện cho một tên biến.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifiers
 
 - Fragment specifiers determine what kind of data is allowed in a metavariable
@@ -122,7 +228,23 @@ println!("vehicle = {:?}", left_door.vehicle);
   - lifetime
   - vis
   - literal
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Fragment Specifiers trong Rust Macros
+Fragment Specifiers:
+Fragment specifiers xác định loại dữ liệu nào được phép trong một metavariable.</p>
+<p>Các specifiers có sẵn là:</p>
+<p>item
+block
+stmt
+pat_param / pat
+expr
+ty
+ident
+path
+tt
+meta
+lifetime</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Creating a Macro
 
     macro_rules! your_macro_name {
@@ -136,7 +258,51 @@ println!("vehicle = {:?}", left_door.vehicle);
     }    ^     ^
          |     | 
     Matcher    Transcriber
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Cấu trúc của một Macro
+Macros trong Rust được định nghĩa với cú pháp sau đây:</p>
+<p>rust
+Copy code
+macro_rules! your_macro_name {
+    ($metavariable_name:fragment_specifier) =&gt; {
+        // Có thể sử dụng $metavariable_name
+    };
+    ($a:ident, $b:literal, $c:tt) =&gt; {
+        // Có thể sử dụng $a $b $c
+    };
+    () =&gt; {};
+}
+Thành phần của Macro
+Matcher:</p>
+<p>Đây là phần đầu của macro, xác định các mẫu (patterns) mà macro sẽ khớp.
+Matcher chứa các metavariables (ví dụ: $metavariable_name, $a, $b, $c) và các fragment specifiers.
+Transcriber:</p>
+<p>Đây là phần sau của macro, chứa mã sẽ được tạo ra khi macro được gọi.
+Transcriber sử dụng các metavariables từ phần matcher để tạo mã.
+Ví dụ
+Dưới đây là một ví dụ về cách tạo macro:</p>
+<p>rust
+Copy code
+macro_rules! my_macro {
+    ($name:ident) =&gt; {
+        println!(&quot;Hello, {}!&quot;, stringify!($name));
+    };
+    ($a:expr, $b:expr) =&gt; {
+        println!(&quot;Sum: {}&quot;, $a + $b);
+    };
+}</p>
+<p>fn main() {
+    my_macro!(world); // Hello, world!
+    my_macro!(5, 10); // Sum: 15
+}
+Trong ví dụ này:</p>
+<p>Matcher đầu tiên khớp với một identifier ($name:ident) và in ra &quot;Hello, [name]!&quot;.
+Matcher thứ hai khớp với hai biểu thức ($a:expr, $b:expr) và in ra tổng của chúng.
+Giải thích
+Metavariables: Chứa mã Rust do invoker macro cung cấp. Chúng bắt đầu bằng dấu $.
+Fragment Specifiers: Xác định loại dữ liệu nào được phép trong một metavariable (ví dụ: ident, literal, tt, expr).
+Hy vọng điều này giúp bạn hiểu rõ hơn về cách tạo và sử dụng macros trong Rust!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Glyphs
 
 ```rust
@@ -146,7 +312,28 @@ macro_rules! demo {
 
 demo!(_ wow! _ any|thing?yes.#meta(^.^));
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, Glyphs là những ký hiệu đặc biệt được sử dụng trong các macro để khớp và thao tác với các mẫu mã nguồn. Glyphs không bao gồm ký hiệu $, vì ký hiệu này được sử dụng bởi các metavariables.</p>
+<p>Dưới đây là một ví dụ về việc sử dụng glyphs trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    (_ wow! _ any | thing? yes.#meta (^.^)) =&gt; {
+        // Transcriber
+    };
+}</p>
+<p>fn main() {
+    demo!(_ wow! _ any | thing? yes.#meta (^.^));
+}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher (_ wow! _ any | thing? yes.#meta (^.^)) khớp với một mẫu cụ thể bao gồm các glyph _, !, |, ?, #, (, ), và các từ wow, any, thing, yes, meta, và chuỗi (^.^).
+Invocation:</p>
+<p>Trong main, demo!(_ wow! _ any | thing? yes.#meta (^.^)); gọi macro demo với các tham số khớp với matcher đã định nghĩa.
+Các glyphs cho phép macro trong Rust khớp và thao tác với các mẫu mã nguồn phức tạp, giúp việc viết macro trở nên linh hoạt và mạnh mẽ hơn.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: item
 
 ```rust
@@ -166,7 +353,44 @@ demo! {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, item là một trong các fragment specifiers cho phép macro xử lý toàn bộ một mục (item). Một item có thể là một hàm, một struct, một enum, một module, một hằng số, v.v.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier item trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($i:item) =&gt; { $i };
+}</p>
+<p>demo!(const a: char = &#39;g&#39;);
+demo! { fn hello() {} }
+demo! { mod demo {} }
+struct MyNum(i32);
+demo! {
+    impl MyNum {
+        pub fn demo(&amp;self) {
+            println!(&quot;my num is {}&quot;, self.0);
+        }
+    }
+}</p>
+<p>fn main() {
+    let num = MyNum(10);
+    num.demo();
+}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($i:item) khớp với một item và gán nó vào metavariable $i.
+Transcriber { $i } thay thế macro invocation bằng nội dung của $i.
+Macro Invocations:</p>
+<p>demo!(const a: char = &#39;g&#39;); tạo ra một hằng số a.
+demo! { fn hello() {} } tạo ra một hàm hello.
+demo! { mod demo {} } tạo ra một module demo.
+demo! { impl MyNum { ... } } tạo ra một implementation cho struct MyNum.
+Output:</p>
+<p>Khi chạy hàm main, struct MyNum được tạo ra và hàm demo được gọi, in ra my num is 10.
+Sử dụng fragment specifier item trong macro giúp việc xử lý và tạo ra các thành phần phức tạp của mã nguồn trở nên dễ dàng hơn, cho phép viết các macro linh hoạt và mạnh mẽ.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: block
 
 ```rust
@@ -180,7 +404,37 @@ let num = demo!(
     }
 );
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, block là một fragment specifier được sử dụng trong macro để khớp với một khối mã (block of code). Một khối mã thường được bao quanh bởi dấu ngoặc nhọn {} và chứa nhiều biểu thức hoặc câu lệnh.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier block trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($b:block) =&gt; { $b };
+}</p>
+<p>fn main() {
+    let num = demo!({
+        if 1 == 1 { 
+            1 
+        } else { 
+            2 
+        }
+    });</p>
+<pre><code>println!(&quot;The number is: {}&quot;, num);
+</code></pre>
+<p>}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($b:block) khớp với một khối mã và gán nó vào metavariable $b.
+Transcriber { $b } thay thế macro invocation bằng nội dung của $b.
+Macro Invocation:</p>
+<p>let num = demo!({ ... }); truyền một khối mã vào macro demo. Khối mã này chứa một biểu thức điều kiện if else trả về 1 nếu điều kiện đúng và 2 nếu điều kiện sai.
+Output:</p>
+<p>Khi chạy hàm main, giá trị của num sẽ là 1 vì điều kiện 1 == 1 là đúng. Kết quả được in ra là: The number is: 1.
+Sử dụng fragment specifier block trong macro cho phép bạn xử lý các khối mã lớn và phức tạp một cách linh hoạt và mạnh mẽ.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: stmt
 
 ```rust
@@ -192,7 +446,37 @@ demo!( let a = 5 );
 let mut myvec = vec![];
 demo!( myvec.push(a) );
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, stmt là một fragment specifier được sử dụng trong macro để khớp với một câu lệnh (statement). Một câu lệnh có thể là khai báo biến, gọi hàm, hay bất kỳ câu lệnh nào khác trong Rust.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier stmt trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($s:stmt) =&gt; { $s };
+}</p>
+<p>fn main() {
+    demo!( let a = 5 );
+    let mut myvec = vec![];
+    demo!( myvec.push(a) );</p>
+<pre><code>println!(&quot;{:?}&quot;, myvec); // Output sẽ là [5]
+</code></pre>
+<p>}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($s:stmt) khớp với một câu lệnh và gán nó vào metavariable $s.
+Transcriber { $s } thay thế macro invocation bằng nội dung của $s.
+Macro Invocation:</p>
+<p>demo!( let a = 5 ); truyền một câu lệnh khai báo biến vào macro demo.
+demo!( myvec.push(a) ); truyền một câu lệnh gọi hàm vào macro demo.
+Output:</p>
+<p>Trong hàm main, biến a được khai báo và gán giá trị 5.
+Một vector myvec được khai báo và khởi tạo rỗng.
+Giá trị của a được đẩy vào vector myvec.
+Kết quả là myvec chứa giá trị [5] và được in ra.
+Sử dụng fragment specifier stmt trong macro cho phép bạn xử lý và thay thế các câu lệnh trong mã nguồn một cách linh hoạt và mạnh mẽ.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: pat / pat_param
 
 ```rust
@@ -209,7 +493,38 @@ macro_rules! demo {
 
 demo!( 2 );
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, pat và pat_param là các fragment specifier được sử dụng trong macro để khớp với một pattern (mẫu). Những pattern này thường được sử dụng trong các câu lệnh match, let, và if let.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier pat trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($p:pat) =&gt; {{
+        let num = 3;
+        match num {
+            $p =&gt; (),
+            1 =&gt; (),
+            _ =&gt; (),
+        }
+    }};
+}</p>
+<p>fn main() {
+    demo!(2); // Sử dụng macro với pattern là 2
+}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($p:pat) khớp với một pattern và gán nó vào metavariable $p.
+Transcriber {{ ... }} chứa một khối lệnh trong đó có một câu lệnh match sử dụng $p.
+Macro Invocation:</p>
+<p>demo!(2) truyền pattern 2 vào macro demo.
+Output:</p>
+<p>Trong hàm main, biến num được khai báo và gán giá trị 3.
+Câu lệnh match so sánh num với pattern được truyền vào (2), với 1, và _ (default case).
+Do num là 3, pattern _ sẽ khớp và câu lệnh match sẽ thực hiện nhánh tương ứng với _.
+Sử dụng fragment specifier pat trong macro cho phép bạn xử lý và thay thế các pattern trong mã nguồn một cách linh hoạt và mạnh mẽ.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: expr
 
 ```rust
@@ -223,7 +538,33 @@ demo!({
     panic!();
 });
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, expr là một fragment specifier được sử dụng trong macro để khớp với một biểu thức (expression). Các biểu thức có thể là các phép toán số học, các khối lệnh, vòng lặp, hoặc các macro khác.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier expr trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($e:expr) =&gt; { $e };
+}</p>
+<p>fn main() {
+    demo!( loop {} ); // Sử dụng macro với biểu thức vòng lặp
+    demo!( 2 + 2 );  // Sử dụng macro với biểu thức phép toán
+    demo!({          // Sử dụng macro với khối lệnh chứa macro khác
+        panic!();
+    });
+}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($e:expr) khớp với một biểu thức và gán nó vào metavariable $e.
+Transcriber { $e } thay thế macro invocation bằng biểu thức $e.
+Macro Invocation:</p>
+<p>demo!(loop {}) truyền một biểu thức vòng lặp loop {} vào macro demo.
+demo!(2 + 2) truyền một biểu thức phép toán 2 + 2 vào macro demo.
+demo!({ panic!(); }) truyền một khối lệnh chứa macro panic!() vào macro demo.
+Sử dụng fragment specifier expr trong macro cho phép bạn xử lý và thay thế các biểu thức trong mã nguồn một cách linh hoạt và mạnh mẽ.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: ty
 
 ```rust
@@ -239,7 +580,34 @@ macro_rules! demo {
 demo!(i32);
 demo!(usize);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, ty là một fragment specifier được sử dụng trong macro để khớp với một kiểu dữ liệu (type). Các kiểu dữ liệu có thể là các loại dữ liệu cơ bản như i32, usize, hay các kiểu dữ liệu phức tạp hơn.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier ty trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($t:ty) =&gt; {{
+        let d: $t = 4;
+        fn add(lhs: $t, rhs: $t) -&gt; $t {
+            lhs + rhs
+        }
+    }};
+}</p>
+<p>fn main() {
+    demo!(i32);
+    demo!(usize);
+}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($t:ty) khớp với một kiểu dữ liệu và gán nó vào metavariable $t.
+Transcriber { ... } thay thế macro invocation bằng một khối mã chứa kiểu dữ liệu $t.
+Macro Invocation:</p>
+<p>demo!(i32) truyền kiểu dữ liệu i32 vào macro demo.
+demo!(usize) truyền kiểu dữ liệu usize vào macro demo.
+Trong khối mã của macro, biến d được khai báo với kiểu $t, và hàm add được định nghĩa để cộng hai biến có kiểu $t. Điều này cho phép macro xử lý các kiểu dữ liệu khác nhau một cách linh hoạt.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: ident
 
 ```rust
@@ -257,7 +625,35 @@ demo!(say_hi, five);
 say_hi();
 assert_eq!(5, five);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, ident là một fragment specifier được sử dụng trong macro để khớp với một định danh (identifier). Các định danh có thể là tên của các biến, hàm, hoặc các thực thể khác.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier ident trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($i:ident, $i2:ident) =&gt; {
+        fn $i() {
+            println!(&quot;hello&quot;);
+        }
+        let $i2 = 5;
+    };
+}</p>
+<p>fn main() {
+    demo!(say_hi, five);</p>
+<pre><code>say_hi();
+assert_eq!(5, five);
+</code></pre>
+<p>}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($i:ident, $i2:ident) khớp với hai định danh và gán chúng vào các metavariable $i và $i2.
+Transcriber { ... } thay thế macro invocation bằng một khối mã chứa các định danh $i và $i2.
+Macro Invocation:</p>
+<p>demo!(say_hi, five) truyền hai định danh say_hi và five vào macro demo.
+Trong khối mã của macro, hàm say_hi được định nghĩa và in ra &quot;hello&quot; khi được gọi. Biến five được khai báo và gán giá trị 5. Sau đó, hàm say_hi được gọi và giá trị của biến five được so sánh với 5 bằng assert_eq!.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: path
 
 ```rust
@@ -269,7 +665,34 @@ macro_rules! demo {
 
 demo!(std::collections::HashMap);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, path là một fragment specifier được sử dụng trong macro để khớp với một đường dẫn (path). Đường dẫn này có thể là các tên không gian (namespace) hoặc các mô-đun (module).</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier path trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($p:path) =&gt; {
+        use $p;
+    };
+}</p>
+<p>fn main() {
+    demo!(std::collections::HashMap);</p>
+<pre><code>// Bây giờ có thể sử dụng HashMap mà không cần phải thêm std::collections::
+let mut map: HashMap&lt;i32, i32&gt; = HashMap::new();
+map.insert(1, 2);
+println!(&quot;{:?}&quot;, map);
+</code></pre>
+<p>}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($p:path) khớp với một đường dẫn và gán nó vào metavariable $p.
+Transcriber { use $p; } thay thế macro invocation bằng một khối mã use chứa đường dẫn $p.
+Macro Invocation:</p>
+<p>demo!(std::collections::HashMap) truyền đường dẫn std::collections::HashMap vào macro demo.
+Khi macro demo được gọi với đường dẫn std::collections::HashMap, nó sẽ tạo ra mã use std::collections::HashMap;, giúp sử dụng HashMap trực tiếp mà không cần phải chỉ định đầy đủ đường dẫn trong phần còn lại của mã.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: tt
 
 ```rust
@@ -285,7 +708,37 @@ demo!({
     println!("hello");
 });
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, tt (token tree) là một fragment specifier được sử dụng trong macro để khớp với một cây token. Điều này có nghĩa là nó có thể khớp với bất kỳ đoạn mã nào, bao gồm các biểu thức, khối mã, hoặc thậm chí là các câu lệnh.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier tt trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($t:tt) =&gt; {
+        $t
+    };
+}</p>
+<p>fn main() {
+    demo!(loop {
+        println!(&quot;This is a loop!&quot;);
+        break;
+    });</p>
+<pre><code>demo!({
+    println!(&quot;Hello from inside a block!&quot;);
+});
+</code></pre>
+<p>}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($t:tt) khớp với bất kỳ đoạn mã nào và gán nó vào metavariable $t.
+Transcriber { $t } thay thế macro invocation bằng đoạn mã $t.
+Macro Invocation:</p>
+<p>demo!(loop { println!(&quot;This is a loop!&quot;); break; }) truyền một vòng lặp loop vào macro demo.
+demo!({ println!(&quot;Hello from inside a block!&quot;); }) truyền một khối mã vào macro demo.
+Khi macro demo được gọi với bất kỳ đoạn mã nào, nó sẽ thay thế đoạn mã đó vào nơi macro được gọi.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: meta
 
 ```rust
@@ -298,7 +751,33 @@ macro_rules! demo {
 
 demo!(Debug);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, meta là một fragment specifier được sử dụng trong macro để khớp với các meta items (các thành phần siêu dữ liệu) trong cú pháp thuộc tính (attribute syntax). Điều này có nghĩa là nó có thể khớp với các thuộc tính như #[derive(Debug)], #[test], v.v.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier meta trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($m:meta) =&gt; {
+        #[derive($m)]
+        struct MyNum(i32);
+    };
+}</p>
+<p>fn main() {
+    demo!(Debug);</p>
+<pre><code>let num = MyNum(42);
+println!(&quot;{:?}&quot;, num);
+</code></pre>
+<p>}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($m:meta) khớp với một meta item và gán nó vào metavariable $m.
+Transcriber #[derive($m)] struct MyNum(i32); thay thế macro invocation bằng đoạn mã này, chèn metavariable $m vào vị trí thuộc tính derive.
+Macro Invocation:</p>
+<p>demo!(Debug) truyền meta item Debug vào macro demo.
+Khi macro demo được gọi với meta item Debug, nó sẽ tạo ra một struct MyNum với derive attribute Debug.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: lifetime
 
 ```rust
@@ -310,7 +789,29 @@ macro_rules! demo {
 
 demo!('static);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, lifetime là một fragment specifier được sử dụng trong macro để khớp với một lifetime specifier. Điều này có nghĩa là nó có thể khớp với các lifetime như &#39;a, &#39;static, v.v.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier lifetime trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($l:lifetime) =&gt; {
+        let a: &amp;$l str = &quot;sample&quot;;
+    };
+}</p>
+<p>fn main() {
+    demo!(&#39;static);
+}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($l:lifetime) khớp với một lifetime specifier và gán nó vào metavariable $l.
+Transcriber let a: &amp;$l str = &quot;sample&quot;; thay thế macro invocation bằng đoạn mã này, chèn metavariable $l vào vị trí lifetime.
+Macro Invocation:</p>
+<p>demo!(&#39;static) truyền lifetime specifier &#39;static vào macro demo.
+Khi macro demo được gọi với lifetime specifier &#39;static, nó sẽ tạo ra biến a có kiểu &amp;&#39;static str.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: vis
 
 ```rust
@@ -322,7 +823,29 @@ macro_rules! demo {
 
 demo!(pub);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, vis là một fragment specifier được sử dụng trong macro để khớp với một visibility specifier. Điều này có nghĩa là nó có thể khớp với các từ khóa như pub, crate, hoặc để trống nếu không có visibility specifier.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier vis trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($v:vis) =&gt; {
+        $v fn sample() {}
+    };
+}</p>
+<p>fn main() {
+    demo!(pub);
+}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($v:vis) khớp với một visibility specifier và gán nó vào metavariable $v.
+Transcriber $v fn sample() {} thay thế macro invocation bằng đoạn mã này, chèn metavariable $v vào vị trí visibility.
+Macro Invocation:</p>
+<p>demo!(pub); truyền visibility specifier pub vào macro demo.
+Khi macro demo được gọi với visibility specifier pub, nó sẽ tạo ra một hàm sample với visibility pub.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Fragment Specifier: literal
 
 ```rust
@@ -333,7 +856,34 @@ macro_rules! demo {
 let five = demo!(5);
 let hi = demo!("hello");
 ``` 
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, literal là một fragment specifier được sử dụng trong macro để khớp với các giá trị literal như số, chuỗi ký tự, hoặc ký tự đơn.</p>
+<p>Dưới đây là một ví dụ sử dụng fragment specifier literal trong macro:</p>
+<p>rust
+Copy code
+macro_rules! demo {
+    ($l:literal) =&gt; {
+        $l
+    };
+}</p>
+<p>fn main() {
+    let five = demo!(5);
+    let hi = demo!(&quot;hello&quot;);</p>
+<pre><code>println!(&quot;five = {}&quot;, five);
+println!(&quot;hi = {}&quot;, hi);
+</code></pre>
+<p>}
+Giải thích
+Macro Definition:</p>
+<p>macro_rules! demo định nghĩa một macro tên là demo.
+Matcher ($l:literal) khớp với một giá trị literal và gán nó vào metavariable $l.
+Transcriber $l thay thế macro invocation bằng giá trị của metavariable $l.
+Macro Invocation:</p>
+<p>demo!(5); truyền giá trị literal 5 vào macro demo.
+demo!(&quot;hello&quot;); truyền giá trị literal &quot;hello&quot; vào macro demo.
+Khi macro demo được gọi với giá trị literal, nó sẽ trả về chính giá trị đó.</p>
+<p>Nếu bạn có thêm câu hỏi nào khác hoặc cần giải thích chi tiết hơn, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Allowed Syntax
 
 - Some specifiers have restrictions on what can follow
@@ -344,7 +894,21 @@ let hi = demo!("hello");
   - Compiler error will indicate what is allowed
 
 https://doc.rust-lang.org/reference/macros-by-example.html
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Một số specifier trong Rust có các hạn chế về những gì có thể theo sau chúng để tránh sự mơ hồ giữa cú pháp tùy chỉnh và cú pháp của Rust.</p>
+<p>Các specifier có hạn chế:
+expr (expression)
+stmt (statement)
+pat (pattern)
+path (path)
+ty (type)
+vis (visibility)
+Nếu có lỗi về những gì được phép theo sau một specifier, Rust compiler sẽ báo lỗi chỉ ra rõ ràng.</p>
+<p>Tham khảo thêm:
+Bạn có thể xem thêm chi tiết về macros trong Rust tại tài liệu chính thức:
+<a href="https://doc.rust-lang.org/reference/macros-by-example.html">https://doc.rust-lang.org/reference/macros-by-example.html</a></p>
+<p>Nếu bạn cần thêm thông tin hoặc có câu hỏi cụ thể nào khác, hãy cho tôi biết!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Imports
 
 - When using external crates in a macro, use the full path prefixed with two colons (::)
@@ -354,7 +918,17 @@ https://doc.rust-lang.org/reference/macros-by-example.html
   - $crate::module1::func();
 
 - This helps resolve import issues since macros can be invoked from any location
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Khi sử dụng các crates bên ngoài trong một macro, hãy sử dụng đường dẫn đầy đủ kèm theo hai dấu hai chấm (::).</p>
+<p>Sử dụng crates bên ngoài:</p>
+<p>rust
+Copy code
+use ::std::collections::HashMap;
+Sử dụng các modules từ crate hiện tại:
+rust
+$crate::module1::func();
+Điều này giúp giải quyết các vấn đề về import vì các macros có thể được gọi từ bất kỳ vị trí nào.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Declarative Macros
 
 - A form of metaprogramming (code that writes code)
@@ -365,7 +939,19 @@ https://doc.rust-lang.org/reference/macros-by-example.html
     - All names / bindings / variables must be provided by the caller
 - Uses macro-specific pattern matching to emit code
 - Invoked using an exclamation point: macro_name!()
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Định nghĩa:
+Một hình thức lập trình metaprogramming (mã viết mã).</p>
+<p>Hygienic:</p>
+<p>Không thể tạo ra mã không hợp lệ.
+Dữ liệu không thể &quot;rò rỉ&quot; vào hoặc ra khỏi một macro.
+Các macro không thể nắm bắt thông tin như closures.
+Tất cả các tên / ràng buộc / biến phải được cung cấp bởi người gọi.
+Cơ chế hoạt động:
+Sử dụng pattern matching đặc biệt cho macro để tạo mã.</p>
+<p>Gọi macro:
+Sử dụng dấu chấm than: macro_name!()</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Invoking a Macro
 
 ```rust
@@ -373,7 +959,13 @@ your_macro_name!();
 your_macro_name![];
 your_macro_name!{}
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong Rust, bạn có thể gọi macro bằng cách sử dụng một trong ba cú pháp sau:</p>
+<p>your_macro_name!();
+your_macro_name![];
+your_macro_name!{}
+Ba cú pháp này đều cho phép bạn gọi cùng một macro nhưng với các dấu phân cách khác nhau.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Valid Positions
 
 - Macros can only be used in specific parts of Rust code:
@@ -383,7 +975,15 @@ your_macro_name!{}
   - Items & Associated Items
   - macro_rules transcribers
   - External blocks
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Macros trong Rust có thể được sử dụng trong các phần cụ thể của mã như sau:</p>
+<p>Expressions &amp; Statements (Biểu thức &amp; Câu lệnh)
+Patterns (Mẫu)
+Types (Kiểu)
+Items &amp; Associated Items (Mục &amp; Mục liên kết)
+macro_rules transcribers (Người phiên mã macro_rules)
+External blocks (Khối bên ngoài)</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Expression & Statement Position
 
 ```rust
@@ -398,7 +998,21 @@ match vec![1, 2, 3].as_slice() {
 println!("Hello!");
 dbg!(9_i64.pow(2));
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Expressions
+rust
+Copy code
+let nums = vec![1, 2, 3];</p>
+<p>match vec![1, 2, 3].as_slice() {
+    _ =&gt; format!(&quot;hello&quot;),
+}
+Statements
+rust
+Copy code
+println!(&quot;Hello!&quot;);
+dbg!(9_i64.pow(2));
+Macros trong Rust có thể được sử dụng ở vị trí của các biểu thức và câu lệnh như ví dụ trên. Các macro như vec! và format! được sử dụng trong biểu thức và câu lệnh như println! và dbg! cho phép in ra các giá trị và gỡ lỗi trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Pattern Position
 
 ```rust
@@ -416,7 +1030,9 @@ match Some(1) {
     _ => (),
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Macros có thể được sử dụng trong các mẫu (pattern) như trong các ví dụ trên. Macro pat! được định nghĩa để tạo ra mẫu Some($i), và có thể được sử dụng trong các biểu thức if let và match.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Type Position
 
 ```rust
@@ -429,7 +1045,9 @@ type N2 = Tuple!(i32, i32);
 
 let nums: Tuple!(i32, char) = (1, 'a');
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Macros cũng có thể được sử dụng trong các định nghĩa kiểu (type) như trong ví dụ trên. Macro Tuple! được định nghĩa để tạo ra kiểu tuple (A, B) và có thể được sử dụng trong các định nghĩa kiểu và khai báo biến.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Item Position
 
 ```rust
@@ -448,7 +1066,9 @@ assert_eq!(NAME, "Jayson");
 newtype!(DemoStruct, usize);
 let demo = DemoStruct(5);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Macros trong Rust có thể được sử dụng để định nghĩa các items như constants và structs. Macro constant! trong ví dụ trên định nghĩa một hằng số, trong khi macro newtype! tạo một kiểu struct mới.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Associated Item Position
 
 ```rust
@@ -467,7 +1087,9 @@ impl Demo {
     msg!("demo struct");
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong ví dụ này, macro msg! định nghĩa một phương thức msg hiển thị một thông điệp đã cho. Phương thức này sau đó được thêm vào impl của Demo, làm cho nó trở thành một associated item của Demo.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## macro_rules Transcribers
 
 ```rust
@@ -480,9 +1102,9 @@ macro_rules! demo {
 
 demo!();
 ```
-</script></section><section  data-markdown><script type="text/template">
 
-</script></section>
+<aside class="notes"><p>Trong ví dụ này, macro demo! không nhận tham số và sẽ in ra chuỗi &quot;demo!&quot;. Transcriber của macro là phần bên phải của =&gt; trong định nghĩa macro, nơi mà mã Rust thực sự được sinh ra.</p>
+</aside></script></section>
     </article>
   </main>
 

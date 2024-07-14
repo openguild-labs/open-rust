@@ -35,7 +35,17 @@
 - Used to standardize functionality across multiple different types
   - Standardization permits functions to operate on multiple different types
     - Code deduplication
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Định nghĩa của Traits:</p>
+<p>Traits là một cách để chỉ định rằng một số chức năng (functionality) tồn tại.
+Đây là cách để xác định các hành vi mà một loại dữ liệu cụ thể có thể thực hiện.
+Mục đích sử dụng Traits:</p>
+<p>Traits được sử dụng để chuẩn hóa chức năng trên nhiều loại dữ liệu khác nhau.
+Việc chuẩn hóa này cho phép các hàm có thể hoạt động trên nhiều loại dữ liệu khác nhau.
+Lợi ích của việc sử dụng Traits:</p>
+<p>Chuẩn hóa: Khi chuẩn hóa chức năng qua các loại khác nhau, các hàm có thể được viết chung và sử dụng lại cho nhiều loại khác nhau.
+Loại bỏ mã lặp: Giảm thiểu việc viết lại mã cho các loại dữ liệu khác nhau nếu chúng có cùng hành vi hoặc chức năng.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -67,7 +77,90 @@ impl Noise for Dog {
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giới thiệu một ví dụ về cách sử dụng Traits trong Rust để định nghĩa hành vi chung cho nhiều loại dữ liệu khác nhau.</p>
+<p>Nội dung chính:
+Định nghĩa Traits:</p>
+<p>Định nghĩa một trait Noise với một phương thức make_noise.
+Hàm sử dụng Traits:</p>
+<p>Định nghĩa một hàm hello nhận vào một tham số có kiểu là impl Noise, tức là bất kỳ đối tượng nào triển khai trait Noise.
+Triển khai Traits cho các loại dữ liệu cụ thể:</p>
+<p>Person và Dog là hai struct khác nhau.
+Cả hai struct này đều triển khai trait Noise, nghĩa là chúng đều có phương thức make_noise với hành vi cụ thể.
+Sử dụng Traits trong hàm main:</p>
+<p>Gọi hàm hello với các đối tượng Person và Dog.
+Mã nguồn:
+rust
+Copy code
+trait Noise {
+    fn make_noise(&amp;self);
+}</p>
+<p>fn hello(noisy: impl Noise) {
+    noisy.make_noise();
+}</p>
+<p>fn main() {
+    hello(Person {});
+    hello(Dog {});
+}</p>
+<p>struct Person;
+impl Noise for Person {
+    fn make_noise(&amp;self) {
+        println!(&quot;hello&quot;);
+    }
+}</p>
+<p>struct Dog;
+impl Noise for Dog {
+    fn make_noise(&amp;self) {
+        println!(&quot;woof&quot;);
+    }
+}
+Giải thích chi tiết:
+Định nghĩa trait Noise:</p>
+<p>Trait Noise được định nghĩa với một phương thức make_noise. Bất kỳ loại dữ liệu nào triển khai trait này đều phải có phương thức make_noise.
+rust
+Copy code
+trait Noise {
+    fn make_noise(&amp;self);
+}
+Định nghĩa hàm hello:</p>
+<p>Hàm hello nhận vào một tham số noisy có kiểu là impl Noise, nghĩa là nó có thể nhận bất kỳ đối tượng nào triển khai trait Noise.
+Hàm này gọi phương thức make_noise trên đối tượng noisy.
+rust
+Copy code
+fn hello(noisy: impl Noise) {
+    noisy.make_noise();
+}
+Triển khai trait Noise cho Person và Dog:</p>
+<p>Struct Person và Dog đều triển khai trait Noise, mỗi struct có một hành vi riêng cho phương thức make_noise.
+Person in ra &quot;hello&quot; khi make_noise được gọi.
+Dog in ra &quot;woof&quot; khi make_noise được gọi.
+rust
+Copy code
+struct Person;
+impl Noise for Person {
+    fn make_noise(&amp;self) {
+        println!(&quot;hello&quot;);
+    }
+}</p>
+<p>struct Dog;
+impl Noise for Dog {
+    fn make_noise(&amp;self) {
+        println!(&quot;woof&quot;);
+    }
+}
+Sử dụng hàm hello trong main:</p>
+<p>Hàm main gọi hàm hello với các đối tượng Person và Dog.
+Khi gọi hello(Person {}), nó sẽ in ra &quot;hello&quot;.
+Khi gọi hello(Dog {}), nó sẽ in ra &quot;woof&quot;.
+rust
+Copy code
+fn main() {
+    hello(Person {});
+    hello(Dog {});
+}
+Tóm tắt:
+Ví dụ này minh họa cách sử dụng Traits để định nghĩa hành vi chung (make_noise) mà có thể được triển khai khác nhau cho các loại dữ liệu khác nhau (Person và Dog). Hàm hello có thể hoạt động với bất kỳ đối tượng nào triển khai trait Noise, làm cho mã nguồn linh hoạt và dễ mở rộng hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -77,7 +170,32 @@ trait Racer {
     fn checkpoint(&self, position: i32);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giới thiệu về việc định nghĩa một trait trong Rust. Trait là một cách để định nghĩa hành vi chung mà nhiều loại dữ liệu khác nhau có thể thực hiện.</p>
+<p>Nội dung chính:
+Định nghĩa trait Racer:
+Trait Racer được định nghĩa với ba phương thức:
+go(&amp;self): không có tham số và không trả về giá trị.
+is_ready(&amp;self) -&gt; bool: không có tham số và trả về một giá trị kiểu bool.
+checkpoint(&amp;self, position: i32): nhận vào một tham số kiểu i32.
+Mã nguồn:
+rust
+Copy code
+trait Racer {
+    fn go(&amp;self);
+    fn is_ready(&amp;self) -&gt; bool;
+    fn checkpoint(&amp;self, position: i32);
+}
+Giải thích chi tiết:
+Định nghĩa trait Racer:
+trait Racer: Định nghĩa một trait mới có tên là Racer.
+Các phương thức trong trait này:
+fn go(&amp;self): Phương thức go không nhận tham số nào ngoài self và không trả về giá trị. self đại diện cho instance của kiểu dữ liệu triển khai trait này.
+fn is_ready(&amp;self) -&gt; bool: Phương thức is_ready không nhận tham số nào ngoài self và trả về một giá trị kiểu bool. Phương thức này có thể được sử dụng để kiểm tra xem đối tượng có sẵn sàng hay không.
+fn checkpoint(&amp;self, position: i32): Phương thức checkpoint nhận một tham số position kiểu i32 ngoài self và không trả về giá trị. Phương thức này có thể được sử dụng để xử lý logic liên quan đến checkpoint với vị trí cụ thể.
+Tóm tắt:
+Slide này minh họa cách định nghĩa một trait trong Rust. Trait Racer được định nghĩa với ba phương thức go, is_ready, và checkpoint, mà không có bất kỳ triển khai cụ thể nào. Các loại dữ liệu khác nhau có thể triển khai trait này để định nghĩa hành vi cụ thể cho từng phương thức. Trait giúp tiêu chuẩn hóa hành vi cho các loại dữ liệu khác nhau, đồng thời cho phép tính đa hình trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## What Are Generic Functions?
 
 - A way to write a function that can have a single parameter with multiple data types
@@ -86,7 +204,27 @@ type
   - Function depends on existence of functions declared by trait
 - Less code to write
   - Automatically works when new data types are introduced
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích slide &quot;What Are Generic Functions?&quot;
+Slide này giải thích về khái niệm hàm tổng quát (generic functions) trong lập trình, cụ thể là trong ngôn ngữ Rust.</p>
+<p>Nội dung chính:
+Định nghĩa hàm tổng quát:</p>
+<p>Một cách để viết hàm có thể nhận tham số với nhiều kiểu dữ liệu khác nhau.
+Trait được sử dụng như tham số hàm thay vì kiểu dữ liệu cụ thể.
+Lợi ích của hàm tổng quát:</p>
+<p>Giảm lượng mã cần viết.
+Tự động hoạt động khi các kiểu dữ liệu mới được giới thiệu.
+Giải thích chi tiết:
+Định nghĩa hàm tổng quát:</p>
+<p>Hàm tổng quát cho phép bạn viết một hàm duy nhất mà có thể làm việc với nhiều kiểu dữ liệu khác nhau. Điều này được thực hiện bằng cách sử dụng các trait.
+Thay vì xác định một kiểu dữ liệu cụ thể làm tham số cho hàm, bạn sử dụng một trait. Điều này có nghĩa là hàm sẽ làm việc với bất kỳ kiểu dữ liệu nào triển khai trait đó.
+Trait làm tham số hàm:</p>
+<p>Trait xác định một tập hợp các phương thức mà kiểu dữ liệu cần triển khai. Khi sử dụng trait làm tham số cho hàm, hàm sẽ hoạt động với bất kỳ kiểu dữ liệu nào triển khai các phương thức được định nghĩa trong trait đó.
+Ví dụ: Nếu bạn có một trait Noise với một phương thức make_noise, bạn có thể viết một hàm nhận tham số là bất kỳ đối tượng nào triển khai trait Noise.
+Lợi ích của việc sử dụng hàm tổng quát:</p>
+<p>Giảm lượng mã cần viết: Bạn không cần phải viết nhiều phiên bản của cùng một hàm cho các kiểu dữ liệu khác nhau. Thay vào đó, bạn chỉ cần viết một hàm tổng quát.
+Tự động hoạt động với kiểu dữ liệu mới: Khi bạn giới thiệu một kiểu dữ liệu mới triển khai trait, hàm tổng quát sẽ tự động làm việc với kiểu dữ liệu đó mà không cần thay đổi mã nguồn của hàm.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Quick Review: Traits
 
 ```rust
@@ -108,7 +246,53 @@ impl Move for Grasshopper {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một ví dụ ngắn về cách sử dụng Traits trong ngôn ngữ lập trình Rust. Dưới đây là giải thích chi tiết:</p>
+<p>Nội dung chính:
+Định nghĩa Trait Move:</p>
+<p>Trait Move định nghĩa một phương thức move_to nhận hai tham số x và y kiểu i32.
+Struct Snake và triển khai Trait Move cho Snake:</p>
+<p>Định nghĩa một struct rỗng Snake.
+Triển khai trait Move cho struct Snake với phương thức move_to in ra thông điệp &quot;slither to (x, y)&quot;.
+Struct Grasshopper và triển khai Trait Move cho Grasshopper:</p>
+<p>Định nghĩa một struct rỗng Grasshopper.
+Triển khai trait Move cho struct Grasshopper với phương thức move_to in ra thông điệp &quot;hop to (x, y)&quot;.
+Giải thích chi tiết:
+Định nghĩa Trait:</p>
+<p>Trait là một cách để định nghĩa một tập hợp các phương thức mà một kiểu dữ liệu cần triển khai. Trong ví dụ này, trait Move định nghĩa phương thức move_to với hai tham số x và y kiểu i32.
+rust
+Copy code
+trait Move {
+    fn move_to(&amp;self, x: i32, y: i32);
+}
+Triển khai Trait cho Snake:</p>
+<p>Định nghĩa một struct rỗng Snake.
+Triển khai trait Move cho struct Snake. Trong phương thức move_to, sử dụng macro println! để in thông điệp &quot;slither to (x, y)&quot;.
+rust
+Copy code
+struct Snake;
+impl Move for Snake {
+    fn move_to(&amp;self, x: i32, y: i32) {
+        println!(&quot;slither to ({},{})&quot;, x, y);
+    }
+}
+Triển khai Trait cho Grasshopper:</p>
+<p>Định nghĩa một struct rỗng Grasshopper.
+Triển khai trait Move cho struct Grasshopper. Trong phương thức move_to, sử dụng macro println! để in thông điệp &quot;hop to (x, y)&quot;.
+rust
+Copy code
+struct Grasshopper;
+impl Move for Grasshopper {
+    fn move_to(&amp;self, x: i32, y: i32) {
+        println!(&quot;hop to ({},{})&quot;, x, y);
+    }
+}
+Tổng kết:
+Traits: Cung cấp một cách để định nghĩa và triển khai các hành vi mà nhiều kiểu dữ liệu khác nhau có thể chia sẻ.
+Structs và Traits: Struct Snake và Grasshopper triển khai cùng một trait Move, nhưng có cách triển khai phương thức move_to khác nhau.
+Tính linh hoạt và tái sử dụng mã nguồn: Trait giúp chuẩn hóa các phương thức cho nhiều kiểu dữ liệu khác nhau, giúp mã nguồn dễ bảo trì và mở rộng.
+Thông qua slide này, bạn có thể hiểu cách sử dụng Traits để định nghĩa các hành vi chung cho các kiểu dữ liệu khác nhau trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Quick Review: Traits
 
 ```rust
@@ -127,7 +311,57 @@ make_move(python, 1, 1);
 // slither to (1,1)
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một ví dụ về cách sử dụng Traits trong Rust. Dưới đây là giải thích chi tiết:</p>
+<p>Nội dung chính:
+Định nghĩa Trait Move:</p>
+<p>Trait Move định nghĩa một phương thức move_to nhận hai tham số x và y kiểu i32.
+Hàm make_move:</p>
+<p>Hàm make_move nhận một tham số thing có kiểu impl Move (bất kỳ đối tượng nào triển khai trait Move).
+Hàm này gọi phương thức move_to trên đối tượng thing.
+Sử dụng Struct Snake và gọi hàm make_move:</p>
+<p>Định nghĩa một struct Snake.
+Khởi tạo một đối tượng Snake tên là python.
+Gọi hàm make_move với đối tượng python và các tham số 1, 1.
+Giải thích chi tiết:
+Định nghĩa Trait Move:</p>
+<p>Trait là một cách để định nghĩa một tập hợp các phương thức mà một kiểu dữ liệu cần triển khai. Trong ví dụ này, trait Move định nghĩa phương thức move_to với hai tham số x và y kiểu i32.
+rust
+Copy code
+trait Move {
+    fn move_to(&amp;self, x: i32, y: i32);
+}
+Hàm make_move:</p>
+<p>Hàm make_move nhận một tham số thing có kiểu impl Move, có nghĩa là thing có thể là bất kỳ đối tượng nào triển khai trait Move.
+Hàm này gọi phương thức move_to trên đối tượng thing.
+rust
+Copy code
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Sử dụng Struct Snake và gọi hàm make_move:</p>
+<p>Định nghĩa một struct rỗng Snake.
+Triển khai trait Move cho struct Snake. Trong phương thức move_to, sử dụng macro println! để in thông điệp &quot;slither to (x, y)&quot;.
+Khởi tạo một đối tượng Snake tên là python.
+Gọi hàm make_move với đối tượng python và các tham số 1, 1.
+rust
+Copy code
+struct Snake;
+impl Move for Snake {
+    fn move_to(&amp;self, x: i32, y: i32) {
+        println!(&quot;slither to ({},{})&quot;, x, y);
+    }
+}</p>
+<p>fn main() {
+    let python = Snake {};
+    make_move(python, 1, 1);
+}
+Tổng kết:
+Traits: Cung cấp một cách để định nghĩa và triển khai các hành vi mà nhiều kiểu dữ liệu khác nhau có thể chia sẻ.
+Hàm generics: Hàm make_move có thể hoạt động với bất kỳ đối tượng nào triển khai trait Move.
+Tính linh hoạt và tái sử dụng mã nguồn: Trait giúp chuẩn hóa các phương thức cho nhiều kiểu dữ liệu khác nhau, giúp mã nguồn dễ bảo trì và mở rộng.
+Thông qua slide này, bạn có thể hiểu cách sử dụng Traits và hàm generics để tạo ra mã nguồn linh hoạt và dễ tái sử dụng trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Syntax
 
 ```rust
@@ -135,7 +369,27 @@ fn function<T: Trait1, U: Trait2>(param1: T, param2: U) {
     /* body */
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Nội dung chính:
+Định nghĩa hàm generic:</p>
+<p>Sử dụng cú pháp &lt;T: Trait1, U: Trait2&gt; để định nghĩa các tham số kiểu generic.
+T và U là các tham số kiểu.
+Trait1 và Trait2 là các trait mà các kiểu T và U phải triển khai.
+Cú pháp hàm generic:</p>
+<p>fn function&lt;T: Trait1, U: Trait2&gt;(param1: T, param2: U):
+fn function: Định nghĩa một hàm tên là function.
+&lt;T: Trait1, U: Trait2&gt;: Định nghĩa các tham số kiểu T và U với ràng buộc là Trait1 và Trait2.
+(param1: T, param2: U): Định nghĩa các tham số của hàm, param1 có kiểu T và param2 có kiểu U.
+/* body */: Thân hàm, nơi chứa logic của hàm.
+Giải thích chi tiết:
+Định nghĩa hàm generic:</p>
+<p>Để định nghĩa một hàm generic trong Rust, chúng ta sử dụng cú pháp &lt;T, U&gt;, trong đó T và U là các tham số kiểu.
+Các tham số kiểu này có thể có ràng buộc với các trait để đảm bảo rằng kiểu đó triển khai các phương thức hoặc hành vi cụ thể.
+Cú pháp chi tiết:</p>
+<p>fn function&lt;T: Trait1, U: Trait2&gt;:
+&lt;T: Trait1, U: Trait2&gt;: Định nghĩa các tham số kiểu T và U, và yêu cầu chúng phải triển khai Trait1 và Trait2 tương ứng.
+(param1: T, param2: U): Định nghĩa các tham số của hàm, param1 có kiểu T và param2 có kiểu.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Syntax
 
 ```rust
@@ -151,7 +405,65 @@ fn function<T, U>(param1: T, param2: U)
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích slide &quot;Generic Syntax&quot;
+Slide này trình bày cú pháp để định nghĩa hàm generic trong Rust với các ví dụ cụ thể.</p>
+<p>Nội dung chính:
+Định nghĩa hàm generic với ràng buộc trait:</p>
+<p>Cú pháp fn function&lt;T: Trait1, U: Trait2&gt;(param1: T, param2: U) { /* body */ } định nghĩa một hàm generic với ràng buộc trait đơn giản.
+T và U là các tham số kiểu, và Trait1 và Trait2 là các trait mà các kiểu này phải triển khai.
+Định nghĩa hàm generic với nhiều ràng buộc trait:</p>
+<p>Cú pháp fn function&lt;T, U&gt;(param1: T, param2: U) where T: Trait1 + Trait2, U: Trait1 + Trait2 + Trait3 { /* body */ } định nghĩa một hàm generic với nhiều ràng buộc trait.
+where được sử dụng để liệt kê các trait mà các kiểu T và U phải triển khai.
+Giải thích chi tiết:
+Định nghĩa hàm generic với ràng buộc trait đơn giản:</p>
+<p>rust
+Copy code
+fn function&lt;T: Trait1, U: Trait2&gt;(param1: T, param2: U) {
+    /* body <em>/
+}
+fn function: Định nghĩa một hàm tên là function.
+&lt;T: Trait1, U: Trait2&gt;: Định nghĩa các tham số kiểu T và U với ràng buộc trait Trait1 và Trait2.
+(param1: T, param2: U): Định nghĩa các tham số của hàm, param1 có kiểu T và param2 có kiểu U.
+/</em> body */: Thân hàm chứa logic của hàm.
+Định nghĩa hàm generic với nhiều ràng buộc trait:</p>
+<p>rust
+Copy code
+fn function&lt;T, U&gt;(param1: T, param2: U)
+where
+    T: Trait1 + Trait2,
+    U: Trait1 + Trait2 + Trait3,
+{
+    /* body <em>/
+}
+fn function: Định nghĩa một hàm tên là function.
+&lt;T, U&gt;: Định nghĩa các tham số kiểu T và U.
+where T: Trait1 + Trait2, U: Trait1 + Trait2 + Trait3: Sử dụng where để liệt kê các ràng buộc trait cho T và U.
+(param1: T, param2: U): Định nghĩa các tham số của hàm, param1 có kiểu T và param2 có kiểu U.
+/</em> body */: Thân hàm chứa logic của hàm.
+Ví dụ cụ thể:
+Giả sử chúng ta có các trait và hàm sau:</p>
+<p>rust
+Copy code
+trait Display {
+    fn fmt(&amp;self);
+}</p>
+<p>trait Debug {
+    fn dbg(&amp;self);
+}</p>
+<p>fn print_info&lt;T: Display + Debug&gt;(item: T) {
+    item.fmt();
+    item.dbg();
+}
+Trong ví dụ này:</p>
+<p>print_info là một hàm generic nhận tham số item có kiểu T.
+Kiểu T phải triển khai cả hai trait Display và Debug.
+Tổng kết:
+Hàm generic: Cho phép định nghĩa hàm làm việc với nhiều kiểu dữ liệu khác nhau.
+Ràng buộc trait: Đảm bảo rằng các kiểu dữ liệu truyền vào hàm triển khai các trait cụ thể, giúp hàm sử dụng các phương thức hoặc hành vi của các trait đó.
+Cú pháp where: Cho phép liệt kê nhiều ràng buộc trait một cách rõ ràng và dễ đọc.
+Thông qua slide này, bạn có thể hiểu cách định nghĩa và sử dụng hàm generic trong Rust với các ràng buộc trait để tạo ra mã nguồn linh hoạt và mạnh mẽ.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Example
 
 ```rust
@@ -164,7 +476,63 @@ fn make_move<T: Move>(thing: T, x: i32, y: i32) {
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích slide &quot;Generic Example&quot;
+Slide này trình bày ví dụ về cách sử dụng generic và trait trong Rust để định nghĩa một hàm có thể hoạt động với nhiều kiểu dữ liệu khác nhau, miễn là các kiểu đó triển khai trait cụ thể.</p>
+<p>Nội dung chính:
+Định nghĩa hàm với impl Trait:</p>
+<p>rust
+Copy code
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+fn make_move: Định nghĩa hàm make_move.
+thing: impl Move: Tham số thing phải triển khai trait Move.
+x: i32, y: i32: Các tham số vị trí.
+thing.move_to(x, y): Gọi phương thức move_to của trait Move.
+Định nghĩa hàm generic với ràng buộc trait:</p>
+<p>rust
+Copy code
+fn make_move&lt;T: Move&gt;(thing: T, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+fn make_move&lt;T: Move&gt;: Định nghĩa hàm make_move với tham số kiểu T có ràng buộc Move.
+thing: T: Tham số thing có kiểu T.
+x: i32, y: i32: Các tham số vị trí.
+thing.move_to(x, y): Gọi phương thức move_to của trait Move.
+Giải thích chi tiết:
+Hàm với impl Trait:</p>
+<p>impl Trait được sử dụng để chỉ ra rằng thing phải triển khai trait Move.
+Cú pháp này thường được dùng khi chúng ta không quan tâm đến kiểu cụ thể của thing, miễn là nó triển khai trait Move.
+rust
+Copy code
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Ví dụ, nếu Snake và Grasshopper đều triển khai trait Move, bạn có thể gọi hàm này với cả hai kiểu:</p>
+<p>rust
+Copy code
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 2, 2);
+Hàm generic với ràng buộc trait:</p>
+<p>Đây là cú pháp sử dụng tham số kiểu T với ràng buộc trait Move.
+T: Move chỉ ra rằng T phải triển khai trait Move.
+rust
+Copy code
+fn make_move&lt;T: Move&gt;(thing: T, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Ví dụ, bạn có thể gọi hàm này với bất kỳ kiểu nào triển khai trait Move:</p>
+<p>rust
+Copy code
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 2, 2);
+Tóm tắt:
+Cú pháp impl Trait: Sử dụng khi muốn chỉ ra rằng tham số phải triển khai một trait cụ thể mà không quan tâm đến kiểu cụ thể của nó.
+Cú pháp T: Trait: Sử dụng tham số kiểu với ràng buộc trait để tạo ra hàm generic, cho phép hàm làm việc với nhiều kiểu khác nhau triển khai trait đó.
+Cả hai cú pháp đều giúp bạn viết mã linh hoạt và tái sử dụng, đặc biệt hữu ích khi làm việc với các kiểu dữ liệu khác nhau nhưng có chung một số hành vi (được định nghĩa bởi trait).
+Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về cách sử dụng generic và trait trong Rust để viết mã nguồn hiệu quả và linh hoạt.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Example
 
 ```rust
@@ -180,7 +548,69 @@ where
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này tiếp tục trình bày ví dụ về cách sử dụng generic và trait trong Rust để định nghĩa hàm có thể hoạt động với nhiều kiểu dữ liệu khác nhau, miễn là các kiểu đó triển khai một trait cụ thể.</p>
+<p>Nội dung chính:
+Định nghĩa hàm với impl Trait:</p>
+<p>rust
+Copy code
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+fn make_move: Định nghĩa hàm make_move.
+thing: impl Move: Tham số thing phải triển khai trait Move.
+x: i32, y: i32: Các tham số vị trí.
+thing.move_to(x, y): Gọi phương thức move_to của trait Move.
+Định nghĩa hàm generic với ràng buộc trait:</p>
+<p>rust
+Copy code
+fn make_move<T>(thing: T, x: i32, y: i32)
+where
+    T: Move,
+{
+    thing.move_to(x, y);
+}
+fn make_move<T>: Định nghĩa hàm make_move với tham số kiểu T.
+thing: T: Tham số thing có kiểu T.
+x: i32, y: i32: Các tham số vị trí.
+where T: Move: Ràng buộc trait, chỉ ra rằng T phải triển khai trait Move.
+thing.move_to(x, y): Gọi phương thức move_to của trait Move.
+Giải thích chi tiết:
+Hàm với impl Trait:</p>
+<p>impl Trait được sử dụng để chỉ ra rằng thing phải triển khai trait Move.
+Cú pháp này thường được dùng khi chúng ta không quan tâm đến kiểu cụ thể của thing, miễn là nó triển khai trait Move.
+rust
+Copy code
+fn make_move(thing: impl Move, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Ví dụ, nếu Snake và Grasshopper đều triển khai trait Move, bạn có thể gọi hàm này với cả hai kiểu:</p>
+<p>rust
+Copy code
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 2, 2);
+Hàm generic với ràng buộc trait:</p>
+<p>Đây là cú pháp sử dụng tham số kiểu T với ràng buộc trait Move.
+where T: Move chỉ ra rằng T phải triển khai trait Move.
+rust
+Copy code
+fn make_move<T>(thing: T, x: i32, y: i32)
+where
+    T: Move,
+{
+    thing.move_to(x, y);
+}
+Ví dụ, bạn có thể gọi hàm này với bất kỳ kiểu nào triển khai trait Move:</p>
+<p>rust
+Copy code
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 2, 2);
+Tóm tắt:
+Cú pháp impl Trait: Sử dụng khi muốn chỉ ra rằng tham số phải triển khai một trait cụ thể mà không quan tâm đến kiểu cụ thể của nó.
+Cú pháp where T: Trait: Sử dụng tham số kiểu với ràng buộc trait để tạo ra hàm generic, cho phép hàm làm việc với nhiều kiểu khác nhau triển khai trait đó.
+Cả hai cú pháp đều giúp bạn viết mã linh hoạt và tái sử dụng, đặc biệt hữu ích khi làm việc với các kiểu dữ liệu khác nhau nhưng có chung một số hành vi (được định nghĩa bởi trait).
+Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về cách sử dụng generic và trait trong Rust để viết mã nguồn hiệu quả và linh hoạt.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Which syntax to choose?
 
 ```rust
@@ -194,7 +624,58 @@ impl Move for Grasshopper {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này so sánh giữa hai cú pháp sử dụng trait trong Rust: cú pháp với impl Trait và cú pháp với generic.</p>
+<p>Nội dung chính:
+Hàm với impl Trait:</p>
+<p>rust
+Copy code
+fn function(param1: impl Trait1, param2: impl Trait2) {
+    /* body */
+}
+Định nghĩa một hàm function có hai tham số param1 và param2.
+param1 và param2 phải triển khai trait Trait1 và Trait2 tương ứng.
+Cú pháp này đơn giản và trực quan, thích hợp khi bạn không cần phải xác định kiểu cụ thể mà chỉ cần biết rằng các tham số triển khai các trait nhất định.
+Triển khai trait cho cấu trúc Grasshopper:</p>
+<p>rust
+Copy code
+impl Move for Grasshopper {
+    fn move_to(&amp;self, x: i32, y: i32) {
+        println!(&quot;hop to ({},{})&quot;, x, y);
+    }
+}
+impl Move for Grasshopper: Triển khai trait Move cho cấu trúc Grasshopper.
+Định nghĩa phương thức move_to cho Grasshopper, in ra tọa độ x, y.
+Giải thích chi tiết:
+Hàm với impl Trait:</p>
+<p>Cú pháp này cho phép bạn viết các hàm mà tham số của nó phải triển khai một trait cụ thể, mà không cần quan tâm đến kiểu dữ liệu cụ thể.
+Ví dụ, nếu Trait1 là trait Display và Trait2 là trait Debug, bạn có thể viết một hàm chấp nhận hai tham số mà triển khai các trait này:
+rust
+Copy code
+fn show_info(item1: impl Display, item2: impl Debug) {
+    println!(&quot;Display: {}&quot;, item1);
+    println!(&quot;Debug: {:?}&quot;, item2);
+}
+Triển khai trait cho Grasshopper:</p>
+<p>Trong ví dụ này, Grasshopper triển khai trait Move, định nghĩa phương thức move_to cụ thể cho Grasshopper.
+Bạn có thể sử dụng cấu trúc này với hàm đã định nghĩa để thấy cách hàm hoạt động với các kiểu dữ liệu khác nhau triển khai cùng một trait.
+rust
+Copy code
+impl Move for Grasshopper {
+    fn move_to(&amp;self, x: i32, y: i32) {
+        println!(&quot;hop to ({},{})&quot;, x, y);
+    }
+}
+Khi nào nên chọn cú pháp nào?
+Cú pháp impl Trait:</p>
+<p>Sử dụng khi bạn muốn đơn giản hóa định nghĩa hàm.
+Thích hợp cho các trường hợp mà bạn không cần kiểm tra nhiều điều kiện về các kiểu dữ liệu.
+Giúp mã nguồn rõ ràng và dễ hiểu hơn.
+Cú pháp generic:</p>
+<p>Sử dụng khi bạn cần độ linh hoạt cao hơn, đặc biệt khi bạn cần kết hợp nhiều trait hoặc khi bạn cần sử dụng các tính năng cao cấp hơn của hệ thống kiểu Rust.
+Cung cấp khả năng kiểm soát và mở rộng tốt hơn cho các trường hợp phức tạp.
+Tóm lại, lựa chọn giữa hai cú pháp này phụ thuộc vào mức độ phức tạp và yêu cầu cụ thể của mã nguồn mà bạn đang viết. Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về cách sử dụng các cú pháp này và khi nào nên chọn chúng.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Which syntax to choose?
 
 ```rust
@@ -206,7 +687,39 @@ fn function<T: Trait1, U: Trait2>(param1: T, param2: U) {
     /* body */
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này so sánh giữa hai cú pháp sử dụng trait trong Rust: cú pháp với impl Trait và cú pháp với generic.</p>
+<p>Nội dung chính:
+Hàm với impl Trait:</p>
+<p>rust
+Copy code
+fn function(param1: impl Trait1, param2: impl Trait2) {
+    /* body */
+}
+Định nghĩa một hàm function có hai tham số param1 và param2.
+param1 và param2 phải triển khai trait Trait1 và Trait2 tương ứng.
+Cú pháp này đơn giản và trực quan, thích hợp khi bạn không cần phải xác định kiểu cụ thể mà chỉ cần biết rằng các tham số triển khai các trait nhất định.
+Hàm với generic:</p>
+<p>rust
+Copy code
+fn function&lt;T: Trait1, U: Trait2&gt;(param1: T, param2: U) {
+    /* body */
+}
+Định nghĩa một hàm generic function có hai tham số param1 và param2.
+T và U là các kiểu dữ liệu phải triển khai các trait Trait1 và Trait2 tương ứng.
+Cú pháp này cung cấp độ linh hoạt cao hơn, cho phép bạn sử dụng các kiểu dữ liệu cụ thể triển khai các trait đã cho.
+Khi nào nên chọn cú pháp nào?
+Cú pháp impl Trait:</p>
+<p>Sử dụng khi bạn muốn đơn giản hóa định nghĩa hàm.
+Thích hợp cho các trường hợp mà bạn không cần kiểm tra nhiều điều kiện về các kiểu dữ liệu.
+Giúp mã nguồn rõ ràng và dễ hiểu hơn.
+Thích hợp cho các hàm nhỏ và đơn giản.
+Cú pháp generic:</p>
+<p>Sử dụng khi bạn cần độ linh hoạt cao hơn, đặc biệt khi bạn cần kết hợp nhiều trait hoặc khi bạn cần sử dụng các tính năng cao cấp hơn của hệ thống kiểu Rust.
+Cung cấp khả năng kiểm soát và mở rộng tốt hơn cho các trường hợp phức tạp.
+Thích hợp cho các hàm lớn và phức tạp, hoặc khi bạn cần tái sử dụng hàm với nhiều kiểu dữ liệu khác nhau.
+Tóm lại, lựa chọn giữa hai cú pháp này phụ thuộc vào mức độ phức tạp và yêu cầu cụ thể của mã nguồn mà bạn đang viết. Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về cách sử dụng các cú pháp này và khi nào nên chọn chúng.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Which syntax to choose?
 
 ```rust
@@ -226,7 +739,56 @@ where
     /* body */
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này so sánh ba cú pháp khác nhau để định nghĩa hàm trong Rust với các tham số sử dụng trait: cú pháp với impl Trait, cú pháp generic đơn giản, và cú pháp generic với where clause.</p>
+<p>Nội dung chính:
+Cú pháp với impl Trait:</p>
+<p>rust
+Copy code
+fn function(param1: impl Trait1, param2: impl Trait2) {
+    /* body */
+}
+Định nghĩa một hàm function có hai tham số param1 và param2.
+param1 và param2 phải triển khai các trait Trait1 và Trait2 tương ứng.
+Cú pháp này đơn giản và dễ hiểu, thích hợp cho các hàm ngắn và đơn giản.
+Cú pháp generic đơn giản:</p>
+<p>rust
+Copy code
+fn function&lt;T: Trait1, U: Trait2&gt;(param1: T, param2: U) {
+    /* body */
+}
+Định nghĩa một hàm generic function có hai tham số param1 và param2.
+T và U là các kiểu dữ liệu phải triển khai các trait Trait1 và Trait2 tương ứng.
+Cú pháp này cung cấp độ linh hoạt cao hơn, thích hợp cho các hàm phức tạp hơn một chút.
+Cú pháp generic với where clause:</p>
+<p>rust
+Copy code
+fn function&lt;T, U&gt;(param1: T, param2: U)
+where
+    T: Trait1 + Trait2,
+    U: Trait1 + Trait2 + Trait3,
+{
+    /* body */
+}
+Định nghĩa một hàm generic function với các tham số param1 và param2.
+Sử dụng where clause để quy định rằng T phải triển khai các trait Trait1 và Trait2, còn U phải triển khai các trait Trait1, Trait2, và Trait3.
+Cú pháp này rất hữu ích khi bạn cần kết hợp nhiều trait hoặc khi các trait rất dài và phức tạp, giúp mã nguồn dễ đọc và bảo trì hơn.
+Khi nào nên chọn cú pháp nào?
+Cú pháp impl Trait:</p>
+<p>Sử dụng khi bạn muốn đơn giản hóa định nghĩa hàm.
+Thích hợp cho các trường hợp mà bạn không cần kiểm tra nhiều điều kiện về các kiểu dữ liệu.
+Giúp mã nguồn rõ ràng và dễ hiểu hơn.
+Thích hợp cho các hàm nhỏ và đơn giản.
+Cú pháp generic đơn giản:</p>
+<p>Sử dụng khi bạn cần định nghĩa các hàm generic cơ bản.
+Cung cấp độ linh hoạt cao hơn so với impl Trait, cho phép bạn sử dụng các kiểu dữ liệu cụ thể triển khai các trait đã cho.
+Thích hợp cho các hàm vừa và có độ phức tạp trung bình.
+Cú pháp generic với where clause:</p>
+<p>Sử dụng khi bạn cần kết hợp nhiều trait hoặc khi các trait rất dài và phức tạp.
+Giúp mã nguồn dễ đọc và bảo trì hơn.
+Thích hợp cho các hàm lớn và phức tạp, hoặc khi bạn cần tái sử dụng hàm với nhiều kiểu dữ liệu khác nhau.
+Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về cách sử dụng các cú pháp này và khi nào nên chọn chúng.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Details - Monomorphization
 
 ```rust
@@ -243,7 +805,62 @@ make_move(Snake {}, 1, 1);
 make_move(Grasshopper {}, 3, 3);
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về quá trình monomorphization trong Rust, một quá trình quan trọng liên quan đến generics.</p>
+<p>Nội dung chính:
+Trait Move:</p>
+<p>rust
+Copy code
+trait Move {
+    fn move_to(&amp;self, x: i32, y: i32);
+}
+Định nghĩa một trait Move với một hàm move_to.
+Hàm move_to nhận tham số self, x, và y.
+Hàm generic make_move:</p>
+<p>rust
+Copy code
+fn make_move&lt;T: Move&gt;(thing: T, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Định nghĩa một hàm generic make_move với tham số thing kiểu T.
+Kiểu T phải triển khai trait Move.
+Hàm này gọi phương thức move_to của thing với các tham số x và y.
+Gọi hàm make_move:</p>
+<p>rust
+Copy code
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 3, 3);
+Gọi hàm make_move với hai kiểu dữ liệu khác nhau: Snake và Grasshopper.
+Các kiểu dữ liệu này phải triển khai trait Move.
+Monomorphization là gì?
+Monomorphization là quá trình mà compiler Rust sẽ tạo ra các phiên bản cụ thể của hàm generic cho mỗi kiểu dữ liệu mà hàm đó được gọi.
+Trong ví dụ trên, Rust compiler sẽ tạo ra hai phiên bản của hàm make_move:
+Một phiên bản cho kiểu Snake.
+Một phiên bản cho kiểu Grasshopper.
+Lợi ích của Monomorphization:
+Hiệu suất:</p>
+<p>Monomorphization cho phép Rust tạo ra mã máy cụ thể cho mỗi kiểu dữ liệu, giúp tối ưu hóa hiệu suất.
+Vì mỗi phiên bản của hàm được tối ưu hóa cho một kiểu dữ liệu cụ thể, không có overhead của các hàm generic trong thời gian chạy.
+An toàn kiểu:</p>
+<p>Quá trình này đảm bảo rằng tất cả các kiểm tra kiểu được thực hiện trong thời gian biên dịch, giúp phát hiện lỗi kiểu sớm.
+Tính đơn giản:</p>
+<p>Monomorphization giúp cho mã nguồn dễ đọc và dễ bảo trì hơn bằng cách ẩn đi sự phức tạp của các hàm generic.
+Ví dụ cụ thể:
+Với kiểu Snake:</p>
+<p>rust
+Copy code
+fn make_move(thing: Snake, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Với kiểu Grasshopper:</p>
+<p>rust
+Copy code
+fn make_move(thing: Grasshopper, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Hai hàm này sẽ được compiler Rust tạo ra từ hàm generic ban đầu.</p>
+<p>Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về quá trình monomorphization và cách nó hoạt động trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Details - Monomorphization
 
 ```rust
@@ -267,7 +884,73 @@ fn make_move(thing: Grasshopper, x: i32, y: i32) {
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về quá trình monomorphization trong Rust, một quá trình quan trọng liên quan đến generics. Dưới đây là chi tiết giải thích từng phần của slide.</p>
+<p>Nội dung chính:
+Trait Move:</p>
+<p>rust
+Copy code
+trait Move {
+    fn move_to(&amp;self, x: i32, y: i32);
+}
+Định nghĩa một trait Move với một hàm move_to.
+Hàm move_to nhận tham số self, x, và y.
+Hàm generic make_move:</p>
+<p>rust
+Copy code
+fn make_move&lt;T: Move&gt;(thing: T, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Định nghĩa một hàm generic make_move với tham số thing kiểu T.
+Kiểu T phải triển khai trait Move.
+Hàm này gọi phương thức move_to của thing với các tham số x và y.
+Gọi hàm make_move:</p>
+<p>rust
+Copy code
+make_move(Snake {}, 1, 1);
+make_move(Grasshopper {}, 3, 3);
+Gọi hàm make_move với hai kiểu dữ liệu khác nhau: Snake và Grasshopper.
+Các kiểu dữ liệu này phải triển khai trait Move.
+Quá trình Monomorphization:</p>
+<p>rust
+Copy code
+fn make_move(thing: Snake, x: i32, y: i32) {
+    thing.move_to(x, y);
+}</p>
+<p>fn make_move(thing: Grasshopper, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Trong quá trình monomorphization, compiler Rust sẽ tạo ra các phiên bản cụ thể của hàm make_move cho mỗi kiểu dữ liệu mà hàm đó được gọi.
+Điều này đảm bảo rằng mã được biên dịch hiệu quả hơn và không có overhead của các hàm generic trong thời gian chạy.
+Monomorphization là gì?
+Monomorphization là quá trình mà compiler Rust sẽ tạo ra các phiên bản cụ thể của hàm generic cho mỗi kiểu dữ liệu mà hàm đó được gọi.
+Trong ví dụ trên, Rust compiler sẽ tạo ra hai phiên bản của hàm make_move:
+Một phiên bản cho kiểu Snake.
+Một phiên bản cho kiểu Grasshopper.
+Lợi ích của Monomorphization:
+Hiệu suất:</p>
+<p>Monomorphization cho phép Rust tạo ra mã máy cụ thể cho mỗi kiểu dữ liệu, giúp tối ưu hóa hiệu suất.
+Vì mỗi phiên bản của hàm được tối ưu hóa cho một kiểu dữ liệu cụ thể, không có overhead của các hàm generic trong thời gian chạy.
+An toàn kiểu:</p>
+<p>Quá trình này đảm bảo rằng tất cả các kiểm tra kiểu được thực hiện trong thời gian biên dịch, giúp phát hiện lỗi kiểu sớm.
+Tính đơn giản:</p>
+<p>Monomorphization giúp cho mã nguồn dễ đọc và dễ bảo trì hơn bằng cách ẩn đi sự phức tạp của các hàm generic.
+Ví dụ cụ thể:
+Với kiểu Snake:</p>
+<p>rust
+Copy code
+fn make_move(thing: Snake, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Với kiểu Grasshopper:</p>
+<p>rust
+Copy code
+fn make_move(thing: Grasshopper, x: i32, y: i32) {
+    thing.move_to(x, y);
+}
+Hai hàm này sẽ được compiler Rust tạo ra từ hàm generic ban đầu.</p>
+<p>Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về quá trình monomorphization và cách nó hoạt động trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Structures
 
 - Store data of any type within a structure
@@ -276,7 +959,56 @@ fn make_move(thing: Grasshopper, x: i32, y: i32) {
 - Useful when making your own data collections
 - Reduces technical debt as program expands
   - New data types can utilize generic structures and be easily integrated into the program
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về cấu trúc generic trong Rust, một khái niệm quan trọng khi làm việc với dữ liệu đa dạng và tối ưu hóa mã. Dưới đây là chi tiết giải thích từng phần của slide.</p>
+<p>Nội dung chính:
+Store data of any type within a structure (Lưu trữ dữ liệu của bất kỳ kiểu nào trong một cấu trúc):</p>
+<p>Cấu trúc generic cho phép bạn lưu trữ dữ liệu của bất kỳ kiểu nào trong một cấu trúc dữ liệu.
+Điều này mang lại tính linh hoạt cao khi thiết kế các cấu trúc dữ liệu.
+Trait bounds restrict the type of data the structure can utilize (Giới hạn trait giới hạn kiểu dữ liệu mà cấu trúc có thể sử dụng):</p>
+<p>Bạn có thể sử dụng các trait bounds để giới hạn các kiểu dữ liệu mà cấu trúc generic có thể sử dụng.
+Điều này còn được gọi là &quot;generic constraints&quot; (ràng buộc generic).
+Ví dụ: Nếu bạn chỉ muốn các kiểu dữ liệu triển khai một trait cụ thể mới có thể được sử dụng trong cấu trúc, bạn có thể đặt trait bounds cho nó.
+Useful when making your own data collections (Hữu ích khi tạo các bộ sưu tập dữ liệu của riêng bạn):</p>
+<p>Cấu trúc generic rất hữu ích khi bạn tạo các bộ sưu tập dữ liệu của riêng mình.
+Bạn có thể tạo ra các cấu trúc dữ liệu có thể tái sử dụng và linh hoạt hơn, như Vec<T>, HashMap&lt;K, V&gt;,...
+Reduces technical debt as program expands (Giảm nợ kỹ thuật khi chương trình mở rộng):</p>
+<p>Sử dụng cấu trúc generic giúp giảm nợ kỹ thuật khi chương trình mở rộng.
+Mã của bạn sẽ dễ bảo trì và mở rộng hơn vì bạn không phải viết lại mã cho từng kiểu dữ liệu khác nhau.
+New data types can utilize generic structures and be easily integrated into the program (Các kiểu dữ liệu mới có thể sử dụng các cấu trúc generic và dễ dàng tích hợp vào chương trình):</p>
+<p>Các kiểu dữ liệu mới có thể sử dụng các cấu trúc generic và dễ dàng tích hợp vào chương trình.
+Điều này giúp cho việc mở rộng và bảo trì mã trở nên dễ dàng hơn.
+Ví dụ cụ thể:
+Định nghĩa cấu trúc generic:
+rust
+Copy code
+struct Container<T> {
+    value: T,
+}</p>
+<p>impl<T> Container<T> {
+    fn new(value: T) -&gt; Self {
+        Container { value }
+    }
+}
+Ở đây, Container là một cấu trúc generic có thể lưu trữ giá trị của bất kỳ kiểu nào (T).
+impl<T> định nghĩa các phương thức cho Container với kiểu generic T.
+Sử dụng cấu trúc generic:
+rust
+Copy code
+fn main() {
+    let integer_container = Container::new(42);
+    let string_container = Container::new(String::from(&quot;Hello&quot;));</p>
+<pre><code>println!(&quot;Integer: {}&quot;, integer_container.value);
+println!(&quot;String: {}&quot;, string_container.value);
+</code></pre>
+<p>}
+Trong hàm main, chúng ta có thể tạo các đối tượng Container lưu trữ cả số nguyên và chuỗi ký tự.
+Kết luận:
+Cấu trúc generic là một công cụ mạnh mẽ trong Rust, cho phép bạn tạo ra các cấu trúc dữ liệu linh hoạt và có thể tái sử dụng.
+Bằng cách sử dụng trait bounds, bạn có thể giới hạn các kiểu dữ liệu mà cấu trúc của bạn có thể sử dụng, giúp mã của bạn an toàn và dễ bảo trì hơn.
+Sử dụng cấu trúc generic giúp giảm nợ kỹ thuật và làm cho mã của bạn dễ mở rộng khi chương trình phát triển.
+Hy vọng rằng giải thích này giúp bạn hiểu rõ hơn về cấu trúc generic và lợi ích của nó trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Conceptual Example
 
 - Generic structure for template rendering
@@ -287,7 +1019,21 @@ fn make_move(thing: Grasshopper, x: i32, y: i32) {
     - Terminal
     - Image
     - Bytes
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Nội dung chính:
+Generic structure for template rendering (Cấu trúc generic cho việc hiển thị template):</p>
+<p>Slide này giới thiệu cách sử dụng cấu trúc generic để tạo ra một hệ thống hiển thị template linh hoạt.
+Template Source Paths (Đường dẫn nguồn template):</p>
+<p>Đây là các đường dẫn tới các file template, nơi chứa các mẫu hiển thị.
+Variable substitution data (Dữ liệu thay thế biến):</p>
+<p>Đây là dữ liệu sẽ được sử dụng để thay thế các biến trong template. Các biến này có thể là tên, giá trị, hoặc bất kỳ thông tin nào cần thiết để tạo ra nội dung cuối cùng.
+Generic render target (Mục tiêu hiển thị generic):</p>
+<p>Đây là điểm mà hệ thống sẽ hiển thị kết quả cuối cùng. Các mục tiêu này có thể là:
+File: Hiển thị kết quả vào một file.
+Terminal: Hiển thị kết quả trực tiếp lên terminal.
+Image: Hiển thị kết quả dưới dạng hình ảnh.
+Bytes: Hiển thị kết quả dưới dạng byte dữ liệu.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Syntax
 
 ```rust
@@ -305,7 +1051,72 @@ where
     field2: U,
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích cú pháp để định nghĩa cấu trúc generic trong Rust với các ràng buộc trait. Cụ thể, nó cho thấy hai cách khác nhau để viết các ràng buộc này.</p>
+<p>Cú pháp 1: Ràng buộc trait trực tiếp trong định nghĩa cấu trúc
+rust
+Copy code
+struct Name&lt;T: Trait1 + Trait2, U: Trait3&gt; {
+    field1: T,
+    field2: U,
+}
+Trong cú pháp này:</p>
+<p>T phải thực hiện Trait1 và Trait2.
+U phải thực hiện Trait3.
+field1 là kiểu T.
+field2 là kiểu U.
+Cú pháp 2: Ràng buộc trait sử dụng từ khóa where
+rust
+Copy code
+struct Name&lt;T, U&gt;
+where
+    T: Trait1 + Trait2,
+    U: Trait3,
+{
+    field1: T,
+    field2: U,
+}
+Trong cú pháp này:</p>
+<p>T và U được định nghĩa trước.
+Các ràng buộc trait cho T và U được xác định trong khối where.
+T phải thực hiện Trait1 và Trait2.
+U phải thực hiện Trait3.
+field1 là kiểu T.
+field2 là kiểu U.
+Khi nào sử dụng mỗi cú pháp
+Ràng buộc trực tiếp trong định nghĩa cấu trúc: Sử dụng khi có ít ràng buộc và cú pháp ngắn gọn giúp mã nguồn dễ đọc hơn.
+Sử dụng từ khóa where: Thích hợp khi có nhiều ràng buộc hoặc khi các ràng buộc phức tạp hơn, giúp mã nguồn dễ đọc và quản lý hơn.
+Ví dụ cụ thể
+Giả sử chúng ta có các trait như sau:</p>
+<p>rust
+Copy code
+trait Display {
+    fn display(&amp;self) -&gt; String;
+}</p>
+<p>trait Clone {
+    fn clone(&amp;self) -&gt; Self;
+}
+Sử dụng cú pháp 1:</p>
+<p>rust
+Copy code
+struct Container&lt;T: Display + Clone, U: Display&gt; {
+    item1: T,
+    item2: U,
+}
+Sử dụng cú pháp 2:</p>
+<p>rust
+Copy code
+struct Container&lt;T, U&gt;
+where
+    T: Display + Clone,
+    U: Display,
+{
+    item1: T,
+    item2: U,
+}
+Cả hai cách đều có cùng ý nghĩa: T phải thực hiện Display và Clone, trong khi U chỉ cần thực hiện Display.</p>
+<p>Hy vọng giải thích này giúp bạn hiểu rõ hơn về cú pháp định nghĩa cấu trúc generic với các ràng buộc trait trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example - Definition
 
 ```rust
@@ -317,7 +1128,61 @@ struct Ticket<T: Seat> {
     location: T,
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giới thiệu về cách định nghĩa trait và struct generic trong Rust. Cụ thể, nó định nghĩa một trait Seat và một struct Ticket sử dụng trait này.</p>
+<p>Định nghĩa trait
+rust
+Copy code
+trait Seat {
+    fn show(&amp;self);
+}
+trait là từ khóa để định nghĩa một trait.
+Seat là tên của trait.
+Bên trong trait, có một phương thức show với tham số &amp;self, nhưng không có thân hàm (body). Điều này có nghĩa là bất kỳ kiểu nào thực hiện (implement) trait này đều phải cung cấp triển khai cho phương thức show.
+Định nghĩa struct
+rust
+Copy code
+struct Ticket&lt;T: Seat&gt; {
+    location: T,
+}
+struct là từ khóa để định nghĩa một struct.
+Ticket là tên của struct.
+&lt;T: Seat&gt; chỉ ra rằng Ticket là một struct generic với kiểu T phải thực hiện trait Seat.
+location: T là một trường dữ liệu của struct Ticket có kiểu là T.
+Ví dụ cụ thể
+Giả sử bạn muốn tạo một struct Ticket mà trường location có thể là bất kỳ kiểu nào miễn là kiểu đó thực hiện trait Seat. Bạn có thể làm như sau:</p>
+<p>Định nghĩa các kiểu thực hiện trait Seat:
+rust
+Copy code
+struct VIPSeat;</p>
+<p>impl Seat for VIPSeat {
+    fn show(&amp;self) {
+        println!(&quot;VIP Seat&quot;);
+    }
+}</p>
+<p>struct RegularSeat;</p>
+<p>impl Seat for RegularSeat {
+    fn show(&amp;self) {
+        println!(&quot;Regular Seat&quot;);
+    }
+}
+Sử dụng các kiểu này với struct Ticket:
+rust
+Copy code
+fn main() {
+    let vip_ticket = Ticket { location: VIPSeat };
+    let regular_ticket = Ticket { location: RegularSeat };</p>
+<pre><code>vip_ticket.location.show(); // Output: VIP Seat
+regular_ticket.location.show(); // Output: Regular Seat
+</code></pre>
+<p>}
+Trong ví dụ trên:</p>
+<p>VIPSeat và RegularSeat đều thực hiện trait Seat.
+Các struct VIPSeat và RegularSeat cung cấp triển khai cho phương thức show.
+vip_ticket và regular_ticket là các instance của struct Ticket với trường location lần lượt là VIPSeat và RegularSeat.
+Khi gọi phương thức show trên location, nó sẽ gọi triển khai tương ứng của phương thức show cho từng loại ghế.
+Slide này minh họa cách sử dụng trait để tạo cấu trúc dữ liệu linh hoạt và tổng quát trong Rust. Bằng cách sử dụng trait và generic, bạn có thể tạo các cấu trúc dữ liệu có thể làm việc với nhiều kiểu khác nhau mà vẫn đảm bảo các kiểu đó thực hiện những hành vi nhất định.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – Types of seating
 
 ```rust
@@ -343,7 +1208,80 @@ impl Seat for AirlineSeat {
     fn show(&self) { /* ... */ }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng trait Seat với các enum khác nhau để biểu diễn các loại chỗ ngồi trong các bối cảnh khác nhau như concert và airline.</p>
+<p>Định nghĩa các enum
+ConcertSeat
+rust
+Copy code
+#[derive(Clone, Copy)]
+enum ConcertSeat {
+    FrontRow,
+    MidSection(u32),
+    Back(u32),
+}
+#[derive(Clone, Copy)] là một macro để tự động triển khai các trait Clone và Copy cho enum ConcertSeat.
+enum là từ khóa để định nghĩa một enum.
+ConcertSeat là tên của enum.
+ConcertSeat có ba biến thể:
+FrontRow không có dữ liệu kèm theo.
+MidSection(u32) có một trường dữ liệu kiểu u32.
+Back(u32) có một trường dữ liệu kiểu u32.
+AirlineSeat
+rust
+Copy code
+#[derive(Clone, Copy)]
+enum AirlineSeat {
+    BusinessClass,
+    Economy,
+    FirstClass,
+}
+#[derive(Clone, Copy)] là một macro để tự động triển khai các trait Clone và Copy cho enum AirlineSeat.
+enum là từ khóa để định nghĩa một enum.
+AirlineSeat là tên của enum.
+AirlineSeat có ba biến thể:
+BusinessClass không có dữ liệu kèm theo.
+Economy không có dữ liệu kèm theo.
+FirstClass không có dữ liệu kèm theo.
+Implement trait Seat cho các enum
+Implement Seat cho ConcertSeat
+rust
+Copy code
+impl Seat for ConcertSeat {
+    fn show(&amp;self) {
+        /* triển khai cụ thể cho phương thức show <em>/
+    }
+}
+impl Seat for ConcertSeat chỉ ra rằng ConcertSeat sẽ triển khai trait Seat.
+fn show(&amp;self) là phương thức cần được triển khai, vì nó đã được định nghĩa trong trait Seat.
+Implement Seat cho AirlineSeat
+rust
+Copy code
+impl Seat for AirlineSeat {
+    fn show(&amp;self) {
+        /</em> triển khai cụ thể cho phương thức show */
+    }
+}
+impl Seat for AirlineSeat chỉ ra rằng AirlineSeat sẽ triển khai trait Seat.
+fn show(&amp;self) là phương thức cần được triển khai, vì nó đã được định nghĩa trong trait Seat.
+Ví dụ cụ thể
+Giả sử bạn muốn tạo các instance của Ticket với ConcertSeat và AirlineSeat, và gọi phương thức show cho chúng:</p>
+<p>rust
+Copy code
+fn main() {
+    let front_row_ticket = Ticket { location: ConcertSeat::FrontRow };
+    let business_class_ticket = Ticket { location: AirlineSeat::BusinessClass };</p>
+<pre><code>front_row_ticket.location.show(); // Gọi phương thức show cho ConcertSeat::FrontRow
+business_class_ticket.location.show(); // Gọi phương thức show cho AirlineSeat::BusinessClass
+</code></pre>
+<p>}
+Trong ví dụ trên:</p>
+<p>front_row_ticket là một instance của Ticket với trường location là ConcertSeat::FrontRow.
+business_class_ticket là một instance của Ticket với trường location là AirlineSeat::BusinessClass.
+Khi gọi phương thức show trên location của front_row_ticket, nó sẽ gọi triển khai show của ConcertSeat.
+Khi gọi phương thức show trên location của business_class_ticket, nó sẽ gọi triển khai show của AirlineSeat.
+Slide này minh họa cách sử dụng enum để biểu diễn các loại chỗ ngồi khác nhau và cách sử dụng trait để định nghĩa hành vi chung cho các enum này. Bằng cách này, bạn có thể sử dụng các enum khác nhau như ConcertSeat và AirlineSeat trong cùng một cấu trúc dữ liệu Ticket và vẫn đảm bảo rằng chúng cung cấp các hành vi cần thiết đã được định nghĩa trong trait Seat.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – Usage with single type
 
 ```rust
@@ -362,7 +1300,43 @@ fn ticket_info(ticket: Ticket<AirlineSeat>) {
 let airline = Ticket { location: AirlineSeat::FirstClass };
 ticket_info(airline);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng generic struct Ticket với một loại cụ thể (AirlineSeat) và cách triển khai và sử dụng trait Seat.</p>
+<p>Định nghĩa trait Seat
+rust
+Copy code
+trait Seat {
+    fn show(&amp;self);
+}
+trait Seat định nghĩa một hành vi chung show mà các loại khác nhau (như ConcertSeat và AirlineSeat) cần triển khai.
+fn show(&amp;self) là một phương thức trong trait Seat mà các loại cần phải định nghĩa cách triển khai cụ thể.
+Định nghĩa struct Ticket
+rust
+Copy code
+struct Ticket&lt;T: Seat&gt; {
+    location: T,
+}
+struct Ticket là một cấu trúc generic nhận một tham số kiểu T.
+T: Seat có nghĩa là T phải triển khai trait Seat.
+location: T là một trường của Ticket lưu trữ giá trị kiểu T.
+Hàm ticket_info
+rust
+Copy code
+fn ticket_info(ticket: Ticket<AirlineSeat>) {
+    ticket.location.show();
+}
+fn ticket_info(ticket: Ticket<AirlineSeat>) là một hàm nhận một đối tượng Ticket với kiểu AirlineSeat.
+Trong hàm, ticket.location.show(); gọi phương thức show trên location của ticket.
+Tạo một instance của Ticket và gọi hàm ticket_info
+rust
+Copy code
+let airline = Ticket { location: AirlineSeat::FirstClass };
+ticket_info(airline);
+let airline = Ticket { location: AirlineSeat::FirstClass }; tạo một instance của Ticket với location là AirlineSeat::FirstClass.
+ticket_info(airline); gọi hàm ticket_info với airline là tham số, và từ đó gọi phương thức show của AirlineSeat::FirstClass.
+Kết luận
+Slide này minh họa cách sử dụng trait và generic struct trong Rust để tạo ra các cấu trúc linh hoạt và tái sử dụng. Bằng cách sử dụng trait Seat, chúng ta có thể định nghĩa các hành vi chung cho các loại chỗ ngồi khác nhau và triển khai các hành vi này trong các enum cụ thể như AirlineSeat. Cấu trúc generic Ticket cho phép chúng ta sử dụng cùng một cấu trúc dữ liệu cho nhiều loại chỗ ngồi khác nhau, giảm thiểu mã lặp lại và làm cho mã nguồn linh hoạt hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – Usage with generic type
 
 ```rust
@@ -384,7 +1358,47 @@ ticket_info(airline);
 ticket_info(concert);
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng generic struct Ticket với nhiều loại khác nhau (AirlineSeat và ConcertSeat) bằng cách sử dụng trait Seat.</p>
+<p>Định nghĩa trait Seat
+rust
+Copy code
+trait Seat {
+    fn show(&amp;self);
+}
+trait Seat định nghĩa một hành vi chung show mà các loại khác nhau cần triển khai.
+fn show(&amp;self) là một phương thức trong trait Seat mà các loại cần phải định nghĩa cách triển khai cụ thể.
+Định nghĩa struct Ticket
+rust
+Copy code
+struct Ticket&lt;T: Seat&gt; {
+    location: T,
+}
+struct Ticket là một cấu trúc generic nhận một tham số kiểu T.
+T: Seat có nghĩa là T phải triển khai trait Seat.
+location: T là một trường của Ticket lưu trữ giá trị kiểu T.
+Hàm ticket_info
+rust
+Copy code
+fn ticket_info&lt;T: Seat&gt;(ticket: Ticket<T>) {
+    ticket.location.show();
+}
+fn ticket_info&lt;T: Seat&gt;(ticket: Ticket<T>) là một hàm generic nhận một đối tượng Ticket với kiểu T triển khai trait Seat.
+Trong hàm, ticket.location.show(); gọi phương thức show trên location của ticket.
+Tạo các instance của Ticket và gọi hàm ticket_info
+rust
+Copy code
+let airline = Ticket { location: AirlineSeat::FirstClass };
+let concert = Ticket { location: ConcertSeat::FrontRow };
+ticket_info(airline);
+ticket_info(concert);
+let airline = Ticket { location: AirlineSeat::FirstClass }; tạo một instance của Ticket với location là AirlineSeat::FirstClass.
+let concert = Ticket { location: ConcertSeat::FrontRow }; tạo một instance khác của Ticket với location là ConcertSeat::FrontRow.
+ticket_info(airline); gọi hàm ticket_info với airline là tham số, và từ đó gọi phương thức show của AirlineSeat::FirstClass.
+ticket_info(concert); gọi hàm ticket_info với concert là tham số, và từ đó gọi phương thức show của ConcertSeat::FrontRow.
+Kết luận
+Slide này minh họa cách sử dụng trait và generic struct trong Rust để tạo ra các cấu trúc linh hoạt và tái sử dụng. Bằng cách sử dụng trait Seat, chúng ta có thể định nghĩa các hành vi chung cho các loại chỗ ngồi khác nhau và triển khai các hành vi này trong các enum cụ thể như AirlineSeat và ConcertSeat. Cấu trúc generic Ticket cho phép chúng ta sử dụng cùng một cấu trúc dữ liệu cho nhiều loại chỗ ngồi khác nhau, giảm thiểu mã lặp lại và làm cho mã nguồn linh hoạt hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Details
 
 ```rust
@@ -401,7 +1415,39 @@ let concert = Ticket { location: ConcertSeat::FrontRow };
 ticket_info(airline);
 ticket_info(concert);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này tiếp tục trình bày cách sử dụng generic struct Ticket với nhiều loại khác nhau bằng cách sử dụng trait Seat. Các chi tiết bao gồm:</p>
+<p>Định nghĩa struct Ticket
+rust
+Copy code
+struct Ticket&lt;T: Seat&gt; {
+    location: T,
+}
+struct Ticket là một cấu trúc generic nhận một tham số kiểu T.
+T: Seat có nghĩa là T phải triển khai trait Seat.
+location: T là một trường của Ticket lưu trữ giá trị kiểu T.
+Hàm ticket_info
+rust
+Copy code
+fn ticket_info&lt;T: Seat&gt;(ticket: Ticket<T>) {
+    ticket.location.show();
+}
+fn ticket_info&lt;T: Seat&gt;(ticket: Ticket<T>) là một hàm generic nhận một đối tượng Ticket với kiểu T triển khai trait Seat.
+Trong hàm, ticket.location.show(); gọi phương thức show trên location của ticket.
+Tạo các instance của Ticket và gọi hàm ticket_info
+rust
+Copy code
+let airline = Ticket { location: AirlineSeat::FirstClass };
+let concert = Ticket { location: ConcertSeat::FrontRow };
+ticket_info(airline);
+ticket_info(concert);
+let airline = Ticket { location: AirlineSeat::FirstClass }; tạo một instance của Ticket với location là AirlineSeat::FirstClass.
+let concert = Ticket { location: ConcertSeat::FrontRow }; tạo một instance khác của Ticket với location là ConcertSeat::FrontRow.
+ticket_info(airline); gọi hàm ticket_info với airline là tham số, và từ đó gọi phương thức show của AirlineSeat::FirstClass.
+ticket_info(concert); gọi hàm ticket_info với concert là tham số, và từ đó gọi phương thức show của ConcertSeat::FrontRow.
+Kết luận
+Slide này minh họa cách sử dụng trait và generic struct trong Rust để tạo ra các cấu trúc linh hoạt và tái sử dụng. Bằng cách sử dụng trait Seat, chúng ta có thể định nghĩa các hành vi chung cho các loại chỗ ngồi khác nhau và triển khai các hành vi này trong các enum cụ thể như AirlineSeat và ConcertSeat. Cấu trúc generic Ticket cho phép chúng ta sử dụng cùng một cấu trúc dữ liệu cho nhiều loại chỗ ngồi khác nhau, giảm thiểu mã lặp lại và làm cho mã nguồn linh hoạt hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Details – Behind the scenes
 
 ```rust
@@ -421,31 +1467,189 @@ fn concert_ticket_info(ticket: ConcertTicket) {
     ticket.location.show();
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cách mà mã generic có thể được mở rộng thành các cấu trúc và hàm cụ thể hơn nếu không sử dụng tính năng generic trong Rust.</p>
+<p>Định nghĩa struct cụ thể
+rust
+Copy code
+struct AirlineTicket {
+    location: AirlineSeat,
+}</p>
+<p>struct ConcertTicket {
+    location: ConcertSeat,
+}
+struct AirlineTicket định nghĩa một cấu trúc lưu trữ một AirlineSeat.
+struct ConcertTicket định nghĩa một cấu trúc lưu trữ một ConcertSeat.
+Hàm cụ thể cho từng loại vé
+rust
+Copy code
+fn airline_ticket_info(ticket: AirlineTicket) {
+    ticket.location.show();
+}</p>
+<p>fn concert_ticket_info(ticket: ConcertTicket) {
+    ticket.location.show();
+}
+fn airline_ticket_info(ticket: AirlineTicket) là một hàm nhận một AirlineTicket làm tham số và gọi phương thức show trên location của AirlineTicket.
+fn concert_ticket_info(ticket: ConcertTicket) là một hàm nhận một ConcertTicket làm tham số và gọi phương thức show trên location của ConcertTicket.
+Kết luận
+Slide này cho thấy rằng, nếu không sử dụng generic, chúng ta phải định nghĩa riêng lẻ các struct và hàm cho từng loại vé khác nhau. Điều này dẫn đến sự lặp lại mã và làm cho mã nguồn trở nên cồng kềnh và khó bảo trì hơn.</p>
+<p>So sánh với mã generic
+Mã generic giúp chúng ta tránh lặp lại bằng cách sử dụng một cấu trúc chung Ticket và một hàm chung ticket_info cho nhiều loại vé khác nhau. Điều này giúp mã nguồn gọn gàng, dễ bảo trì và mở rộng hơn.</p>
+<p>Ví dụ, mã generic tương ứng là:</p>
+<p>rust
+Copy code
+struct Ticket&lt;T: Seat&gt; {
+    location: T,
+}</p>
+<p>fn ticket_info&lt;T: Seat&gt;(ticket: Ticket<T>) {
+    ticket.location.show();
+}
+Và cách sử dụng:</p>
+<p>rust
+Copy code
+let airline = Ticket { location: AirlineSeat::FirstClass };
+let concert = Ticket { location: ConcertSeat::FrontRow };
+ticket_info(airline);
+ticket_info(concert);
+Bằng cách này, chúng ta có thể sử dụng chung một cấu trúc và một hàm cho nhiều loại vé khác nhau, giảm thiểu sự lặp lại và cải thiện tính linh hoạt của mã.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Details – Heterogeneous vector
 
-    let airline = Ticket { location: AirlineSeat::FirstClass };
-    let concert = Ticket { location: ConcertSeat::FrontRow };
-    ticket_info(airline);
-    ticket_info(concert);
+```rust
+let airline = Ticket { location: AirlineSeat::FirstClass };
+let concert = Ticket { location: ConcertSeat::FrontRow };
+ticket_info(airline);
+ticket_info(concert);
     
-    let tickets = vec![airline, concert];
+let tickets = vec![airline, concert];
     
-    error[E0308]: mismatched types
-      --> src/main.rs:89:33
-       |
-    89 |     let tickets = vec![airline, concert];
-       |                                 ^^^^^^^ expected enum `AirlineSeat`, found enum `ConcertSeat`
-       = <aside class="notes"><p>expected type <code>Ticket&lt;AirlineSeat&gt;</code>
-                  found struct <code>Ticket&lt;ConcertSeat&gt;</code></p>
-</aside></script></section><section  data-markdown><script type="text/template">
+error[E0308]: mismatched types
+  --> src/main.rs:89:33
+   |
+89 |     let tickets = vec![airline, concert];
+   |                                 ^^^^^^^ expected enum `AirlineSeat`, found enum `ConcertSeat`
+   = note: expected type `Ticket<AirlineSeat>`
+              found struct `Ticket<ConcertSeat>`
+```
+
+Notes:
+Slide này minh họa một vấn đề phổ biến khi làm việc với các vector không đồng nhất trong Rust, đặc biệt là khi sử dụng generic types.
+
+Mã ví dụ:
+rust
+Copy code
+let airline = Ticket { location: AirlineSeat::FirstClass };
+let concert = Ticket { location: ConcertSeat::FrontRow };
+ticket_info(airline);
+ticket_info(concert);
+
+let tickets = vec![airline, concert];
+let airline = Ticket { location: AirlineSeat::FirstClass }; tạo một Ticket với vị trí AirlineSeat.
+let concert = Ticket { location: ConcertSeat::FrontRow }; tạo một Ticket với vị trí ConcertSeat.
+ticket_info(airline); và ticket_info(concert); gọi hàm ticket_info để hiển thị thông tin vé.
+Vấn đề:
+rust
+Copy code
+let tickets = vec![airline, concert];
+Khi tạo một vector chứa cả airline và concert, Rust báo lỗi:
+
+plaintext
+Copy code
+error[E0308]: mismatched types
+  --> src/main.rs:89:33
+   |
+89 |     let tickets = vec![airline, concert];
+   |                                 ^^^^^^^ expected enum `AirlineSeat`, found enum `ConcertSeat`
+   = note: expected type `Ticket<AirlineSeat>`
+              found type `Ticket<ConcertSeat>`
+Lỗi: Rust không thể tạo vector chứa các phần tử với các kiểu khác nhau (Ticket<AirlineSeat> và Ticket<ConcertSeat>).
+Nguyên nhân: Vector trong Rust phải chứa các phần tử cùng kiểu.
+Cách giải quyết vấn đề
+Sử dụng enum hoặc trait objects:
+Enum:
+
+Tạo một enum bao gồm cả AirlineSeat và ConcertSeat.
+rust
+Copy code
+enum Seat {
+    Airline(AirlineSeat),
+    Concert(ConcertSeat),
+}
+
+struct Ticket {
+    location: Seat,
+}
+
+let airline = Ticket { location: Seat::Airline(AirlineSeat::FirstClass) };
+let concert = Ticket { location: Seat::Concert(ConcertSeat::FrontRow) };
+let tickets = vec![airline, concert];
+Trait Objects:
+
+Sử dụng trait objects với Box<dyn Seat> để lưu trữ các loại khác nhau trong vector.
+rust
+Copy code
+struct Ticket {
+    location: Box<dyn Seat>,
+}
+
+let airline = Ticket { location: Box::new(AirlineSeat::FirstClass) };
+let concert = Ticket { location: Box::new(ConcertSeat::FrontRow) };
+let tickets = vec![airline, concert];
+Kết luận
+Slide này minh họa rằng Rust yêu cầu các phần tử trong vector phải có cùng kiểu. Khi làm việc với các kiểu không đồng nhất, bạn có thể sử dụng enum hoặc trait objects để giải quyết vấn đề này. Điều này giúp bạn hiểu rõ hơn về cách Rust xử lý kiểu dữ liệu và cách quản lý các kiểu không đồng nhất.
+</script></section><section  data-markdown><script type="text/template">
 ## Implementing Functionality
 
 - Generic implementation
   - Implements functionality for any type that can be used with the structure
 - Concrete implementation
   - Implements functionality for only the type specified
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích hai cách tiếp cận khác nhau để triển khai chức năng trong Rust:</p>
+<p>Generic implementation:</p>
+<p>Ý nghĩa: Triển khai chức năng cho bất kỳ loại dữ liệu nào có thể được sử dụng với cấu trúc.
+Chi tiết:
+Trong Rust, generic implementation sử dụng các tham số kiểu (type parameters) và có thể được áp dụng cho nhiều loại khác nhau.
+Điều này cho phép tái sử dụng mã và giảm thiểu sự trùng lặp.
+Concrete implementation:</p>
+<p>Ý nghĩa: Triển khai chức năng chỉ cho một loại dữ liệu cụ thể.
+Chi tiết:
+Triển khai này cụ thể hóa cho một loại dữ liệu nhất định và không thể tái sử dụng cho các loại khác.
+Điều này có thể hữu ích khi bạn cần một hành vi đặc thù cho một loại dữ liệu cụ thể.
+Ví dụ minh họa
+Generic implementation
+rust
+Copy code
+struct Container<T> {
+    value: T,
+}</p>
+<p>impl<T> Container<T> {
+    fn get_value(&amp;self) -&gt; &amp;T {
+        &amp;self.value
+    }
+}
+Giải thích:
+Container<T> là một cấu trúc generic chứa một giá trị T.
+Hàm get_value được triển khai cho bất kỳ loại T nào.
+Concrete implementation
+rust
+Copy code
+struct Container<T> {
+    value: T,
+}</p>
+<p>impl Container<i32> {
+    fn get_value(&amp;self) -&gt; &amp;i32 {
+        &amp;self.value
+    }
+}
+Giải thích:
+Container<T> vẫn là một cấu trúc generic.
+Tuy nhiên, hàm get_value chỉ được triển khai cho Container<i32>, nghĩa là chỉ có thể được gọi khi T là i32.
+Kết luận
+Generic implementation cho phép triển khai chức năng cho nhiều loại khác nhau, giúp tái sử dụng mã tốt hơn.
+Concrete implementation giới hạn triển khai chức năng cho một loại cụ thể, thường được sử dụng khi cần hành vi đặc thù cho loại đó.
+Điều này giúp lập trình viên Rust linh hoạt trong việc triển khai các chức năng phù hợp với nhu cầu của từng loại dữ liệu khác nhau.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Concrete Implementation - Setup
 
 ```rust
@@ -471,7 +1675,82 @@ impl Game for VideoGame {
     // Implementation would go here
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giới thiệu về cách thiết lập một triển khai cụ thể (concrete implementation) của một trait trong Rust. Cụ thể, ví dụ này thiết lập trait Game và triển khai trait này cho hai enum là BoardGame và VideoGame.</p>
+<p>Chi tiết
+Trait Definition:</p>
+<p>rust
+Copy code
+trait Game {
+    fn name(&amp;self) -&gt; String;
+}
+Trait Game:
+Định nghĩa một trait tên là Game.
+Trait này yêu cầu bất kỳ kiểu nào triển khai nó phải có một phương thức name trả về một String.
+Enum Definition:</p>
+<p>rust
+Copy code
+enum BoardGame {
+    Chess,
+    Monopoly,
+}
+Enum BoardGame:
+Định nghĩa một enum tên là BoardGame với các biến thể là Chess và Monopoly.
+rust
+Copy code
+enum VideoGame {
+    PlayStation,
+    Xbox,
+}
+Enum VideoGame:
+Định nghĩa một enum tên là VideoGame với các biến thể là PlayStation và Xbox.
+Trait Implementation:</p>
+<p>rust
+Copy code
+impl Game for BoardGame {
+    // Implementation would go here
+}
+Triển khai trait Game cho BoardGame:
+Ở đây, BoardGame được triển khai trait Game.
+Phương thức name cần được định nghĩa cho từng biến thể của BoardGame.
+rust
+Copy code
+impl Game for VideoGame {
+    // Implementation would go here
+}
+Triển khai trait Game cho VideoGame:
+Tương tự, VideoGame cũng được triển khai trait Game.
+Phương thức name cần được định nghĩa cho từng biến thể của VideoGame.
+Mục đích của Slide
+Thiết lập ban đầu:
+Slide này chỉ ra cách định nghĩa một trait và chuẩn bị triển khai trait đó cho các enum khác nhau.
+Đây là bước chuẩn bị trước khi đi vào chi tiết cụ thể của từng phương thức name cho từng biến thể của BoardGame và VideoGame.
+Ví dụ Triển khai Cụ Thể
+Dưới đây là cách triển khai cụ thể phương thức name cho từng enum:</p>
+<p>rust
+Copy code
+impl Game for BoardGame {
+    fn name(&amp;self) -&gt; String {
+        match self {
+            BoardGame::Chess =&gt; &quot;Chess&quot;.to_string(),
+            BoardGame::Monopoly =&gt; &quot;Monopoly&quot;.to_string(),
+        }
+    }
+}</p>
+<p>impl Game for VideoGame {
+    fn name(&amp;self) -&gt; String {
+        match self {
+            VideoGame::PlayStation =&gt; &quot;PlayStation&quot;.to_string(),
+            VideoGame::Xbox =&gt; &quot;Xbox&quot;.to_string(),
+        }
+    }
+}
+Giải thích:
+name cho BoardGame sẽ trả về &quot;Chess&quot; nếu biến thể là Chess và &quot;Monopoly&quot; nếu biến thể là Monopoly.
+Tương tự, name cho VideoGame sẽ trả về &quot;PlayStation&quot; nếu biến thể là PlayStation và &quot;Xbox&quot; nếu biến thể là Xbox.
+Kết luận
+Slide này giải thích cách chuẩn bị cho việc triển khai cụ thể một trait cho các enum khác nhau, trong đó mỗi enum đại diện cho một loại trò chơi khác nhau. Việc triển khai này giúp xác định tên của trò chơi dựa trên biến thể của enum.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Concrete Implementation - Usage
 
 ```rust
@@ -496,7 +1775,64 @@ let board_room = PlayRoom {
 board_room.cleanup();
 video_room.cleanup();
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng một triển khai cụ thể của trait Game trong Rust bằng cách tạo một cấu trúc generic (PlayRoom) có thể chứa bất kỳ loại trò chơi nào triển khai trait Game. Sau đó, nó cũng triển khai một phương thức cleanup cho PlayRoom<BoardGame>.</p>
+<p>Chi tiết
+Cấu trúc Generic PlayRoom:</p>
+<p>rust
+Copy code
+struct PlayRoom&lt;T: Game&gt; {
+    game: T,
+}
+Định nghĩa cấu trúc PlayRoom:
+PlayRoom là một cấu trúc generic chứa một trường game có kiểu T.
+T phải là một kiểu triển khai trait Game.
+Triển khai cụ thể PlayRoom<BoardGame>:</p>
+<p>rust
+Copy code
+impl PlayRoom<BoardGame> {
+    pub fn cleanup(&amp;self) { /* ... */ }
+}
+Triển khai PlayRoom<BoardGame>:
+PlayRoom<BoardGame> có một phương thức cleanup.
+Phương thức cleanup có thể được định nghĩa để thực hiện các thao tác dọn dẹp sau khi chơi một trò chơi bảng (BoardGame).
+Sử dụng cấu trúc PlayRoom với các loại trò chơi khác nhau:</p>
+<p>rust
+Copy code
+let video_room = PlayRoom {
+    game: VideoGame::Xbox,
+};</p>
+<p>let board_room = PlayRoom {
+    game: BoardGame::Monopoly,
+};
+Khởi tạo PlayRoom với VideoGame và BoardGame:
+video_room là một PlayRoom chứa VideoGame::Xbox.
+board_room là một PlayRoom chứa BoardGame::Monopoly.
+Gọi phương thức cleanup:</p>
+<p>rust
+Copy code
+board_room.cleanup();
+video_room.cleanup();
+Gọi phương thức cleanup cho board_room:
+Phương thức cleanup được gọi trên board_room, tức là một PlayRoom<BoardGame>.
+Để video_room có thể gọi cleanup, chúng ta cần triển khai phương thức này cho PlayRoom<VideoGame> (giả sử tương tự như PlayRoom<BoardGame>).
+Mục đích của Slide
+Minh họa cách sử dụng cấu trúc generic:
+Slide này cho thấy cách sử dụng cấu trúc PlayRoom với các loại trò chơi khác nhau (BoardGame và VideoGame), miễn là chúng triển khai trait Game.
+Triển khai cụ thể:
+Phương thức cleanup được triển khai cho PlayRoom<BoardGame>, nhưng không được triển khai rõ ràng cho PlayRoom<VideoGame> trong slide này (có thể giả định rằng phương thức cleanup cũng được triển khai tương tự cho PlayRoom<VideoGame>).
+Ví dụ Triển khai Phương thức cleanup cho PlayRoom<VideoGame>
+Dưới đây là cách triển khai phương thức cleanup cho PlayRoom<VideoGame> tương tự như PlayRoom<BoardGame>:</p>
+<p>rust
+Copy code
+impl PlayRoom<VideoGame> {
+    pub fn cleanup(&amp;self) { 
+        // Implementation for cleaning up after playing a video game
+    }
+}
+Kết luận
+Slide này giải thích cách tạo và sử dụng một cấu trúc generic PlayRoom chứa các loại trò chơi khác nhau triển khai trait Game. Nó minh họa cách triển khai một phương thức cụ thể (cleanup) cho một loại trò chơi (BoardGame) và cho thấy việc sử dụng cấu trúc này với cả BoardGame và VideoGame.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Concrete Implementation - Error
 
 ```rust
@@ -509,7 +1845,43 @@ struct PlayRoom<T: Game> {
 video_room.cleanup();
 //     ^^^^^^^ method not found in `PlayRoom<VideoGame>`
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa một lỗi phổ biến khi làm việc với các triển khai cụ thể của các trait trong Rust. Dưới đây là chi tiết giải thích về slide này:</p>
+<p>Chi tiết
+Cấu trúc Generic PlayRoom:</p>
+<p>rust
+Copy code
+struct PlayRoom&lt;T: Game&gt; {
+    // ...
+}
+Định nghĩa cấu trúc PlayRoom:
+PlayRoom là một cấu trúc generic chứa một trường có kiểu T.
+T phải là một kiểu triển khai trait Game.
+Gọi phương thức cleanup:</p>
+<p>rust
+Copy code
+video_room.cleanup();
+// ^^^^^^^^ method not found in <code>PlayRoom&lt;VideoGame&gt;</code>
+Gọi phương thức cleanup trên video_room:
+Trong slide này, khi cố gắng gọi phương thức cleanup trên video_room, Rust báo lỗi vì phương thức cleanup không tồn tại cho PlayRoom<VideoGame>.
+Nguyên nhân lỗi
+Phương thức cleanup chỉ được triển khai cho PlayRoom<BoardGame>:
+Trong phần mã trước đó, phương thức cleanup chỉ được triển khai cụ thể cho PlayRoom<BoardGame>, không phải cho tất cả các loại Game.
+Cách khắc phục
+Triển khai phương thức cleanup cho PlayRoom<VideoGame>:
+Để phương thức cleanup có thể được gọi trên video_room, cần phải triển khai phương thức này cho PlayRoom<VideoGame>.
+Ví dụ Triển khai cleanup cho PlayRoom<VideoGame>
+Dưới đây là cách triển khai phương thức cleanup cho PlayRoom<VideoGame>:</p>
+<p>rust
+Copy code
+impl PlayRoom<VideoGame> {
+    pub fn cleanup(&amp;self) {
+        // Implementation for cleaning up after playing a video game
+    }
+}
+Tóm tắt
+Slide này minh họa lỗi khi cố gắng gọi một phương thức không tồn tại trên một loại cụ thể của cấu trúc generic. Nó cho thấy tầm quan trọng của việc triển khai đầy đủ các phương thức cần thiết cho tất cả các loại mà cấu trúc generic có thể chứa. Để khắc phục, bạn cần triển khai phương thức tương ứng cho các loại còn thiếu.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Implementation - Syntax
 
 ```rust
@@ -522,7 +1894,42 @@ impl<T: Trait1 + Trait2, U: Trait3> Name<T, U> {
     fn func(&self, arg1: T, arg2: U) { }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cú pháp để triển khai generic cho các kiểu dữ liệu trong Rust. Dưới đây là giải thích chi tiết về các phần của slide:</p>
+<p>Chi tiết
+Định nghĩa cấu trúc generic:</p>
+<p>rust
+Copy code
+struct Name&lt;T: Trait1 + Trait2, U: Trait3&gt; {
+    field1: T,
+    field2: U,
+}
+struct Name:
+Name là một cấu trúc generic với hai tham số kiểu T và U.
+T phải triển khai cả Trait1 và Trait2.
+U phải triển khai Trait3.
+field1 và field2:
+field1 có kiểu T.
+field2 có kiểu U.
+Triển khai các phương thức cho cấu trúc generic:</p>
+<p>rust
+Copy code
+impl&lt;T: Trait1 + Trait2, U: Trait3&gt; Name&lt;T, U&gt; {
+    fn func(&amp;self, arg1: T, arg2: U) {
+        // ...
+    }
+}
+impl:
+Định nghĩa triển khai cho Name.
+T phải triển khai cả Trait1 và Trait2.
+U phải triển khai Trait3.
+fn func:
+Phương thức func nhận một tham chiếu self, một đối số arg1 có kiểu T, và một đối số arg2 có kiểu U.
+Triển khai chi tiết của func sẽ được đặt trong dấu {}.
+Tóm tắt
+Slide này minh họa cách định nghĩa và triển khai các cấu trúc generic trong Rust với ràng buộc trait. Điều này cho phép bạn tạo các cấu trúc và phương thức tổng quát, có thể làm việc với nhiều kiểu dữ liệu khác nhau, miễn là các kiểu này đáp ứng các ràng buộc trait được xác định.</p>
+<p>Bằng cách sử dụng cú pháp này, bạn có thể viết mã linh hoạt và tái sử dụng tốt hơn, đồng thời đảm bảo rằng các kiểu dữ liệu được sử dụng phải tuân theo các ràng buộc đã định nghĩa, giúp mã an toàn và đáng tin cậy hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Implementation - Syntax
 
 ```rust
@@ -543,7 +1950,49 @@ where
     fn func(&self, arg1: T, arg2: U) { }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cú pháp để triển khai generic cho các kiểu dữ liệu trong Rust với phần where để ràng buộc trait. Dưới đây là giải thích chi tiết về các phần của slide:</p>
+<p>Chi tiết
+Định nghĩa cấu trúc generic:</p>
+<p>rust
+Copy code
+struct Name&lt;T, U&gt;
+where
+    T: Trait1 + Trait2,
+    U: Trait3,
+{
+    field1: T,
+    field2: U,
+}
+struct Name:
+Name là một cấu trúc generic với hai tham số kiểu T và U.
+T phải triển khai cả Trait1 và Trait2.
+U phải triển khai Trait3.
+field1 và field2:
+field1 có kiểu T.
+field2 có kiểu U.
+Triển khai các phương thức cho cấu trúc generic:</p>
+<p>rust
+Copy code
+impl&lt;T, U&gt; Name&lt;T, U&gt;
+where
+    T: Trait1 + Trait2,
+    U: Trait3,
+{
+    fn func(&amp;self, arg1: T, arg2: U) {
+        // ...
+    }
+}
+impl:
+Định nghĩa triển khai cho Name.
+T phải triển khai cả Trait1 và Trait2.
+U phải triển khai Trait3.
+fn func:
+Phương thức func nhận một tham chiếu self, một đối số arg1 có kiểu T, và một đối số arg2 có kiểu U.
+Triển khai chi tiết của func sẽ được đặt trong dấu {}.
+Tóm tắt
+Slide này minh họa cách định nghĩa và triển khai các cấu trúc generic trong Rust với ràng buộc trait được định nghĩa trong phần where. Điều này cho phép bạn viết mã linh hoạt và tái sử dụng tốt hơn, đồng thời đảm bảo rằng các kiểu dữ liệu được sử dụng phải tuân theo các ràng buộc đã định nghĩa, giúp mã an toàn và đáng tin cậy hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Implementation - Example
 
 ```rust
@@ -561,7 +2010,46 @@ impl<T: Game> PlayRoom<T> {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách triển khai generic trong Rust thông qua ví dụ cụ thể. Dưới đây là giải thích chi tiết về các phần của slide:</p>
+<p>Chi tiết
+Định nghĩa trait Game:</p>
+<p>rust
+Copy code
+trait Game {
+    fn name(&amp;self) -&gt; String;
+}
+trait Game:
+Định nghĩa một trait tên là Game.
+Trait này yêu cầu triển khai phương thức name trả về một giá trị kiểu String.
+Định nghĩa cấu trúc generic PlayRoom:</p>
+<p>rust
+Copy code
+struct PlayRoom&lt;T: Game&gt; {
+    game: T,
+}
+struct PlayRoom:
+PlayRoom là một cấu trúc generic với tham số kiểu T.
+T phải triển khai trait Game.
+Cấu trúc này có một trường game kiểu T.
+Triển khai phương thức cho cấu trúc PlayRoom:</p>
+<p>rust
+Copy code
+impl&lt;T: Game&gt; PlayRoom<T> {
+    pub fn game_info(&amp;self) {
+        println!(&quot;{}&quot;, self.game.name());
+    }
+}
+impl:
+Triển khai cho cấu trúc PlayRoom.
+T phải triển khai trait Game.
+fn game_info:
+Phương thức game_info là một phương thức công khai (pub) của PlayRoom.
+Phương thức này in ra tên của game bằng cách gọi phương thức name của trường game.
+Tóm tắt
+Slide này minh họa cách sử dụng trait và cấu trúc generic trong Rust. Cụ thể, trait Game yêu cầu phương thức name và cấu trúc PlayRoom lưu trữ một game bất kỳ, miễn là game đó triển khai trait Game. Phương thức game_info của PlayRoom sau đó có thể gọi phương thức name trên game và in ra tên của nó.</p>
+<p>Điều này cho phép viết mã linh hoạt và tái sử dụng tốt hơn, vì PlayRoom có thể chứa bất kỳ loại game nào miễn là loại đó triển khai trait Game.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Generic Implementation - Usage
 
 ```rust
@@ -580,14 +2068,71 @@ let board_room = PlayRoom {
 video_room.game_info();
 board_room.game_info();
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng cấu trúc generic trong Rust với ví dụ cụ thể về việc triển khai và sử dụng cấu trúc PlayRoom. Dưới đây là giải thích chi tiết về các phần của slide:</p>
+<p>Chi tiết
+Triển khai phương thức game_info cho PlayRoom:</p>
+<p>rust
+Copy code
+impl&lt;T: Game&gt; PlayRoom<T> {
+    pub fn game_info(&amp;self) { /* ... <em>/ }
+}
+impl&lt;T: Game&gt; PlayRoom<T>:
+Triển khai cho cấu trúc PlayRoom với tham số kiểu T phải triển khai trait Game.
+Phương thức game_info là một phương thức công khai (pub) của PlayRoom.
+Nội dung của phương thức game_info sẽ được viết trong phần /</em> ... */.
+Tạo đối tượng PlayRoom với VideoGame:</p>
+<p>rust
+Copy code
+let video_room = PlayRoom {
+    game: VideoGame::Xbox,
+};
+let video_room = PlayRoom { game: VideoGame::Xbox };:
+Tạo một đối tượng PlayRoom với game là VideoGame::Xbox.
+Tạo đối tượng PlayRoom với BoardGame:</p>
+<p>rust
+Copy code
+let board_room = PlayRoom {
+    game: BoardGame::Monopoly,
+};
+let board_room = PlayRoom { game: BoardGame::Monopoly };:
+Tạo một đối tượng PlayRoom với game là BoardGame::Monopoly.
+Gọi phương thức game_info trên các đối tượng PlayRoom:</p>
+<p>rust
+Copy code
+video_room.game_info();
+board_room.game_info();
+video_room.game_info();:
+Gọi phương thức game_info trên đối tượng video_room.
+board_room.game_info();:
+Gọi phương thức game_info trên đối tượng board_room.
+Tóm tắt
+Slide này minh họa cách triển khai và sử dụng một cấu trúc generic trong Rust. Cụ thể, nó cho thấy cách triển khai phương thức game_info cho cấu trúc PlayRoom, sau đó tạo các đối tượng PlayRoom với các loại game khác nhau (VideoGame và BoardGame), và cuối cùng là gọi phương thức game_info trên các đối tượng này.</p>
+<p>Điều này giúp mã linh hoạt và có thể tái sử dụng, vì PlayRoom có thể chứa bất kỳ loại game nào miễn là loại đó triển khai trait Game.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Intermediate memory refresh
 
 - All data has a memory address
   - Addresses determine the location of data in memory
 - Offsets can be used to access adjacent addresses
   - Also called indexes/indices
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một phần giải thích cơ bản về cách dữ liệu được lưu trữ và truy cập trong bộ nhớ. Dưới đây là nội dung chi tiết của slide:</p>
+<p>Intermediate Memory Refresh
+All data has a memory address:</p>
+<p>Mọi dữ liệu trong bộ nhớ đều có một địa chỉ bộ nhớ duy nhất.
+Địa chỉ bộ nhớ xác định vị trí của dữ liệu trong bộ nhớ.
+Addresses determine the location of data in memory:</p>
+<p>Các địa chỉ này giúp xác định vị trí cụ thể của dữ liệu trong không gian bộ nhớ.
+Offsets can be used to access adjacent addresses:</p>
+<p>Các offsets (dịch chuyển) có thể được sử dụng để truy cập các địa chỉ liền kề.
+Offset là giá trị dịch chuyển từ một địa chỉ cơ sở để truy cập các ô nhớ liền kề.
+Also called indexes/indices:</p>
+<p>Offsets cũng được gọi là các chỉ số (indexes/indices).
+Chỉ số được sử dụng phổ biến trong các cấu trúc dữ liệu như mảng để truy cập các phần tử dựa trên vị trí của chúng.
+Tóm tắt
+Slide này nhấn mạnh rằng mỗi phần dữ liệu trong bộ nhớ máy tính đều có một địa chỉ duy nhất, và chúng ta có thể sử dụng các offsets (hay chỉ số) để truy cập các địa chỉ liền kề. Điều này rất quan trọng khi làm việc với các cấu trúc dữ liệu như mảng, nơi mà việc truy cập dữ liệu thường xuyên dựa vào các chỉ số.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Stack
 
 - Data placed sequentially
@@ -596,7 +2141,30 @@ board_room.game_info();
   - Not all data
 - Very fast to work with
   - Offsets to access
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về khái niệm Stack (ngăn xếp) trong bộ nhớ máy tính. Dưới đây là nội dung chi tiết của slide:</p>
+<p>Stack
+Data placed sequentially:</p>
+<p>Dữ liệu được đặt tuần tự trong ngăn xếp.
+Các phần tử dữ liệu được thêm vào hoặc loại bỏ theo trình tự lần lượt.
+Limited space:</p>
+<p>Ngăn xếp có không gian giới hạn.
+Kích thước của ngăn xếp được xác định trước và không thể mở rộng trong thời gian chạy chương trình.
+All variables stored on the stack:</p>
+<p>Tất cả các biến đều được lưu trữ trên ngăn xếp.
+Không phải tất cả dữ liệu đều được lưu trữ trên ngăn xếp, chỉ có các biến cục bộ và một số cấu trúc dữ liệu nhỏ.
+Not all data:</p>
+<p>Không phải toàn bộ dữ liệu đều được lưu trữ trên ngăn xếp.
+Dữ liệu lớn hoặc dữ liệu có tuổi thọ dài thường được lưu trữ trên heap (đống).
+Very fast to work with:</p>
+<p>Ngăn xếp rất nhanh để làm việc.
+Việc truy cập và thao tác với dữ liệu trên ngăn xếp nhanh hơn so với trên heap.
+Offsets to access:</p>
+<p>Offsets (dịch chuyển) được sử dụng để truy cập dữ liệu trên ngăn xếp.
+Các offset này giúp xác định vị trí cụ thể của dữ liệu trong ngăn xếp, cho phép truy cập nhanh chóng và hiệu quả.
+Tóm tắt
+Slide này nhấn mạnh rằng ngăn xếp là một khu vực bộ nhớ có kích thước cố định, nơi các biến cục bộ và dữ liệu nhỏ được lưu trữ theo thứ tự tuần tự. Ngăn xếp cho phép truy cập dữ liệu nhanh chóng nhờ vào việc sử dụng các offsets để định vị dữ liệu. Tuy nhiên, do không gian giới hạn, không phải tất cả dữ liệu đều có thể được lưu trữ trên ngăn xếp.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Stack Visualization
 
 
@@ -609,7 +2177,30 @@ board_room.game_info();
     |   | --> |   | --> |   | --> |   | --> |   | --> |   |
      Empty    Push 3    Push 2    Push 1    Pop 1     Pop 2
 
-</script></section><section  data-markdown><script type="text/template">
+<aside class="notes"><p>Slide này minh họa quá trình thao tác trên ngăn xếp (stack) với các hoạt động push và pop. Dưới đây là giải thích chi tiết về các hình ảnh trong slide:</p>
+<p>Empty:</p>
+<p>Ngăn xếp ban đầu trống rỗng, không chứa bất kỳ phần tử nào.
+Push 3:</p>
+<p>Thêm giá trị 3 vào ngăn xếp.
+Giá trị 3 được đặt vào vị trí đầu tiên của ngăn xếp.
+Push 2:</p>
+<p>Thêm giá trị 2 vào ngăn xếp.
+Giá trị 2 được đặt lên trên giá trị 3.
+Push 1:</p>
+<p>Thêm giá trị 1 vào ngăn xếp.
+Giá trị 1 được đặt lên trên giá trị 2.
+Pop 1:</p>
+<p>Loại bỏ giá trị ở đầu ngăn xếp (giá trị 1).
+Sau khi loại bỏ, ngăn xếp còn lại giá trị 2 và 3.
+Pop 2:</p>
+<p>Loại bỏ giá trị tiếp theo ở đầu ngăn xếp (giá trị 2).
+Sau khi loại bỏ, ngăn xếp chỉ còn lại giá trị 3.
+Tóm tắt
+Push: Thêm một phần tử vào đầu ngăn xếp.
+Pop: Loại bỏ phần tử ở đầu ngăn xếp.
+Ngăn xếp hoạt động theo nguyên tắc LIFO (Last In, First Out), nghĩa là phần tử cuối cùng được thêm vào sẽ là phần tử đầu tiên bị loại bỏ.
+Slide này giúp hình dung rõ hơn về cách dữ liệu được thêm vào và loại bỏ khỏi ngăn xếp, qua đó hiểu rõ hơn về cấu trúc dữ liệu ngăn xếp và các thao tác cơ bản trên nó.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Heap
 
 - Data placed algorithmically
@@ -620,7 +2211,32 @@ board_room.game_info();
   - usize data type
 - Vectors & HashMaps stored on the heap
   -All dynamically sized collections
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này mô tả cách thức hoạt động và các đặc điểm của vùng nhớ Heap. Dưới đây là giải thích chi tiết về các điểm chính:</p>
+<p>Data placed algorithmically:</p>
+<p>Dữ liệu được đặt vào Heap theo cách thức thuật toán, không theo thứ tự cố định như Stack.
+Điều này khiến việc truy cập dữ liệu trong Heap chậm hơn so với Stack.
+Slower than stack:</p>
+<p>Do dữ liệu trong Heap được tổ chức không theo thứ tự, việc truy cập dữ liệu phải thông qua các con trỏ và tìm kiếm, dẫn đến tốc độ truy cập chậm hơn Stack.
+Unlimited space:</p>
+<p>Heap có không gian lưu trữ gần như không giới hạn, chỉ phụ thuộc vào giới hạn của RAM và dung lượng ổ đĩa.
+Điều này trái ngược với Stack, có kích thước cố định và hạn chế.
+Uses pointers:</p>
+<p>Heap sử dụng con trỏ để quản lý vị trí của dữ liệu.
+Con trỏ là các giá trị có kích thước cố định (usize), được sử dụng để trỏ đến địa chỉ cụ thể trong vùng nhớ.
+Pointers are a fixed size:</p>
+<p>Kích thước của các con trỏ không thay đổi, giúp quản lý vùng nhớ dễ dàng hơn.
+usize data type:</p>
+<p>Loại dữ liệu usize được sử dụng cho con trỏ, có kích thước đủ lớn để đại diện cho tất cả các địa chỉ trong vùng nhớ của hệ thống.
+Vectors &amp; HashMaps stored on the heap:</p>
+<p>Các cấu trúc dữ liệu như Vector và HashMap được lưu trữ trên Heap vì chúng có kích thước động, có thể thay đổi trong quá trình chạy chương trình.
+Các cấu trúc này cần không gian lưu trữ linh hoạt và mở rộng, điều mà Heap có thể cung cấp.
+Tóm tắt
+Heap là vùng nhớ linh hoạt, cho phép lưu trữ dữ liệu có kích thước động.
+Heap sử dụng con trỏ để quản lý vị trí dữ liệu, dẫn đến tốc độ truy cập chậm hơn so với Stack.
+Heap cung cấp không gian lưu trữ gần như không giới hạn, phù hợp cho các cấu trúc dữ liệu động như Vector và HashMap.
+Slide này giúp hiểu rõ hơn về vùng nhớ Heap, cách thức hoạt động, và tại sao nó được sử dụng cho các cấu trúc dữ liệu có kích thước thay đổi trong các chương trình.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Heap Visual w/Pointers on Stack
 
     Stack:    Heap:
@@ -636,7 +2252,26 @@ board_room.game_info();
     | ptr |                                    
     +-----+                                    
     [Stack pointers refer to indices in the Heap]
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này mô tả cách các con trỏ trên Stack tham chiếu đến các địa chỉ trong Heap. Dưới đây là giải thích chi tiết về các thành phần của slide:</p>
+<p>Stack:</p>
+<p>Stack là vùng nhớ lưu trữ các biến địa phương và con trỏ một cách tuần tự.
+Các giá trị được lưu trên Stack là các giá trị số nguyên (2, 5, 1) và con trỏ (ptr).
+ptr là một con trỏ lưu trữ địa chỉ của một phần tử trong Heap.
+Heap:</p>
+<p>Heap là vùng nhớ được sử dụng để lưu trữ dữ liệu động, không sắp xếp theo thứ tự cố định.
+Các phần tử trong Heap được lưu trữ tại các chỉ số từ 0 đến 7 và các giá trị tương ứng (5, 9, 6, 14, 11, 8, 10, 17).
+Pointers:</p>
+<p>Con trỏ trên Stack tham chiếu đến các địa chỉ cụ thể trong Heap.
+Ví dụ, con trỏ ở vị trí [2] trên Stack tham chiếu đến địa chỉ [2] trên Heap, chứa giá trị 6.
+Tương tự, con trỏ ở vị trí [5] trên Stack tham chiếu đến địa chỉ [5] trên Heap, chứa giá trị 8.
+Con trỏ ở vị trí [1] trên Stack tham chiếu đến địa chỉ [1] trên Heap, chứa giá trị 9.
+Tóm tắt
+Stack lưu trữ các con trỏ tham chiếu đến các địa chỉ trong Heap.
+Heap chứa các dữ liệu động, được truy cập thông qua các con trỏ từ Stack.
+Con trỏ trên Stack lưu trữ các chỉ số tham chiếu đến các vị trí cụ thể trong Heap để truy xuất dữ liệu.
+Slide này giúp hình dung rõ hơn về cách Stack và Heap phối hợp hoạt động với nhau trong việc quản lý vùng nhớ và truy xuất dữ liệu trong chương trình.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -650,17 +2285,89 @@ fn main() {
     let data_stack = *data_ptr;
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này mô tả một ví dụ về cách sử dụng Box để quản lý bộ nhớ trong Rust, cho thấy cách dữ liệu được lưu trữ trên stack và heap. Dưới đây là giải thích chi tiết về mã nguồn trên slide:</p>
+<p>Định nghĩa Struct Entry:</p>
+<p>rust
+Copy code
+struct Entry {
+    id: i32,
+}
+struct Entry định nghĩa một cấu trúc dữ liệu với một trường id kiểu i32.
+Hàm main:</p>
+<p>rust
+Copy code
+fn main() {
+    let data = Entry { id: 5 };
+    let data_ptr: Box<Entry> = Box::new(data);
+    let data_stack = *data_ptr;
+}
+let data = Entry { id: 5 };:</p>
+<p>Tạo một biến data thuộc kiểu Entry với trường id được gán giá trị 5. Biến này được lưu trữ trên stack.
+let data_ptr: Box<Entry> = Box::new(data);:</p>
+<p>Tạo một Box chứa biến data, nghĩa là data bây giờ được chuyển từ stack sang heap và data_ptr là một con trỏ kiểu Box<Entry> trỏ đến vị trí của data trên heap.
+let data_stack = *data_ptr;:</p>
+<p>Sử dụng phép giải tham chiếu (*) để lấy lại giá trị của data từ heap và gán cho biến data_stack. Biến data_stack này được lưu trữ lại trên stack.
+Tóm tắt
+Struct Entry: Định nghĩa một cấu trúc dữ liệu đơn giản với một trường id kiểu i32.
+Stack và Heap:
+Stack: Ban đầu, biến data được lưu trữ trên stack.
+Heap: Sau đó, biến data được chuyển vào heap bằng cách sử dụng Box, và data_ptr trỏ đến vị trí của data trên heap.
+Truy xuất lại: Cuối cùng, giá trị của data được giải tham chiếu từ heap và gán lại cho biến data_stack trên stack.
+Slide này minh họa cách sử dụng con trỏ thông minh (Box) để quản lý bộ nhớ trong Rust, cho phép chuyển dữ liệu giữa stack và heap một cách hiệu quả.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Sized Error
 
+```rust
     error[E0746]: return type cannot have an unboxed trait object
      --> src/main.rs:1:16
       |
     1 | fn sample() -> Fn() {
       |                ^^^ doesn't have a size known at compile-time
       |
-      = <aside class="notes"><p>for information on <code>impl Trait</code>, see <a href="https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits">https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits</a></p>
-</aside></script></section><section  data-markdown><script type="text/template">
+      = note: for information on `impl Trait`, see <https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits>
+```
+
+Notes:
+Slide này mô tả một lỗi phổ biến khi làm việc với các trait không được boxed trong Rust. Cụ thể, lỗi được hiển thị là:
+
+rust
+Copy code
+error[E0746]: return type cannot have an unboxed trait object
+ --> src/main.rs:1:16
+  |
+1 | fn sample() -> Fn() {
+  |                ^^^ doesn't have a size known at compile-time
+  |
+  = <aside class="notes"><p>for information on <code>impl Trait</code>, see <a href="https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits">https://doc.rust-lang.org/book/ch10-02-traits.html#returning-types-that-implement-traits</a></p>
+Nguyên nhân lỗi
+Không xác định được kích thước tại thời điểm biên dịch:
+Rust cần biết kích thước của tất cả các loại tại thời điểm biên dịch để có thể phân bổ bộ nhớ chính xác. Tuy nhiên, khi sử dụng trait như Fn mà không boxed, Rust không thể biết kích thước của đối tượng đó tại thời điểm biên dịch.
+Ví dụ: fn sample() -> Fn() không hợp lệ vì Fn không có kích thước cố định.
+Cách giải quyết
+Sử dụng Box:
+
+Để giải quyết vấn đề này, chúng ta có thể sử dụng Box để đặt trait trong một con trỏ thông minh, giúp Rust có thể quản lý kích thước động.
+Ví dụ:
+rust
+Copy code
+fn sample() -> Box<dyn Fn()> {
+    // implementation
+}
+Ở đây, Box<dyn Fn()> sẽ có kích thước cố định vì Box là một con trỏ có kích thước cố định.
+Sử dụng impl Trait:
+
+Một cách khác là sử dụng impl Trait để trả về một kiểu ẩn danh thực thi trait.
+Ví dụ:
+rust
+Copy code
+fn sample() -> impl Fn() {
+    // implementation
+}
+impl Fn() cho phép Rust xác định chính xác loại được trả về mà vẫn đảm bảo rằng nó thực thi trait Fn.
+Tổng kết
+Slide này minh họa tầm quan trọng của việc xác định kích thước của các kiểu dữ liệu tại thời điểm biên dịch trong Rust và cách sử dụng Box hoặc impl Trait để tránh lỗi khi làm việc với các trait không được boxed.
+</script></section><section  data-markdown><script type="text/template">
 ## Trait Object Basics
 
 - Dynamically allocated object
@@ -673,7 +2380,31 @@ fn main() {
     - Dynamically change program behavior at runtime
     - Easily add new behaviors just by creating a new struct
 - Small performance penalty
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một cái nhìn tổng quan về các đối tượng trait trong Rust. Đây là một số điểm chính được đề cập:</p>
+<p>Dynamically allocated object:</p>
+<p>Đối tượng trait được cấp phát động (dynamically allocated).
+Điều này có nghĩa là bộ nhớ cho đối tượng trait được cấp phát tại runtime, trái ngược với các đối tượng có kích thước cố định được cấp phát tại compile-time.
+&quot;Runtime generics&quot;:</p>
+<p>Đối tượng trait được coi như là một kiểu generics tại runtime.
+Chúng linh hoạt hơn so với generics tĩnh vì chúng cho phép xử lý các loại không xác định tại compile-time.
+&quot;Dynamic Dispatch&quot; vs &quot;Static Dispatch&quot;:</p>
+<p>Dynamic Dispatch: Thực hiện quyết định hàm nào sẽ được gọi tại runtime. Điều này cho phép đa hình (polymorphism) nhưng có một chi phí hiệu năng nhỏ do phải tra cứu bảng ảo.
+Static Dispatch: Quyết định hàm nào sẽ được gọi được thực hiện tại compile-time. Điều này nhanh hơn vì không có tra cứu bảng ảo nhưng ít linh hoạt hơn.
+Allows mixed types in a collection:</p>
+<p>Đối tượng trait cho phép các loại dữ liệu khác nhau trong cùng một bộ sưu tập.
+Dễ dàng hơn để làm việc với các loại dữ liệu tương tự nhau.
+Polymorphic program behavior:</p>
+<p>Đối tượng trait cho phép hành vi đa hình (polymorphism) trong chương trình.
+Bạn có thể thay đổi hành vi chương trình một cách động tại runtime.
+Dynamically change program behavior at runtime:</p>
+<p>Bạn có thể thay đổi hành vi chương trình một cách động tại runtime bằng cách sử dụng đối tượng trait.
+Easily add new behaviors just by creating a new struct:</p>
+<p>Dễ dàng thêm các hành vi mới chỉ bằng cách tạo một struct mới và triển khai trait cho nó.
+Small performance penalty:</p>
+<p>Mặc dù đối tượng trait mang lại nhiều lợi ích về tính linh hoạt và đa hình, nhưng có một chi phí hiệu năng nhỏ do việc tra cứu bảng ảo (vtable lookup) tại runtime.
+Tóm lại, đối tượng trait trong Rust cung cấp một cách để làm việc với các loại dữ liệu đa hình và hỗn hợp trong cùng một bộ sưu tập, mang lại tính linh hoạt cao hơn so với generics tĩnh, nhưng có một chi phí hiệu năng nhỏ do việc tra cứu bảng ảo.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Creating a Trait Object
 
 ```rust
@@ -689,7 +2420,35 @@ impl Clicky for Keyboard {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này hướng dẫn cách tạo ra một đối tượng trait trong Rust. Dưới đây là giải thích chi tiết:</p>
+<p>Khai báo trait Clicky:</p>
+<p>rust
+Copy code
+trait Clicky {
+    fn click(&amp;self);
+}
+Clicky là một trait với một phương thức duy nhất click.
+Phương thức click nhận một tham chiếu &amp;self, cho phép các loại khác triển khai hành vi &quot;click&quot;.
+Khai báo struct Keyboard:</p>
+<p>rust
+Copy code
+struct Keyboard;
+Keyboard là một struct trống. Trong Rust, một struct trống thường được sử dụng để đại diện cho một loại đơn giản mà không có dữ liệu nội tại.
+Triển khai trait Clicky cho Keyboard:</p>
+<p>rust
+Copy code
+impl Clicky for Keyboard {
+    fn click(&amp;self) {
+        println!(&quot;click clack&quot;);
+    }
+}
+impl Clicky for Keyboard có nghĩa là Keyboard triển khai trait Clicky.
+Phương thức click được triển khai để in ra dòng chữ &quot;click clack&quot; khi được gọi.
+Tổng quan
+Slide này minh họa cách sử dụng trait để định nghĩa hành vi chung mà nhiều loại khác nhau có thể triển khai. Trong trường hợp này, Keyboard triển khai hành vi &quot;click&quot; thông qua trait Clicky. Khi một đối tượng Keyboard gọi phương thức click, nó sẽ in ra dòng chữ &quot;click clack&quot;.</p>
+<p>Đây là một ví dụ đơn giản nhưng rất phổ biến trong Rust để tạo ra các đối tượng có thể xử lý các hành vi đa hình (polymorphism) thông qua việc triển khai các trait. Điều này cho phép các loại khác nhau có thể tương tác với nhau một cách linh hoạt và hiệu quả hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Creating a Trait Object
 
 ```rust
@@ -700,7 +2459,37 @@ let keeb: &dyn Clicky = &Keyboard;
 
 let keeb: Box<dyn Clicky> = Box::new(Keyboard);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cách tạo đối tượng trait trong Rust. Dưới đây là giải thích chi tiết:</p>
+<p>Khai báo và khởi tạo struct Keyboard:</p>
+<p>rust
+Copy code
+let keeb = Keyboard;
+Tạo một biến keeb của kiểu Keyboard.
+Tạo đối tượng trait từ struct Keyboard:</p>
+<p>rust
+Copy code
+let keeb_obj: &amp;dyn Clicky = &keeb;
+Biến keeb_obj là một tham chiếu đến đối tượng trait Clicky, được tạo từ tham chiếu của keeb.
+dyn Clicky chỉ định rằng keeb_obj là một đối tượng trait động.
+Tạo đối tượng trait động trực tiếp từ Keyboard:</p>
+<p>rust
+Copy code
+let keeb: &amp;dyn Clicky = &Keyboard;
+Tương tự như trên, nhưng trực tiếp từ Keyboard mà không cần khai báo biến trung gian keeb.
+Tạo đối tượng trait động được cấp phát động (Box):</p>
+<p>rust
+Copy code
+let keeb: Box<dyn Clicky> = Box::new(Keyboard);
+Box<dyn Clicky> là một hộp (box) chứa đối tượng trait động Clicky.
+Box::new(Keyboard) tạo một hộp mới chứa Keyboard.
+Tổng quan
+Các ví dụ trên minh họa ba cách khác nhau để tạo đối tượng trait động từ một struct đã triển khai trait.</p>
+<p>Tham chiếu: Sử dụng &amp;dyn Clicky để tạo đối tượng trait từ tham chiếu đến struct.
+Tham chiếu trực tiếp: Tạo đối tượng trait động trực tiếp từ struct mà không cần biến trung gian.
+Hộp: Sử dụng Box để tạo đối tượng trait động được cấp phát động, cho phép quản lý bộ nhớ động.
+Các đối tượng trait động cho phép chúng ta làm việc với các kiểu dữ liệu đa hình (polymorphism) và tận dụng tính linh hoạt của chúng tại runtime.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Trait Object Parameter - Borrow
 
 ```rust
@@ -711,7 +2500,37 @@ fn borrow_clicky(obj: &dyn Clicky) {
 let keeb = Keyboard;
 borrow_clicky(&keeb);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cách truyền một đối tượng trait như là tham số của một hàm bằng cách mượn (borrow) trong Rust.</p>
+<p>Cú pháp và chức năng
+Định nghĩa hàm borrow_clicky:</p>
+<p>rust
+Copy code
+fn borrow_clicky(obj: &amp;dyn Clicky) {
+    obj.click();
+}
+Hàm borrow_clicky nhận một tham số obj là một tham chiếu đến đối tượng trait Clicky (&amp;dyn Clicky).
+Trong thân hàm, obj.click() gọi phương thức click của đối tượng obj.
+Sử dụng hàm borrow_clicky:</p>
+<p>rust
+Copy code
+let keeb = Keyboard;
+borrow_clicky(&amp;keeb);
+Tạo một biến keeb của kiểu Keyboard.
+Gọi hàm borrow_clicky và truyền vào tham chiếu của keeb (&amp;keeb).
+Giải thích chi tiết
+Trait Object:</p>
+<p>Trait object là cách để xử lý các kiểu dữ liệu không đồng nhất bằng cách sử dụng một tham chiếu tới trait. Trong trường hợp này, dyn Clicky là một trait object.
+Borrowing:</p>
+<p>Mượn (borrowing) là một khái niệm quan trọng trong Rust. Khi bạn mượn một đối tượng, bạn chỉ đang tham chiếu tới nó mà không sở hữu nó. Điều này được thực hiện bằng cách sử dụng dấu &amp;.
+Trong ví dụ này, borrow_clicky mượn tham chiếu của keeb mà không sở hữu nó, do đó không thay đổi quyền sở hữu của keeb.
+Đa hình động (Dynamic Polymorphism):</p>
+<p>Sử dụng trait object cho phép đa hình động, có nghĩa là các phương thức có thể được gọi trên các đối tượng mà kiểu thực của chúng chỉ được biết tại runtime.
+Hiệu suất:</p>
+<p>Việc sử dụng trait object có thể dẫn đến một số chi phí hiệu suất do cần phải xử lý động (dynamic dispatch). Tuy nhiên, điều này mang lại sự linh hoạt khi làm việc với các kiểu dữ liệu không đồng nhất.
+Tóm tắt
+Slide này minh họa cách sử dụng trait object và khái niệm mượn trong Rust để truyền các đối tượng vào hàm mà không làm thay đổi quyền sở hữu. Điều này cho phép sử dụng các phương thức của trait trên các đối tượng khác nhau một cách linh hoạt.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Trait Object Parameter - Move
 
 ```rust
@@ -722,7 +2541,38 @@ fn move_clicky(obj: Box<dyn Clicky>) {
 let keeb = Box::new(Keyboard);
 move_clicky(keeb);
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cách truyền một đối tượng trait như là tham số của một hàm bằng cách di chuyển (move) trong Rust.</p>
+<p>Cú pháp và chức năng
+Định nghĩa hàm move_clicky:</p>
+<p>rust
+Copy code
+fn move_clicky(obj: Box<dyn Clicky>) {
+    obj.click();
+}
+Hàm move_clicky nhận một tham số obj là một Box chứa đối tượng trait Clicky (Box<dyn Clicky>).
+Trong thân hàm, obj.click() gọi phương thức click của đối tượng obj.
+Sử dụng hàm move_clicky:</p>
+<p>rust
+Copy code
+let keeb = Box::new(Keyboard);
+move_clicky(keeb);
+Tạo một biến keeb là một Box chứa một đối tượng Keyboard.
+Gọi hàm move_clicky và truyền vào keeb.
+Giải thích chi tiết
+Trait Object:</p>
+<p>Trait object là cách để xử lý các kiểu dữ liệu không đồng nhất bằng cách sử dụng một tham chiếu tới trait. Trong trường hợp này, dyn Clicky là một trait object.
+Boxing:</p>
+<p>Box trong Rust là một kiểu dữ liệu thông minh dùng để cấp phát bộ nhớ trên heap. Nó giúp bạn lưu trữ dữ liệu động trong khi vẫn giữ các đặc tính của ngôn ngữ an toàn về bộ nhớ.
+Trong ví dụ này, Box::new(Keyboard) tạo một Box chứa một đối tượng Keyboard trên heap.
+Moving:</p>
+<p>Di chuyển (move) là một khái niệm quan trọng trong Rust. Khi bạn di chuyển một đối tượng, quyền sở hữu của đối tượng đó sẽ được chuyển từ biến này sang biến khác.
+Trong ví dụ này, move_clicky nhận quyền sở hữu của keeb khi nó được truyền vào hàm. Sau khi gọi hàm move_clicky, keeb không còn quyền sở hữu đối tượng Keyboard nữa.
+Dynamic Dispatch:</p>
+<p>Sử dụng trait object cho phép thực hiện dynamic dispatch, có nghĩa là các phương thức có thể được gọi trên các đối tượng mà kiểu thực của chúng chỉ được biết tại runtime.
+Tóm tắt
+Slide này minh họa cách sử dụng trait object và khái niệm di chuyển trong Rust để truyền các đối tượng vào hàm mà không cần giữ quyền sở hữu. Điều này cho phép sử dụng các phương thức của trait trên các đối tượng khác nhau một cách linh hoạt, và quản lý bộ nhớ hiệu quả với Box.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Heterogeneous Vector
 
 ```rust
@@ -738,7 +2588,41 @@ let keeb: Box<dyn Clicky> = Box::new(Keyboard);
 let mouse: Box<dyn Clicky> = Box::new(Mouse);
 let clickers = vec![keeb, mouse];
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày cách sử dụng trait object trong Rust để tạo ra một vector không đồng nhất chứa các đối tượng khác nhau nhưng thực hiện cùng một trait.</p>
+<p>Nội dung và cú pháp
+Định nghĩa struct và trait:</p>
+<p>rust
+Copy code
+struct Mouse;</p>
+<p>impl Clicky for Mouse {
+    fn click(&amp;self) {
+        println!(&quot;click&quot;);
+    }
+}
+struct Mouse định nghĩa một cấu trúc Mouse.
+Trait Clicky được implement cho Mouse với phương thức click.
+Tạo trait object và vector không đồng nhất:</p>
+<p>rust
+Copy code
+let keeb: Box<dyn Clicky> = Box::new(Keyboard);
+let mouse: Box<dyn Clicky> = Box::new(Mouse);
+let clickers = vec![keeb, mouse];
+keeb và mouse là các trait object được lưu trữ trong Box với kiểu Box<dyn Clicky>.
+clickers là một vector chứa các trait object keeb và mouse.
+Giải thích chi tiết
+Trait Object:</p>
+<p>Trait object (dyn Clicky) cho phép lưu trữ và làm việc với các đối tượng có các kiểu khác nhau nhưng cùng thực hiện một trait.
+Sử dụng Box để lưu trữ trait object trên heap, giúp quản lý bộ nhớ hiệu quả.
+Implement Trait:</p>
+<p>Implement trait Clicky cho struct Mouse, cung cấp phương thức click.
+Vector không đồng nhất:</p>
+<p>Vector clickers chứa các trait object Box<dyn Clicky>. Điều này cho phép vector chứa các đối tượng với các kiểu khác nhau (như Keyboard và Mouse), miễn là chúng đều thực hiện trait Clicky.
+Dynamic Dispatch:</p>
+<p>Khi gọi phương thức click trên các đối tượng trong vector clickers, Rust sẽ sử dụng dynamic dispatch để xác định phương thức cần gọi tại runtime. Điều này giúp xử lý các đối tượng với các kiểu khác nhau một cách linh hoạt.
+Tóm tắt
+Slide này minh họa cách sử dụng trait object và vector không đồng nhất trong Rust để lưu trữ và làm việc với các đối tượng khác nhau nhưng cùng thực hiện một trait. Điều này cho phép xử lý linh hoạt và dễ dàng mở rộng khi có thêm các kiểu đối tượng mới.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Heterogeneous Vector
 
 ```rust
@@ -754,7 +2638,45 @@ let clickers: Vec<Box<dyn Clicky>> = vec![keeb, mouse];
 
 make_clicks(clickers);
 ```
-</script></section>
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng một vector không đồng nhất trong Rust bằng cách sử dụng trait object và các con trỏ động (dynamic pointer) như Box. Điều này cho phép lưu trữ và thao tác với các đối tượng có kiểu khác nhau nhưng thực hiện cùng một trait.</p>
+<p>Nội dung và cú pháp
+Hàm make_clicks:</p>
+<p>rust
+Copy code
+fn make_clicks(clickies: Vec&lt;Box<dyn Clicky>&gt;) {
+    for clicker in clickies {
+        clicker.click();
+    }
+}
+Hàm make_clicks nhận một vector các trait object Vec&lt;Box<dyn Clicky>&gt;.
+Sử dụng vòng lặp for để gọi phương thức click trên từng đối tượng trong vector.
+Tạo các đối tượng và vector không đồng nhất:</p>
+<p>rust
+Copy code
+let keeb = Box::new(Keyboard);
+let mouse = Box::new(Mouse);
+let clickers: Vec&lt;Box<dyn Clicky>&gt; = vec![keeb, mouse];
+keeb và mouse là các trait object được lưu trữ trong Box với kiểu Box<dyn Clicky>.
+clickers là một vector chứa các trait object keeb và mouse.
+Gọi hàm make_clicks:</p>
+<p>rust
+Copy code
+make_clicks(clickers);
+Gọi hàm make_clicks với vector clickers, kích hoạt phương thức click trên mỗi đối tượng trong vector.
+Giải thích chi tiết
+Trait Object:</p>
+<p>Trait object (dyn Clicky) cho phép lưu trữ và làm việc với các đối tượng có kiểu khác nhau nhưng cùng thực hiện một trait.
+Sử dụng Box để lưu trữ trait object trên heap, giúp quản lý bộ nhớ hiệu quả.
+Implement Trait:</p>
+<p>Implement trait Clicky cho các struct như Keyboard và Mouse, cung cấp phương thức click.
+Vector không đồng nhất:</p>
+<p>Vector clickers chứa các trait object Box<dyn Clicky>. Điều này cho phép vector chứa các đối tượng với các kiểu khác nhau (như Keyboard và Mouse), miễn là chúng đều thực hiện trait Clicky.
+Dynamic Dispatch:</p>
+<p>Khi gọi phương thức click trên các đối tượng trong vector clickers, Rust sẽ sử dụng dynamic dispatch để xác định phương thức cần gọi tại runtime. Điều này giúp xử lý các đối tượng với các kiểu khác nhau một cách linh hoạt.
+Tóm tắt
+Slide này minh họa cách sử dụng trait object và vector không đồng nhất trong Rust để lưu trữ và làm việc với các đối tượng khác nhau nhưng cùng thực hiện một trait. Điều này cho phép xử lý linh hoạt và dễ dàng mở rộng khi có thêm các kiểu đối tượng mới.</p>
+</aside></script></section>
     </article>
   </main>
 

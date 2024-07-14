@@ -37,7 +37,22 @@
   - Each possibility is called a “variant”
 - Provides information about your program to the compiler
   - More robust programs
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giới thiệu về khái niệm liệt kê (enumeration) trong lập trình, đặc biệt là trong ngôn ngữ Rust.</p>
+<p>Nội dung chi tiết:
+Định nghĩa dữ liệu có thể là một trong nhiều khả năng khác nhau:</p>
+<p>Liệt kê (enumeration) là một kiểu dữ liệu cho phép một biến có thể nhận một trong nhiều giá trị (hoặc trạng thái) khác nhau.
+Mỗi khả năng này được gọi là một &quot;biến thể&quot; (variant).
+Ví dụ: Trong Rust, có thể khai báo một enum để biểu diễn các trạng thái khác nhau của một đèn giao thông với các biến thể như Red, Yellow, Green.
+Cung cấp thông tin về chương trình của bạn cho trình biên dịch:</p>
+<p>Việc sử dụng enum giúp trình biên dịch hiểu rõ hơn về các khả năng khác nhau của biến, từ đó có thể tối ưu hóa và kiểm tra tính đúng đắn của mã nguồn.
+Điều này giúp phát hiện lỗi tại thời điểm biên dịch thay vì lúc chạy chương trình, nâng cao độ tin cậy và an toàn của mã nguồn.
+Chương trình mạnh mẽ hơn:</p>
+<p>Sử dụng enum làm cho mã nguồn rõ ràng và dễ hiểu hơn, giúp lập trình viên dễ dàng quản lý và bảo trì mã.
+Việc phân biệt rõ ràng các trạng thái khác nhau của biến giúp tránh các lỗi logic và nâng cao tính chính xác của chương trình.
+Kết luận:
+Enum là một công cụ mạnh mẽ trong lập trình, giúp biểu diễn rõ ràng các trạng thái khác nhau của dữ liệu. Việc sử dụng enum không chỉ giúp chương trình trở nên mạnh mẽ và dễ bảo trì hơn mà còn cung cấp nhiều thông tin hữu ích cho trình biên dịch để tối ưu hóa và kiểm tra tính đúng đắn của mã nguồn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -57,7 +72,25 @@ fn which_way(go: Direction) -> &'static str {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa một ví dụ về việc sử dụng enum trong ngôn ngữ lập trình Rust.</p>
+<p>Nội dung chi tiết:
+Định nghĩa enum Direction:</p>
+<p>Enum Direction định nghĩa bốn biến thể: Up, Down, Left, và Right.
+Đây là một cách để biểu diễn các hướng khác nhau mà một đối tượng có thể di chuyển.
+Hàm which_way:</p>
+<p>Hàm which_way nhận một tham số go có kiểu Direction.
+Hàm này trả về một chuỗi tĩnh &amp;&#39;static str, biểu diễn hướng tương ứng dưới dạng chuỗi ký tự.
+Sử dụng match:</p>
+<p>Bên trong hàm which_way, biểu thức match được sử dụng để kiểm tra giá trị của go.
+Tùy thuộc vào giá trị của go, hàm sẽ trả về chuỗi tương ứng:
+Nếu go là Direction::Up, hàm trả về chuỗi &quot;up&quot;.
+Nếu go là Direction::Down, hàm trả về chuỗi &quot;down&quot;.
+Nếu go là Direction::Left, hàm trả về chuỗi &quot;left&quot;.
+Nếu go là Direction::Right, hàm trả về chuỗi &quot;right&quot;.</p>
+<p>Kết luận:
+Ví dụ này cho thấy cách sử dụng enum để đại diện cho các hướng khác nhau và cách sử dụng biểu thức match để xử lý các giá trị của enum. Enum giúp mã nguồn trở nên rõ ràng và dễ bảo trì hơn bằng cách giới hạn các giá trị hợp lệ của một biến và sử dụng match để xử lý từng trường hợp cụ thể một cách rõ ràng và an toàn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Structure
 
 - A type that contains multiple pieces of data
@@ -65,7 +98,24 @@ fn which_way(go: Direction) -> &'static str {
 - Each piece of data is called a “field”
 - Makes working with data easier
   - Similar data can be grouped together
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích khái niệm về cấu trúc (structure) trong lập trình, đặc biệt là trong ngôn ngữ lập trình Rust.</p>
+<p>Nội dung chi tiết:
+Định nghĩa Structure:</p>
+<p>A type that contains multiple pieces of data (Một kiểu chứa nhiều phần dữ liệu):
+Structure là một kiểu dữ liệu có thể chứa nhiều phần dữ liệu khác nhau.
+All or nothing (Tất cả hoặc không có gì):
+Cấu trúc phải có tất cả các phần dữ liệu hoặc không có phần nào. Bạn không thể có một số phần dữ liệu mà không có các phần khác.
+Each piece of data is called a &quot;field&quot; (Mỗi phần dữ liệu được gọi là một &quot;trường&quot;):
+Mỗi phần dữ liệu trong cấu trúc được gọi là một trường (field).
+Lợi ích của Structure:</p>
+<p>Makes working with data easier (Làm cho việc làm việc với dữ liệu dễ dàng hơn):
+Sử dụng cấu trúc giúp việc quản lý và thao tác với dữ liệu trở nên dễ dàng hơn.
+Similar data can be grouped together (Dữ liệu tương tự có thể được nhóm lại với nhau):
+Các dữ liệu tương tự có thể được nhóm lại trong một cấu trúc, giúp mã nguồn rõ ràng và dễ hiểu hơn.
+Kết luận:
+Việc sử dụng cấu trúc trong lập trình giúp quản lý dữ liệu một cách có tổ chức và hiệu quả hơn. Nó cho phép bạn nhóm các phần dữ liệu liên quan lại với nhau, giúp việc truy cập và quản lý chúng trở nên dễ dàng và logic hơn. Trong Rust, cấu trúc được sử dụng rộng rãi để tạo ra các kiểu dữ liệu phức tạp và quản lý dữ liệu một cách hiệu quả.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -86,7 +136,40 @@ fn main() {
     println!("the box is {:?} units tall", tall);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một ví dụ về cách sử dụng struct trong Rust.</p>
+<p>Nội dung chi tiết:
+Định nghĩa Struct:</p>
+<p>rust
+Copy code
+struct ShippingBox {
+    depth: i32,
+    width: i32,
+    height: i32,
+}
+struct ShippingBox: Định nghĩa một cấu trúc có tên là ShippingBox.
+depth, width, height: Các trường dữ liệu (fields) của cấu trúc ShippingBox, đều có kiểu dữ liệu là i32 (số nguyên 32-bit).
+Khởi tạo và sử dụng Struct:</p>
+<p>rust
+Copy code
+fn main() {
+    let my_box = ShippingBox {
+        depth: 3,
+        width: 2,
+        height: 5,
+    };</p>
+<pre><code>let tall = my_box.height;
+println!(&quot;the box is {:?} units tall&quot;, tall);
+</code></pre>
+<p>}
+fn main(): Hàm chính của chương trình.
+let my_box = ShippingBox { ... }: Khởi tạo một biến my_box kiểu ShippingBox với các giá trị cho các trường depth, width, và height lần lượt là 3, 2, và 5.
+let tall = my_box.height: Truy cập trường height của my_box và gán giá trị này cho biến tall.
+println!(&quot;the box is {:?} units tall&quot;, tall): In ra màn hình giá trị của tall với thông báo &quot;the box is X units tall&quot; (X là giá trị của tall).
+Kết luận:
+Ví dụ này minh họa cách định nghĩa một cấu trúc (struct) trong Rust, cách khởi tạo một biến kiểu struct và cách truy cập các trường của struct đó. Cấu trúc ShippingBox được sử dụng để lưu trữ các thông số về kích thước của một hộp. Sau khi khởi tạo my_box, chương trình truy cập và in ra giá trị của trường height.</p>
+<p>Điều này giúp hiểu rõ cách sử dụng struct trong Rust để tổ chức và quản lý dữ liệu một cách có trật tự và hiệu quả.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Tuples
 
 - A type of “record”
@@ -94,7 +177,24 @@ fn main() {
   - No need to name fields
 - Useful to return pairs of data from functions
 - Can be “destructured” easily into variables
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về khái niệm tuples trong lập trình, đặc biệt trong ngôn ngữ Rust.</p>
+<p>Nội dung chi tiết:
+A type of &quot;record&quot;:
+Tuples là một loại cấu trúc dữ liệu giống như bản ghi (record) trong các hệ thống quản lý cơ sở dữ liệu.
+Store data anonymously:
+Tuples lưu trữ dữ liệu mà không cần phải đặt tên cho từng trường dữ liệu.</p>
+<p>No need to name fields:</p>
+<p>Không cần phải đặt tên cho từng trường dữ liệu như trong struct.
+Useful to return pairs of data from functions:
+Tuples hữu ích khi trả về nhiều giá trị từ một hàm.
+Ví dụ: Một hàm có thể trả về cả giá trị và lỗi cùng một lúc.
+Can be &quot;destructured&quot; easily into variables:
+Tuples có thể được phân rã (destructured) dễ dàng thành các biến riêng biệt.
+Điều này có nghĩa là bạn có thể tách từng giá trị trong tuple và gán nó cho các biến khác nhau.
+Kết luận:
+Tuples là một cấu trúc dữ liệu đơn giản và hiệu quả trong Rust, cho phép bạn lưu trữ và xử lý nhiều giá trị mà không cần phải đặt tên cho từng trường. Điều này rất tiện lợi khi bạn muốn trả về nhiều giá trị từ một hàm hoặc khi bạn cần lưu trữ một nhóm giá trị liên quan nhưng không muốn tạo một struct phức tạp. Tuples cũng dễ dàng phân rã thành các biến riêng biệt, giúp việc xử lý dữ liệu trở nên linh hoạt hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -116,14 +216,56 @@ fn main() {
     let (employee, access) = ("Jake", Access::Full);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp một ví dụ về cách sử dụng enum và tuple trong Rust.</p>
+<p>Nội dung chi tiết:
+enum Access { Full, }</p>
+<p>Định nghĩa một enum với một biến thể Full.
+fn one_two_three() -&gt; (i32, i32, i32) { (1, 2, 3) }</p>
+<p>Hàm one_two_three trả về một tuple chứa ba giá trị nguyên (i32): 1, 2 và 3.
+fn main() { ... }</p>
+<p>Hàm chính (main) bao gồm các bước sau:</p>
+<p>let numbers = one_two_three();</p>
+<p>Gọi hàm one_two_three và gán kết quả trả về cho biến numbers.
+let (x, y, z) = one_two_three();</p>
+<p>Gọi hàm one_two_three lần nữa và phân rã tuple trả về thành ba biến x, y, và z.
+println!(&quot;{:?}, {:?}&quot;, x, numbers.0); // 1</p>
+<p>In ra giá trị của x và phần tử đầu tiên của numbers (numbers.0). Cả hai đều là 1.
+println!(&quot;{:?}, {:?}&quot;, y, numbers.1); // 2</p>
+<p>In ra giá trị của y và phần tử thứ hai của numbers (numbers.1). Cả hai đều là 2.
+println!(&quot;{:?}, {:?}&quot;, z, numbers.2); // 3</p>
+<p>In ra giá trị của z và phần tử thứ ba của numbers (numbers.2). Cả hai đều là 3.
+let (employee, access) = (&quot;Jake&quot;, Access::Full);</p>
+<p>Khởi tạo một tuple khác và phân rã nó thành hai biến employee và access. employee là chuỗi &quot;Jake&quot;, và access là Access::Full.
+Kết luận:
+Enum: Được sử dụng để tạo ra các biến thể có tên, giúp mã dễ đọc và bảo trì hơn.
+Tuple: Cho phép bạn nhóm nhiều giá trị khác nhau thành một biến duy nhất và dễ dàng phân rã chúng khi cần thiết.
+Phân rã (Destructuring): Giúp việc truy cập các giá trị trong tuple trở nên dễ dàng và trực quan hơn.
+Ví dụ này minh họa cách kết hợp enum và tuple trong Rust để quản lý và xử lý dữ liệu một cách hiệu quả.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Expressions
 
 - Rust is an expression-based language
   - Most things are evaluated and return some value
 - Expression values coalesce to a single point
   - Can be used for nesting logic
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này tập trung vào các biểu thức trong ngôn ngữ lập trình Rust và tầm quan trọng của chúng. Dưới đây là chi tiết từng ý trong slide:</p>
+<p>Rust is an expression-based language</p>
+<p>Rust là một ngôn ngữ lập trình dựa trên biểu thức. Điều này có nghĩa là hầu hết các thành phần trong Rust đều là biểu thức.
+Most things are evaluated and return some value</p>
+<p>Hầu hết các biểu thức trong Rust đều được đánh giá và trả về một giá trị. Đây là một đặc điểm quan trọng giúp Rust trở nên mạnh mẽ và linh hoạt.
+Expression values coalesce to a single point</p>
+<p>Các giá trị của biểu thức thường được hợp nhất tại một điểm duy nhất. Điều này có nghĩa là nhiều biểu thức có thể được kết hợp lại để tạo ra một giá trị duy nhất.
+Can be used for nesting logic</p>
+<p>Các biểu thức có thể được sử dụng để lồng logic. Điều này cho phép viết mã ngắn gọn và hiệu quả hơn khi bạn có thể nhúng các biểu thức vào nhau.
+Tóm tắt:
+Biểu thức trong Rust: Là nền tảng của ngôn ngữ, giúp cấu trúc mã rõ ràng và ngắn gọn.
+Đánh giá và trả về giá trị: Mọi biểu thức đều có thể đánh giá và trả về một giá trị, điều này rất hữu ích trong việc viết mã hiệu quả.
+Hợp nhất giá trị: Các giá trị biểu thức có thể được hợp nhất, giúp cho việc quản lý và sử dụng dữ liệu trở nên dễ dàng hơn.
+Lồng ghép logic: Khả năng lồng ghép biểu thức giúp mã rõ ràng và dễ hiểu hơn.
+Nhìn chung, hiểu và sử dụng biểu thức một cách hiệu quả là một phần quan trọng khi lập trình với Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -136,7 +278,38 @@ let is_lt_5 = if my_num < 5 {
 
 let is_lt_5 = my_num < 5;
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích slide &quot;Example&quot; về Expressions
+Slide này minh họa cách sử dụng biểu thức trong Rust để kiểm tra một điều kiện và gán giá trị dựa trên kết quả của điều kiện đó.</p>
+<p>Phần 1: Sử dụng if biểu thức để gán giá trị
+rust
+Copy code
+let my_num = 3;
+let is_lt_5 = if my_num &lt; 5 {
+    true
+} else {
+    false
+};
+let my_num = 3;: Tạo một biến my_num với giá trị là 3.
+let is_lt_5 = if my_num &lt; 5 { true } else { false };:
+Đây là một biểu thức if.
+Kiểm tra xem my_num có nhỏ hơn 5 không.
+Nếu đúng (my_num &lt; 5), biểu thức trả về true.
+Nếu sai, biểu thức trả về false.
+Kết quả của biểu thức if này được gán cho biến is_lt_5.
+Phần 2: Biểu thức đơn giản hơn
+rust
+Copy code
+let is_lt_5 = my_num &lt; 5;
+let is_lt_5 = my_num &lt; 5;:
+Câu lệnh này làm tương tự như biểu thức if ở trên nhưng viết ngắn gọn hơn.
+my_num &lt; 5 là một biểu thức so sánh, kết quả của nó là true hoặc false.
+Kết quả của biểu thức này trực tiếp gán cho biến is_lt_5.
+Tóm tắt
+Biểu thức if trong Rust có thể trả về giá trị và gán trực tiếp vào biến, giúp mã ngắn gọn và dễ đọc.
+Biểu thức đơn giản có thể thay thế biểu thức if trong một số trường hợp để viết mã ngắn gọn hơn.
+Sử dụng biểu thức hiệu quả giúp mã trở nên rõ ràng và dễ bảo trì hơn. Trong ví dụ này, việc sử dụng biểu thức so sánh trực tiếp (my_num &lt; 5) là cách viết ngắn gọn và hiệu quả hơn so với biểu thức if phức tạp hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -146,7 +319,29 @@ let message = match my_num {
     _ => "goodbye"
 };
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng biểu thức match trong Rust để phân nhánh logic và gán giá trị dựa trên kết quả của các nhánh.</p>
+<p>rust
+Copy code
+let my_num = 3;
+let message = match my_num {
+    1 =&gt; &quot;hello&quot;,
+    _ =&gt; &quot;goodbye&quot;
+};
+Phân tích từng phần
+let my_num = 3;: Tạo một biến my_num với giá trị là 3.
+let message = match my_num { ... };: Sử dụng biểu thức match để kiểm tra giá trị của my_num và gán giá trị cho biến message dựa trên kết quả của match.
+Biểu thức match
+1 =&gt; &quot;hello&quot;,: Nếu giá trị của my_num là 1, biểu thức match trả về chuỗi &quot;hello&quot;.
+_ =&gt; &quot;goodbye&quot;: Dấu gạch dưới _ đại diện cho bất kỳ giá trị nào không khớp với các nhánh trước đó. Trong trường hợp này, nếu my_num không phải là 1, biểu thức match trả về chuỗi &quot;goodbye&quot;.
+Kết quả của biểu thức match
+Vì my_num có giá trị là 3, không khớp với nhánh 1, nên nó sẽ khớp với nhánh _.
+Kết quả của biểu thức match là &quot;goodbye&quot;, và giá trị này được gán cho biến message.
+Tóm tắt
+Biểu thức match trong Rust rất mạnh mẽ và linh hoạt, cho phép bạn phân nhánh logic dựa trên giá trị của một biến.
+Bạn có thể xác định các nhánh cụ thể và sử dụng dấu gạch dưới _ để đại diện cho bất kỳ giá trị nào không khớp với các nhánh cụ thể.
+Trong ví dụ này, giá trị của message là &quot;goodbye&quot; vì my_num không phải là 1.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -171,7 +366,73 @@ let order_placed = match item {
 };
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng cấu trúc enum cùng với biểu thức match và điều kiện if để phân nhánh logic phức tạp hơn trong Rust.</p>
+<p>rust
+Copy code
+enum Menu {
+    Burger,
+    Fries,
+    Drink,
+}</p>
+<p>let paid = true;
+let item = Menu::Drink;
+let drink_type = &quot;water&quot;;
+let order_placed = match item {
+    Menu::Drink =&gt; {
+        if drink_type == &quot;water&quot; {
+            true
+        } else {
+            false
+        }
+    },
+    _ =&gt; true,
+};
+Phân tích từng phần
+Định nghĩa enum Menu</p>
+<p>rust
+Copy code
+enum Menu {
+    Burger,
+    Fries,
+    Drink,
+}
+Định nghĩa một kiểu dữ liệu enum có tên là Menu với ba giá trị có thể: Burger, Fries, và Drink.
+Biến và giá trị</p>
+<p>rust
+Copy code
+let paid = true;
+let item = Menu::Drink;
+let drink_type = &quot;water&quot;;
+let paid = true;: Khai báo biến paid với giá trị true.
+let item = Menu::Drink;: Khai báo biến item với giá trị Menu::Drink.
+let drink_type = &quot;water&quot;;: Khai báo biến drink_type với giá trị &quot;water&quot;.
+Sử dụng biểu thức match</p>
+<p>rust
+Copy code
+let order_placed = match item {
+    Menu::Drink =&gt; {
+        if drink_type == &quot;water&quot; {
+            true
+        } else {
+            false
+        }
+    },
+    _ =&gt; true,
+};
+match item { ... }: Biểu thức match kiểm tra giá trị của biến item.
+Menu::Drink =&gt; { ... }: Nếu item là Menu::Drink, thực hiện khối lệnh bên trong { ... }.
+if drink_type == &quot;water&quot; { ... } else { ... }: Kiểm tra giá trị của drink_type.
+if drink_type == &quot;water&quot; { true }: Nếu drink_type là &quot;water&quot;, trả về true.
+else { false }: Nếu không, trả về false.
+_ =&gt; true: Dấu gạch dưới _ đại diện cho bất kỳ giá trị nào không khớp với các nhánh trước đó. Trong trường hợp này, trả về true.
+Kết quả của biểu thức match
+Vì item là Menu::Drink và drink_type là &quot;water&quot;, nhánh Menu::Drink được thực hiện và điều kiện if trả về true.
+Do đó, giá trị của order_placed là true.
+Tóm tắt
+Biểu thức match trong Rust có thể kết hợp với điều kiện if để thực hiện phân nhánh logic phức tạp hơn.
+Trong ví dụ này, nếu item là Menu::Drink và drink_type là &quot;water&quot;, order_placed sẽ là true. Nếu item là bất kỳ giá trị nào khác, order_placed cũng sẽ là true do nhánh _.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Option
 
 - A type that may be one of two things
@@ -181,7 +442,15 @@ let order_placed = match item {
   - Unable to find something
   - Ran out of items in a list
   - Form field not filled out
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Kiểu dữ liệu Option có thể là một trong hai thứ:</p>
+<p>Some data of a specified type: Một số dữ liệu của một kiểu dữ liệu cụ thể.
+Nothing: Không có dữ liệu gì cả.
+Sử dụng Option trong các tình huống:</p>
+<p>Unable to find something: Không thể tìm thấy một thứ gì đó.
+Ran out of items in a list: Hết các mục trong một danh sách.
+Form field not filled out: Một trường trong form chưa được điền.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Definition
 
 ```rust
@@ -191,7 +460,10 @@ enum Option<T> {
 }
 
 ```
-
+<aside class="notes"><p>enum Option<T> là một kiểu dữ liệu enum trong Rust.
+Some(T): Đại diện cho một giá trị của kiểu T.
+None: Đại diện cho việc không có giá trị nào.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -215,7 +487,55 @@ match becky.age {
     None => println!("customer age not provided"),
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng kiểu dữ liệu Option trong Rust thông qua một ví dụ cụ thể về một cấu trúc Customer với một trường age có thể có hoặc không.</p>
+<p>Nội dung chính của slide:
+Định nghĩa cấu trúc Customer:
+rust
+Copy code
+struct Customer {
+    age: Option<i32>,
+    email: String,
+}
+Cấu trúc Customer có hai trường:
+age: kiểu Option<i32>, có thể là Some(i32) nếu tuổi được cung cấp hoặc None nếu không có giá trị tuổi.
+email: kiểu String, luôn có giá trị.
+Khởi tạo hai đối tượng Customer:
+rust
+Copy code
+let mark = Customer {
+    age: Some(22),
+    email: &quot;<a href="mailto:&#109;&#97;&#114;&#107;&#64;&#x65;&#120;&#97;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#x6f;&#109;">&#109;&#97;&#114;&#107;&#64;&#x65;&#120;&#97;&#x6d;&#x70;&#108;&#101;&#x2e;&#99;&#x6f;&#109;</a>&quot;.to_owned(),
+};</p>
+<p>let becky = Customer {
+    age: None,
+    email: &quot;<a href="mailto:&#98;&#101;&#99;&#x6b;&#121;&#x40;&#x65;&#x78;&#97;&#109;&#x70;&#108;&#101;&#x2e;&#x63;&#111;&#x6d;">&#98;&#101;&#99;&#x6b;&#121;&#x40;&#x65;&#x78;&#97;&#109;&#x70;&#108;&#101;&#x2e;&#x63;&#111;&#x6d;</a>&quot;.to_owned(),
+};
+mark có tuổi là 22 (Some(22)) và email &quot;<a href="mailto:&#109;&#97;&#x72;&#x6b;&#64;&#x65;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#x63;&#111;&#x6d;">&#109;&#97;&#x72;&#x6b;&#64;&#x65;&#120;&#97;&#x6d;&#112;&#x6c;&#101;&#x2e;&#x63;&#111;&#x6d;</a>&quot;.
+becky không có giá trị tuổi (None) và email &quot;<a href="mailto:&#x62;&#x65;&#99;&#x6b;&#x79;&#64;&#x65;&#x78;&#x61;&#109;&#x70;&#108;&#x65;&#46;&#99;&#111;&#x6d;">&#x62;&#x65;&#99;&#x6b;&#x79;&#64;&#x65;&#x78;&#x61;&#109;&#x70;&#108;&#x65;&#46;&#99;&#111;&#x6d;</a>&quot;.
+Sử dụng match để xử lý giá trị của Option:
+rust
+Copy code
+match becky.age {
+    Some(age) =&gt; println!(&quot;customer is {} years old&quot;, age),
+    None =&gt; println!(&quot;customer age not provided&quot;),
+}
+Kiểm tra giá trị của becky.age:
+Nếu là Some(age), in ra tuổi của khách hàng.
+Nếu là None, in ra thông báo &quot;customer age not provided&quot;.
+Giải thích chi tiết:
+Sử dụng Option trong cấu trúc:
+Kiểu Option cho phép lưu trữ dữ liệu có thể không có giá trị, tránh các lỗi liên quan đến giá trị null.
+Option<i32> có thể lưu trữ một số nguyên hoặc không có giá trị nào.
+Khởi tạo và sử dụng đối tượng Customer:
+mark có giá trị tuổi, được khởi tạo với Some(22), và email là một chuỗi.
+becky không có giá trị tuổi, được khởi tạo với None, và email là một chuỗi.
+Sử dụng match để xử lý Option:
+Sử dụng cấu trúc điều khiển match để kiểm tra và xử lý giá trị của Option.
+Trong ví dụ, becky.age được kiểm tra. Nếu có tuổi, in ra tuổi. Nếu không có tuổi, in ra thông báo phù hợp.
+Kết luận
+Ví dụ này minh họa cách sử dụng Option trong Rust để xử lý các giá trị có thể không tồn tại một cách an toàn và rõ ràng. Bằng cách sử dụng Option và match, lập trình viên có thể kiểm tra và xử lý các giá trị thiếu một cách có cấu trúc, tránh các lỗi tiềm ẩn do giá trị null.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -240,7 +560,56 @@ fn find_quantity(name: &str) -> Option<i32> {
     None
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách sử dụng kiểu dữ liệu Option trong Rust để tìm kiếm số lượng của một mặt hàng trong danh sách các mặt hàng tạp hóa.</p>
+<p>Nội dung chính của slide:
+Định nghĩa cấu trúc GroceryItem:
+rust
+Copy code
+struct GroceryItem {
+    name: String,
+    qty: i32,
+}
+Cấu trúc GroceryItem có hai trường:
+name: kiểu String, lưu trữ tên của mặt hàng.
+qty: kiểu i32, lưu trữ số lượng của mặt hàng.
+Định nghĩa hàm find_quantity:
+rust
+Copy code
+fn find_quantity(name: &amp;str) -&gt; Option<i32> {
+    let groceries = vec![
+        GroceryItem { name: &quot;bananas&quot;.to_owned(), qty: 4 },
+        GroceryItem { name: &quot;eggs&quot;.to_owned(), qty: 12 },
+        GroceryItem { name: &quot;bread&quot;.to_owned(), qty: 1 },
+    ];</p>
+<pre><code>for item in groceries {
+    if item.name == name {
+        return Some(item.qty);
+    }
+}
+
+None
+</code></pre>
+<p>}
+Hàm find_quantity nhận vào một tham số name kiểu &amp;str và trả về Option<i32>.
+Bên trong hàm:
+Một danh sách groceries được tạo ra chứa ba mặt hàng tạp hóa: &quot;bananas&quot;, &quot;eggs&quot;, và &quot;bread&quot; với các số lượng tương ứng.
+Duyệt qua từng mặt hàng trong danh sách groceries.
+Nếu tên của mặt hàng khớp với tên được tìm kiếm (name), trả về Some(item.qty) - số lượng của mặt hàng đó.
+Nếu không tìm thấy mặt hàng nào có tên khớp, trả về None.
+Giải thích chi tiết:
+Sử dụng Option trong hàm find_quantity:
+Kiểu Option cho phép hàm find_quantity trả về kết quả một cách an toàn, hoặc là số lượng mặt hàng (nếu tìm thấy) hoặc là None (nếu không tìm thấy).
+Option<i32> có thể lưu trữ một số nguyên hoặc không có giá trị nào.
+Khởi tạo và sử dụng danh sách các mặt hàng tạp hóa:
+Danh sách groceries chứa ba mặt hàng, mỗi mặt hàng là một đối tượng GroceryItem với tên và số lượng cụ thể.
+Duyệt qua danh sách và sử dụng match để xử lý Option:
+Vòng lặp for duyệt qua từng mặt hàng trong danh sách groceries.
+Nếu tìm thấy mặt hàng có tên khớp với tên được tìm kiếm (name), trả về Some(item.qty).
+Nếu duyệt hết danh sách mà không tìm thấy mặt hàng nào khớp, trả về None.
+Kết luận
+Ví dụ này minh họa cách sử dụng Option trong Rust để xử lý các giá trị có thể không tồn tại một cách an toàn và rõ ràng. Bằng cách sử dụng Option và match, lập trình viên có thể kiểm tra và xử lý các giá trị thiếu một cách có cấu trúc, tránh các lỗi tiềm ẩn do giá trị null.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Result
 
 - A data type that contains one of two types of data:
@@ -249,7 +618,12 @@ fn find_quantity(name: &str) -> Option<i32> {
 - Used in scenarios where an action needs to be taken, but has the possibility of failure
   - Copying a file
   - Connecting to a website
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Result được sử dụng trong các tình huống mà một hành động cần được thực hiện nhưng có khả năng thất bại.
+Các ví dụ về sử dụng Result:
+Sao chép một tập tin: Quá trình này có thể thành công hoặc thất bại do các lý do như không tìm thấy tập tin hoặc không đủ quyền.
+Kết nối đến một trang web: Kết nối có thể thành công hoặc thất bại do nhiều lý do như không có mạng, tên miền không tồn tại, hoặc máy chủ không phản hồi.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Definition
 
 ```rust
@@ -258,7 +632,12 @@ enum Result<T, E> {
     Err(E),
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Định nghĩa Result trong Rust:
+enum Result&lt;T, E&gt;: Result là một kiểu enum với hai biến thể:
+Ok(T): Biến thể này biểu thị một kết quả thành công và chứa giá trị của loại T.
+Err(E): Biến thể này biểu thị một kết quả lỗi và chứa giá trị của loại E.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -291,14 +670,109 @@ fn main() {
     }
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa việc sử dụng kiểu dữ liệu Result trong Rust để quản lý các thao tác có thể thất bại. Dưới đây là chi tiết về từng phần của mã:</p>
+<p>Định nghĩa struct và triển khai phương thức:
+rust
+Copy code
+struct SoundData {
+    // assuming SoundData has a field called <code>name</code>
+    name: String,
+}</p>
+<p>impl SoundData {
+    fn new(name: &amp;str) -&gt; SoundData {
+        SoundData {
+            name: name.to_owned(),
+        }
+    }
+}
+struct SoundData:</p>
+<p>Một cấu trúc đơn giản có một trường name kiểu String.
+Triển khai impl SoundData:</p>
+<p>Triển khai một phương thức new để tạo một thể hiện mới của SoundData.
+Phương thức new nhận một tham số name kiểu &amp;str và trả về một đối tượng SoundData với tên được chuyển đổi thành kiểu String bằng phương thức to_owned.
+Định nghĩa hàm get_sound:
+rust
+Copy code
+fn get_sound(name: &amp;str) -&gt; Result&lt;SoundData, String&gt; {
+    if name == &quot;alert&quot; {
+        Ok(SoundData::new(&quot;alert&quot;))
+    } else {
+        Err(&quot;unable to find sound data&quot;.to_owned())
+    }
+}
+Hàm get_sound:
+Nhận vào một tham số name kiểu &amp;str.
+Trả về Result&lt;SoundData, String&gt;:
+Ok(SoundData): Nếu name là &quot;alert&quot;, hàm trả về một thể hiện của SoundData chứa &quot;alert&quot;.
+Err(String): Nếu name không phải là &quot;alert&quot;, hàm trả về một lỗi với thông báo &quot;unable to find sound data&quot;.
+Hàm main:
+rust
+Copy code
+fn main() {
+    let sound = get_sound(&quot;alert&quot;);
+    match sound {
+        Ok(_) =&gt; println!(&quot;sound data located&quot;),
+        Err(e) =&gt; println!(&quot;error: {}&quot;, e),
+    }
+}
+Hàm main:
+Gọi hàm get_sound với tham số &quot;alert&quot; và lưu kết quả vào biến sound.
+Sử dụng biểu thức match để xử lý kết quả:
+Nếu sound là Ok, in ra thông báo &quot;sound data located&quot;.
+Nếu sound là Err, in ra thông báo lỗi cùng với nội dung của lỗi.
+Tóm tắt:
+Mục đích: Ví dụ này minh họa cách sử dụng Result để xử lý các tình huống mà một thao tác có thể thành công hoặc thất bại.
+struct SoundData: Định nghĩa cấu trúc dữ liệu để lưu trữ thông tin âm thanh.
+impl SoundData: Triển khai phương thức để tạo đối tượng SoundData.
+fn get_sound: Hàm để tìm kiếm dữ liệu âm thanh dựa trên tên và trả về kết quả sử dụng Result.
+fn main: Hàm chính sử dụng get_sound và xử lý kết quả trả về để hiển thị thông báo phù hợp.
+Sử dụng Result trong Rust giúp chương trình của bạn xử lý lỗi một cách rõ ràng và có tổ chức, bắt buộc lập trình viên phải quản lý cả hai trường hợp thành công và thất bại.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Vector
 
 - Multiple pieces of data
   - Must be the same type
 - Used for lists of information
 - Can add, remove, and traverse the entries
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này trình bày về cấu trúc dữ liệu Vector trong Rust, với các điểm chính như sau:</p>
+<p>Multiple pieces of data (Nhiều mảnh dữ liệu):</p>
+<p>Vector chứa nhiều phần tử dữ liệu.
+Các phần tử trong Vector phải có cùng một kiểu dữ liệu.
+Must be the same type (Phải cùng một loại):</p>
+<p>Tất cả các phần tử trong Vector phải có cùng kiểu dữ liệu. Điều này đảm bảo tính nhất quán và dễ dàng quản lý bộ nhớ.
+Used for lists of information (Được sử dụng cho danh sách thông tin):</p>
+<p>Vector thường được sử dụng để lưu trữ các danh sách thông tin.
+Đây là cấu trúc dữ liệu phổ biến để quản lý các tập hợp các mục có cùng kiểu.
+Can add, remove, and traverse the entries (Có thể thêm, xóa và duyệt các mục):</p>
+<p>Vector hỗ trợ các thao tác thêm (add), xóa (remove), và duyệt (traverse) các phần tử.
+Điều này giúp Vector trở thành một cấu trúc dữ liệu linh hoạt và hữu ích trong nhiều tình huống lập trình.
+Ví dụ:
+rust
+Copy code
+fn main() {
+    let mut numbers: Vec<i32> = Vec::new();</p>
+<pre><code>// Thêm phần tử vào vector
+numbers.push(1);
+numbers.push(2);
+numbers.push(3);
+
+// Xóa phần tử khỏi vector
+numbers.pop();
+
+// Duyệt các phần tử trong vector
+for number in &amp;numbers {
+    println!(&quot;{}&quot;, number);
+}
+</code></pre>
+<p>}
+Tạo một Vector rỗng: let mut numbers: Vec<i32> = Vec::new();
+Thêm phần tử: numbers.push(1);
+Xóa phần tử cuối cùng: numbers.pop();
+Duyệt các phần tử: Sử dụng vòng lặp for để in từng phần tử trong Vector.
+Vector là một cấu trúc dữ liệu mạnh mẽ và linh hoạt, cho phép bạn quản lý các danh sách thông tin một cách dễ dàng và hiệu quả trong Rust.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -313,7 +787,59 @@ let length = my_numbers.len(); // this is 2
 
 let two = my_numbers[1];
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp ví dụ về việc sử dụng Vector trong Rust. Dưới đây là giải thích chi tiết từng phần của mã nguồn:</p>
+<p>rust
+Copy code
+// Tạo một vector với các phần tử ban đầu
+let my_numbers = vec![1, 2, 3];</p>
+<p>// Tạo một vector rỗng và thay đổi được (mutable)
+let mut my_numbers = Vec::new();
+my_numbers.push(1); // Thêm phần tử 1 vào vector
+my_numbers.push(2); // Thêm phần tử 2 vào vector
+my_numbers.push(3); // Thêm phần tử 3 vào vector</p>
+<p>// Xóa phần tử cuối cùng trong vector
+my_numbers.pop();</p>
+<p>// Lấy độ dài của vector sau khi xóa phần tử cuối cùng
+let length = my_numbers.len(); // Kết quả là 2</p>
+<p>// Truy cập phần tử thứ hai của vector (chỉ mục bắt đầu từ 0)
+let two = my_numbers[1];
+Chi tiết các bước:
+Tạo Vector:</p>
+<p>rust
+Copy code
+let my_numbers = vec![1, 2, 3];
+my_numbers là một vector được khởi tạo với các phần tử 1, 2, 3.
+Tạo một Vector rỗng và thay đổi được:</p>
+<p>rust
+Copy code
+let mut my_numbers = Vec::new();
+Sử dụng Vec::new() để tạo một vector rỗng có thể thay đổi (mut).
+Thêm phần tử vào Vector:</p>
+<p>rust
+Copy code
+my_numbers.push(1);
+my_numbers.push(2);
+my_numbers.push(3);
+Sử dụng phương thức push để thêm các phần tử 1, 2, 3 vào vector.
+Xóa phần tử cuối cùng:</p>
+<p>rust
+Copy code
+my_numbers.pop();
+Sử dụng phương thức pop để xóa phần tử cuối cùng của vector. Sau thao tác này, vector sẽ còn lại các phần tử 1, 2.
+Lấy độ dài của Vector:</p>
+<p>rust
+Copy code
+let length = my_numbers.len();
+Sử dụng phương thức len để lấy số lượng phần tử hiện có trong vector. Kết quả là 2 sau khi xóa một phần tử.
+Truy cập phần tử theo chỉ mục:</p>
+<p>rust
+Copy code
+let two = my_numbers[1];
+Truy cập phần tử thứ hai (chỉ mục 1) trong vector. Giá trị của two sẽ là 2.
+Tổng kết:
+Slide này minh họa cách khởi tạo, thêm, xóa và truy cập các phần tử trong Vector của Rust. Vector là một cấu trúc dữ liệu linh hoạt, hỗ trợ nhiều thao tác quản lý danh sách các phần tử.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -323,7 +849,42 @@ for num in my_numbers {
     println!("{:?}", num);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp ví dụ về cách sử dụng vòng lặp for để duyệt qua các phần tử của một Vector trong Rust. Dưới đây là giải thích chi tiết từng phần của mã nguồn:</p>
+<p>rust
+Copy code
+// Tạo một vector với các phần tử ban đầu
+let my_numbers = vec![1, 2, 3];</p>
+<p>// Duyệt qua các phần tử của vector và in giá trị từng phần tử
+for num in my_numbers {
+    println!(&quot;{:?}&quot;, num);
+}
+Chi tiết các bước:
+Tạo Vector:</p>
+<p>rust
+Copy code
+let my_numbers = vec![1, 2, 3];
+my_numbers là một vector được khởi tạo với các phần tử 1, 2, 3.
+Vòng lặp for:</p>
+<p>rust
+Copy code
+for num in my_numbers {
+    println!(&quot;{:?}&quot;, num);
+}
+Sử dụng vòng lặp for để duyệt qua từng phần tử trong my_numbers.
+Biến num lần lượt nhận giá trị của từng phần tử trong my_numbers.
+println!(&quot;{:?}&quot;, num); in giá trị của num ra màn hình. {:?} là cú pháp để in giá trị dưới dạng debug.
+Tổng kết:
+Slide này minh họa cách duyệt qua các phần tử của một Vector trong Rust bằng cách sử dụng vòng lặp for.
+Vòng lặp for là một cách dễ dàng và hiệu quả để xử lý từng phần tử trong một Vector.
+println!(&quot;{:?}&quot;, num); được sử dụng để in giá trị của từng phần tử ra màn hình.
+Trong trường hợp này, kết quả in ra sẽ là:</p>
+<p>Copy code
+1
+2
+3
+Hy vọng giải thích này giúp bạn hiểu rõ hơn về ví dụ trong slide!</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## String and &str
 
 - Two commonly used types of strings
@@ -331,7 +892,17 @@ for num in my_numbers {
   - &str – borrowed String slice
 - Must use an owned String to store in a struct
 - Use &str when passing to a function
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Two commonly used types of strings:</p>
+<p>String - owned:
+String là một kiểu chuỗi sở hữu (owned). Điều này có nghĩa là nó sở hữu bộ nhớ mà nó chiếm dụng và có thể thay đổi kích thước động.
+&amp;str – borrowed String slice:
+&amp;str là một kiểu chuỗi tham chiếu (borrowed). Nó là một lát cắt của String và không sở hữu bộ nhớ. Nó chỉ tham chiếu tới một phần của chuỗi String.
+Must use an owned String to store in a struct:</p>
+<p>Khi lưu trữ một chuỗi trong một struct, bạn phải sử dụng kiểu String (owned). Điều này là do String sở hữu bộ nhớ của nó và sẽ không bị giải phóng khi không còn được tham chiếu, điều này phù hợp với vòng đời của một struct.
+Use &amp;str when passing to a function:</p>
+<p>Khi truyền chuỗi vào một hàm, bạn nên sử dụng kiểu &amp;str (borrowed). Điều này cho phép hàm sử dụng chuỗi mà không cần phải sở hữu nó hoặc sao chép nó, giúp tiết kiệm bộ nhớ và tối ưu hiệu suất.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – Pass to function
 
 ```rust
@@ -347,7 +918,44 @@ fn main() {
     print_it(&another_owned);
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa cách truyền các loại chuỗi (String và &amp;str) vào một hàm trong Rust. Dưới đây là giải thích chi tiết về đoạn mã trong slide:</p>
+<p>Hàm print_it
+rust
+Copy code
+fn print_it(data: &amp;str) {
+    println!(&quot;{:?}&quot;, data);
+}
+Hàm print_it nhận vào một tham số data kiểu &amp;str (một chuỗi tham chiếu) và in giá trị của nó ra màn hình.
+&amp;str là một chuỗi tham chiếu, thường được sử dụng khi bạn chỉ cần mượn chuỗi mà không cần sở hữu nó.
+Hàm main
+rust
+Copy code
+fn main() {
+    print_it(&quot;a string slice&quot;);</p>
+<pre><code>let owned_string = &quot;owned string&quot;.to_owned();
+let another_owned = String::from(&quot;another&quot;);
+
+print_it(&amp;owned_string);
+print_it(&amp;another_owned);
+</code></pre>
+<p>}
+print_it(&quot;a string slice&quot;);:</p>
+<p>Gọi hàm print_it với một chuỗi slice (&amp;str). Chuỗi này có thể là một literal chuỗi, vốn dĩ đã là &amp;str.
+let owned_string = &quot;owned string&quot;.to_owned();:</p>
+<p>Tạo một String từ một literal chuỗi bằng phương thức .to_owned(). owned_string bây giờ là một chuỗi sở hữu (String).
+let another_owned = String::from(&quot;another&quot;);:</p>
+<p>Tạo một String khác từ một literal chuỗi bằng phương thức String::from. another_owned cũng là một chuỗi sở hữu (String).
+print_it(&amp;owned_string);:</p>
+<p>Truyền một tham chiếu đến owned_string vào hàm print_it. Mặc dù owned_string là một String, nhưng bạn có thể mượn nó dưới dạng &amp;str.
+print_it(&amp;another_owned);:</p>
+<p>Tương tự, truyền một tham chiếu đến another_owned vào hàm print_it.
+Tổng kết
+Hàm print_it chấp nhận một tham chiếu chuỗi &amp;str.
+Bạn có thể truyền trực tiếp một literal chuỗi (chuỗi slice) hoặc một tham chiếu đến một String vào hàm này.
+Điều này minh họa tính linh hoạt của kiểu &amp;str trong Rust, cho phép bạn làm việc với cả chuỗi slice và chuỗi sở hữu mà không cần phải sao chép dữ liệu.
+Slide này giúp bạn hiểu rõ hơn về cách sử dụng các loại chuỗi và cách truyền chúng vào các hàm trong Rust, giúp tối ưu hóa quản lý bộ nhớ và hiệu suất chương trình.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – Will not work
 
 ```rust
@@ -362,7 +970,38 @@ fn main() {
     };
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa một ví dụ về cách sử dụng tham chiếu chuỗi tĩnh (&amp;&#39;static str) trong Rust và lý do tại sao mã này sẽ không hoạt động. Dưới đây là giải thích chi tiết về đoạn mã trong slide:</p>
+<p>Định nghĩa cấu trúc Employee
+rust
+Copy code
+struct Employee {
+    name: &amp;&#39;static str,
+}
+Employee là một cấu trúc với một trường name kiểu &amp;&#39;static str.
+&#39;static là một vòng đời đặc biệt trong Rust, chỉ ra rằng tham chiếu này có tuổi thọ lâu nhất, kéo dài suốt thời gian chạy của chương trình.
+Hàm main
+rust
+Copy code
+fn main() {
+    let emp_name = &quot;Jayson&quot;;
+    let emp = Employee {
+        name: emp_name,
+    };
+}
+let emp_name = &quot;Jayson&quot;;:</p>
+<p>Tạo một biến emp_name với giá trị chuỗi &quot;Jayson&quot;. Literal chuỗi trong Rust có vòng đời &#39;static, vì vậy emp_name thực sự có kiểu &amp;&#39;static str.
+let emp = Employee { name: emp_name, };:</p>
+<p>Tạo một đối tượng Employee với trường name được gán giá trị của emp_name.
+Vấn đề
+Slide này có tiêu đề &quot;Will not work&quot; (Sẽ không hoạt động), nhưng thực tế đoạn mã này sẽ hoạt động trong Rust vì literal chuỗi (&quot;Jayson&quot;) có vòng đời &#39;static.</p>
+<p>Tại sao slide lại có tiêu đề &quot;Will not work&quot;?
+Slide có thể đang cố gắng nhấn mạnh một khía cạnh khác của việc sử dụng vòng đời trong Rust, chẳng hạn như:</p>
+<p>Sử dụng tham chiếu không tĩnh: Nếu bạn thay thế emp_name bằng một chuỗi không tĩnh (ví dụ, một giá trị được nhập vào từ người dùng), bạn sẽ gặp vấn đề với vòng đời.
+Sử dụng String thay vì &amp;&#39;static str: Nếu bạn sử dụng kiểu String thay vì &amp;&#39;static str, bạn cần phải sở hữu chuỗi đó, và điều này yêu cầu thay đổi định nghĩa của Employee.
+Tổng kết
+Slide này có thể đang muốn bạn hiểu về vòng đời &#39;static và cách literal chuỗi trong Rust có thể sử dụng vòng đời này. Đoạn mã cụ thể trong slide sẽ hoạt động, nhưng bạn cần cẩn thận khi làm việc với vòng đời và kiểu dữ liệu trong Rust, đặc biệt là khi không sử dụng literal chuỗi.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example – Works!
 
 ```rust
@@ -378,7 +1017,34 @@ fn main() {
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này minh họa một ví dụ về cách sử dụng kiểu String để sở hữu chuỗi trong Rust. Đây là cách mã này hoạt động:</p>
+<p>Định nghĩa cấu trúc Employee
+rust
+Copy code
+struct Employee {
+    name: String,
+}
+Employee là một cấu trúc với một trường name kiểu String.
+Kiểu String trong Rust là kiểu sở hữu, có thể thay đổi kích thước và bộ nhớ của nó được quản lý tự động.
+Hàm main
+rust
+Copy code
+fn main() {
+    let emp_name = &quot;Jayson&quot;.to_owned();
+    let emp = Employee {
+        name: emp_name,
+    };
+}
+let emp_name = &quot;Jayson&quot;.to_owned();:</p>
+<p>Tạo một biến emp_name với giá trị chuỗi &quot;Jayson&quot;.
+to_owned() chuyển literal chuỗi &amp;str thành một String sở hữu. Điều này có nghĩa là emp_name sẽ sở hữu dữ liệu chuỗi và có thể quản lý bộ nhớ của nó.
+let emp = Employee { name: emp_name, };:</p>
+<p>Tạo một đối tượng Employee với trường name được gán giá trị của emp_name.
+Vì emp_name là một String sở hữu, nó có thể được chuyển vào cấu trúc Employee mà không gặp vấn đề về vòng đời.
+Tổng kết
+Slide này minh họa rằng khi bạn sử dụng String để lưu trữ chuỗi trong một cấu trúc, mã sẽ hoạt động vì kiểu String sở hữu dữ liệu của nó và quản lý bộ nhớ tự động. Điều này tránh được các vấn đề về vòng đời mà bạn có thể gặp phải khi sử dụng tham chiếu chuỗi &amp;str.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Hashmap
 
 - Collection that stores data as key-value pairs
@@ -386,7 +1052,20 @@ fn main() {
   - The data is the “value”
 - Similar to definitions in a dictionary
 - Very fast to retrieve data using the key
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về cấu trúc dữ liệu HashMap trong Rust.</p>
+<p>Khái niệm Hashmap:
+Collection that stores data as key-value pairs:</p>
+<p>HashMap là một bộ sưu tập lưu trữ dữ liệu dưới dạng các cặp khóa-giá trị.
+Data is located using the &quot;key&quot;:</p>
+<p>Dữ liệu được truy cập thông qua &quot;khóa&quot;. Mỗi khóa là duy nhất và được sử dụng để truy xuất giá trị tương ứng.
+The data is the &quot;value&quot;:</p>
+<p>Giá trị là dữ liệu được lưu trữ và truy xuất thông qua khóa.
+Similar to definitions in a dictionary:</p>
+<p>Tương tự như các định nghĩa trong từ điển, nơi bạn có một từ (khóa) và định nghĩa của từ đó (giá trị).
+Very fast to retrieve data using the key:</p>
+<p>Việc truy xuất dữ liệu bằng khóa rất nhanh, thường là thời gian truy xuất trung bình O(1).</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example: find data
 
 ```rust
@@ -407,7 +1086,64 @@ fn main() {
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này đưa ra một ví dụ về cách sử dụng HashMap trong Rust để lưu trữ và truy xuất dữ liệu.</p>
+<p>Code ví dụ:
+rust
+Copy code
+use std::collections::HashMap;</p>
+<p>fn main() {
+    let mut people = HashMap::new();
+    people.insert(&quot;Susan&quot;, 21);
+    people.insert(&quot;Ed&quot;, 13);
+    people.insert(&quot;Will&quot;, 14);
+    people.insert(&quot;Cathy&quot;, 22);
+    people.remove(&quot;Susan&quot;);</p>
+<pre><code>match people.get(&quot;Ed&quot;) {
+    Some(age) =&gt; println!(&quot;age = {:?}&quot;, age),
+    None =&gt; println!(&quot;not found&quot;),
+}
+</code></pre>
+<p>}
+Giải thích từng phần:
+Import thư viện HashMap:</p>
+<p>rust
+Copy code
+use std::collections::HashMap;
+Để sử dụng HashMap, ta cần import nó từ thư viện chuẩn của Rust.
+Khởi tạo một HashMap:</p>
+<p>rust
+Copy code
+let mut people = HashMap::new();
+Tạo một HashMap mới và có thể thay đổi (mutable) để lưu trữ thông tin về người và tuổi của họ.
+Chèn các cặp khóa-giá trị vào HashMap:</p>
+<p>rust
+Copy code
+people.insert(&quot;Susan&quot;, 21);
+people.insert(&quot;Ed&quot;, 13);
+people.insert(&quot;Will&quot;, 14);
+people.insert(&quot;Cathy&quot;, 22);
+Chèn các thông tin về người (khóa) và tuổi của họ (giá trị) vào HashMap.
+Xóa một mục khỏi HashMap:</p>
+<p>rust
+Copy code
+people.remove(&quot;Susan&quot;);
+Xóa mục có khóa là &quot;Susan&quot; khỏi HashMap.
+Truy xuất giá trị từ HashMap:</p>
+<p>rust
+Copy code
+match people.get(&quot;Ed&quot;) {
+    Some(age) =&gt; println!(&quot;age = {:?}&quot;, age),
+    None =&gt; println!(&quot;not found&quot;),
+}
+Sử dụng phương thức get để truy xuất giá trị (tuổi) của khóa &quot;Ed&quot;.
+Sử dụng cấu trúc match để kiểm tra kết quả:
+Nếu khóa &quot;Ed&quot; tồn tại trong HashMap, in ra tuổi của &quot;Ed&quot;.
+Nếu khóa &quot;Ed&quot; không tồn tại, in ra thông báo &quot;not found&quot;.
+Kết quả chạy chương trình:
+Chương trình sẽ in ra &quot;age = 13&quot; vì mục với khóa &quot;Ed&quot; có giá trị là 13 trong HashMap.
+Slide này minh họa cách sử dụng các thao tác cơ bản với HashMap như chèn, xóa và truy xuất dữ liệu. HashMap là một cấu trúc dữ liệu mạnh mẽ và rất hữu ích trong việc quản lý các cặp khóa-giá trị.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example: iterate
 
 ```rust
@@ -424,7 +1160,65 @@ for age in people.values() {
 }
 
 ```
-</script></section>
+
+<aside class="notes"><p>Slide này trình bày cách duyệt qua các phần tử trong một HashMap trong Rust bằng cách sử dụng các vòng lặp for.</p>
+<p>Code ví dụ:
+rust
+Copy code
+for (person, age) in people.iter() {
+    println!(&quot;person = {:?}, age = {:?}&quot;, person, age);
+}</p>
+<p>for person in people.keys() {
+    println!(&quot;person = {:?}&quot;, person);
+}</p>
+<p>for age in people.values() {
+    println!(&quot;age = {:?}&quot;, age);
+}
+Giải thích từng phần:
+Duyệt qua các cặp khóa-giá trị:</p>
+<p>rust
+Copy code
+for (person, age) in people.iter() {
+    println!(&quot;person = {:?}, age = {:?}&quot;, person, age);
+}
+Sử dụng iter() để lấy một iterator cho toàn bộ HashMap.
+Mỗi phần tử của iterator là một cặp khóa-giá trị (key-value pair).
+Trong mỗi lần lặp, biến person sẽ nhận giá trị khóa và biến age sẽ nhận giá trị tương ứng.
+println! sẽ in ra khóa và giá trị của từng cặp.
+Duyệt qua các khóa:</p>
+<p>rust
+Copy code
+for person in people.keys() {
+    println!(&quot;person = {:?}&quot;, person);
+}
+Sử dụng keys() để lấy một iterator chỉ cho các khóa trong HashMap.
+Trong mỗi lần lặp, biến person sẽ nhận một khóa từ HashMap.
+println! sẽ in ra từng khóa.
+Duyệt qua các giá trị:</p>
+<p>rust
+Copy code
+for age in people.values() {
+    println!(&quot;age = {:?}&quot;, age);
+}
+Sử dụng values() để lấy một iterator chỉ cho các giá trị trong HashMap.
+Trong mỗi lần lặp, biến age sẽ nhận một giá trị từ HashMap.
+println! sẽ in ra từng giá trị.
+Kết quả chạy chương trình:
+Chương trình sẽ in ra danh sách các cặp khóa-giá trị, các khóa, và các giá trị trong HashMap.
+Ví dụ:</p>
+<p>text
+Copy code
+person = &quot;Ed&quot;, age = 13
+person = &quot;Will&quot;, age = 14
+person = &quot;Cathy&quot;, age = 22
+person = &quot;Ed&quot;
+person = &quot;Will&quot;
+person = &quot;Cathy&quot;
+age = 13
+age = 14
+age = 22
+Slide này minh họa cách duyệt qua các phần tử của HashMap bằng các phương pháp khác nhau, bao gồm duyệt qua cả cặp khóa-giá trị, chỉ duyệt qua khóa, và chỉ duyệt qua giá trị.</p>
+</aside></script></section>
     </article>
   </main>
 

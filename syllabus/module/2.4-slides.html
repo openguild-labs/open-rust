@@ -44,7 +44,19 @@ match slice {
 ```
 
 Second arm always ignored
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Các mẫu dễ dàng trùng lặp.
+Giảm số lượng các nhánh trong match để tránh lỗi.
+rust
+Copy code
+match slice {
+    [first, ..] =&gt; (),
+    [.., last] =&gt; (),
+    [] =&gt; (),
+}
+Trong ví dụ trên, nhánh thứ hai sẽ luôn bị bỏ qua vì mẫu đầu tiên [first, ..] trùng lặp với nó. Mẫu đầu tiên khớp với bất kỳ mảng không rỗng nào, khiến mẫu thứ hai [.., last] trở nên thừa thãi.</p>
+<p>Để tránh các vấn đề như vậy, hãy cố gắng giảm số lượng các nhánh match và đảm bảo chúng là rõ ràng và không trùng lặp.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Prevent Overlapping Patterns
 
 - Match the largest patterns first, followed by smaller patterns
@@ -68,7 +80,32 @@ match slice {
 // "All arms can be matched"
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Ngăn Ngừa Mẫu Trùng Lặp
+So khớp các mẫu lớn nhất trước, sau đó đến các mẫu nhỏ hơn
+rust
+Copy code
+match slice {
+    [] =&gt; (),
+    [a, ..] =&gt; (),
+    [a, b, ..] =&gt; (),
+    [a, b, c, ..] =&gt; (),
+    [a, b, c, d, ..] =&gt; (),
+}
+// &quot;Hai nhánh đầu tiên bao phủ tất cả các trường hợp, các nhánh còn lại sẽ bị bỏ qua&quot;
+Thay đổi thứ tự của các nhánh để tránh trùng lặp:</p>
+<p>rust
+Copy code
+match slice {
+    [a, b, c, d, ..] =&gt; (),
+    [a, b, c, ..] =&gt; (),
+    [a, b, ..] =&gt; (),
+    [a, ..] =&gt; (),
+    [] =&gt; (),
+}
+// &quot;Tất cả các nhánh có thể được so khớp&quot;
+Trong ví dụ trên, thứ tự so khớp các mẫu ảnh hưởng đến việc các nhánh có bị bỏ qua hay không. Đặt các mẫu lớn hơn lên trước sẽ giúp tránh việc các mẫu nhỏ hơn bị che khuất và bỏ qua.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Guards
 
 ```rust
@@ -84,7 +121,9 @@ match nums.as_slice() {
     [] => (),
 }
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Trong ví dụ trên, các guard (biểu thức điều kiện) giúp kiểm soát logic phức tạp hơn trong quá trình match các mẫu. Đặc biệt, guard [single] if single == &amp;5 || single == &amp;6 =&gt; () chỉ so khớp khi phần tử đơn lẻ là 5 hoặc 6.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Typestates Patterns
 
 - Leverage type system to encode state changes
@@ -94,7 +133,23 @@ match nums.as_slice() {
   - Optionally drop the state
     - Close file, connection dropped, etc
   - Compile time enforcement of logic
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Typestates Patterns
+Leverage type system to encode state changes:
+Sử dụng hệ thống kiểu để mã hóa các thay đổi trạng thái.
+Implemented by creating a type for each state:
+Được triển khai bằng cách tạo một kiểu cho mỗi trạng thái.
+Use move semantics to invalidate a state:
+Sử dụng ngữ nghĩa di chuyển để vô hiệu hóa một trạng thái.
+Return next state from previous state:
+Trả về trạng thái tiếp theo từ trạng thái trước đó.
+Optionally drop the state:
+Tuỳ chọn bỏ trạng thái.
+Ví dụ: Đóng tệp, kết nối bị ngắt, v.v.
+Compile time enforcement of logic:
+Kiểm tra logic tại thời gian biên dịch.
+Trong kiểu mẫu này, các thay đổi trạng thái được mã hóa bằng cách sử dụng hệ thống kiểu của ngôn ngữ lập trình. Điều này cho phép việc quản lý và kiểm soát trạng thái trở nên dễ dàng và chặt chẽ hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -113,7 +168,27 @@ let boarded = ticket.board();
 // Compile error
 ticket.board();
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Định Nghĩa Struct:</p>
+<p>struct BusTicket; và struct BoardedBusTicket; định nghĩa hai struct rỗng có tên là BusTicket và BoardedBusTicket.
+Khối Impl:</p>
+<p>impl BusTicket { fn board(self) -&gt; BoardedBusTicket { BoardedBusTicket } }
+Khối triển khai này định nghĩa một phương thức có tên board cho struct BusTicket.
+Phương thức board tiêu thụ instance BusTicket (self) và trả về một instance của BoardedBusTicket.
+Điều này có nghĩa là sau khi gọi board, instance BusTicket ban đầu không còn hợp lệ nữa.
+Tạo Instance:</p>
+<p>let ticket = BusTicket; tạo một instance mới của BusTicket.
+let boarded = ticket.board(); gọi phương thức board trên instance ticket. Điều này tiêu thụ ticket và trả về một instance mới của BoardedBusTicket, được lưu trong biến boarded.
+Lỗi Biên Dịch:</p>
+<p>ticket.board(); cố gắng gọi phương thức board trên ticket lần nữa.
+Điều này dẫn đến lỗi biên dịch vì ticket đã bị chuyển quyền sở hữu (moved) khi ticket.board() được gọi lần đầu. Trong Rust, sau khi một giá trị bị chuyển quyền sở hữu, nó không thể được sử dụng lại trừ khi nó triển khai trait Copy, mà BusTicket không có.
+Các Khái Niệm Chính
+Semantics Di Chuyển:
+Hệ thống quyền sở hữu của Rust đảm bảo rằng một giá trị chỉ có thể có một chủ sở hữu tại một thời điểm. Khi một giá trị bị chuyển quyền sở hữu, chủ sở hữu ban đầu không thể sử dụng nó nữa.
+An Toàn Khi Biên Dịch:
+Rust áp dụng các quy tắc này khi biên dịch, đảm bảo rằng các trạng thái không hợp lệ, chẳng hạn như việc sử dụng một giá trị đã bị chuyển quyền sở hữu, được phát hiện sớm, ngăn ngừa lỗi khi chạy và các lỗi tiềm ẩn.
+Ví dụ này minh họa cách hệ thống kiểu của Rust và mô hình quyền sở hữu có thể được sử dụng để quản lý các chuyển đổi trạng thái một cách an toàn và hiệu quả.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example
 
 ```rust
@@ -136,7 +211,29 @@ file.delete();
 // Compile error
 let read_again = file.read_bytes();
 
-```</script></section>
+```
+
+<aside class="notes"><p>Định Nghĩa Struct:</p>
+<p>struct File&lt;&#39;a&gt;(&amp;&#39;a str); định nghĩa một struct có tên là File với một thành viên là tham chiếu đến chuỗi ký tự sống lâu &#39;a.
+Khối Impl:</p>
+<p>impl&lt;&#39;a&gt; File&lt;&#39;a&gt; { ... } triển khai các phương thức cho File.
+fn read_bytes(&amp;self) -&gt; Vec<u8> { ... }
+Phương thức read_bytes mượn self không có khả năng thay đổi và trả về một vector các byte (Vec<u8>).
+fn delete(self) { ... }
+Phương thức delete tiêu thụ self và thực hiện việc xóa file.
+Tạo Instance:</p>
+<p>let file = File(&quot;data.txt&quot;); tạo một instance mới của File với tên file là &quot;data.txt&quot;.
+let data = file.read_bytes(); gọi phương thức read_bytes trên instance file. Phương thức này mượn file và trả về dữ liệu dạng byte từ file.
+file.delete(); gọi phương thức delete trên instance file, tiêu thụ file và xóa file.
+Lỗi Biên Dịch:</p>
+<p>let read_again = file.read_bytes(); cố gắng gọi phương thức read_bytes trên file lần nữa.
+Điều này dẫn đến lỗi biên dịch vì file đã bị tiêu thụ (moved) khi phương thức delete được gọi. Trong Rust, sau khi một giá trị bị chuyển quyền sở hữu, nó không thể được sử dụng lại trừ khi nó triển khai trait Copy, mà File không có.
+Các Khái Niệm Chính
+Semantics Di Chuyển:
+Hệ thống quyền sở hữu của Rust đảm bảo rằng một giá trị chỉ có thể có một chủ sở hữu tại một thời điểm. Khi một giá trị bị chuyển quyền sở hữu, chủ sở hữu ban đầu không thể sử dụng nó nữa.
+An Toàn Khi Biên Dịch:
+Rust áp dụng các quy tắc này khi biên dịch, đảm bảo rằng các trạng thái không hợp lệ, chẳng hạn như việc sử dụng một giá trị đã bị chuyển quyền sở hữu, được phát hiện sớm, ngăn ngừa lỗi khi chạy và các lỗi tiềm ẩn.</p>
+</aside></script></section>
     </article>
   </main>
 

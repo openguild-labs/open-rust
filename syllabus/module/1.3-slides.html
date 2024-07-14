@@ -38,7 +38,23 @@
 - Computer optimized for bytes
   - 1 byte == 8 contiguous bits
 - Fully contiguous
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này cung cấp những kiến thức cơ bản về bộ nhớ trong máy tính, tập trung vào cách thức lưu trữ và tối ưu hóa bộ nhớ.</p>
+<p>Memory is stored using binary:</p>
+<p>Bộ nhớ được lưu trữ bằng hệ nhị phân. Tất cả dữ liệu trong máy tính được biểu diễn bằng các bit (binary digits), có thể là 0 hoặc 1.
+Bits: 0 or 1:</p>
+<p>Một bit là đơn vị cơ bản nhất của dữ liệu trong máy tính, chỉ có thể nhận hai giá trị: 0 hoặc 1.
+Computer optimized for bytes:</p>
+<p>Máy tính được tối ưu hóa cho việc xử lý dữ liệu theo đơn vị byte. Một byte là một nhóm gồm 8 bit liên tiếp.
+1 byte == 8 contiguous bits:</p>
+<p>Một byte tương đương với 8 bit liên tiếp nhau. Điều này nghĩa là một byte có thể biểu diễn 256 giá trị khác nhau (2^8 = 256).
+Fully contiguous:</p>
+<p>Bộ nhớ được sắp xếp một cách liên tiếp, nghĩa là các byte được lưu trữ kế tiếp nhau trong không gian bộ nhớ. Điều này giúp việc truy cập và quản lý bộ nhớ trở nên hiệu quả hơn.
+Tóm tắt:
+Bộ nhớ trong máy tính được lưu trữ bằng hệ nhị phân, với đơn vị cơ bản là bit (0 hoặc 1).
+Máy tính được tối ưu hóa để xử lý dữ liệu theo đơn vị byte, trong đó một byte bao gồm 8 bit liên tiếp.
+Bộ nhớ được sắp xếp liên tiếp, giúp việc truy cập và quản lý dữ liệu hiệu quả hơn.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Addresses
 
 - All data in memory has an “address”
@@ -46,14 +62,45 @@
   - Always the same – only data changes
 - Usually don’t utilize addresses directly
   - Variables handle most of the work
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Giải thích slide &quot;Addresses&quot;:
+Slide này tập trung vào khái niệm địa chỉ bộ nhớ trong máy tính, giải thích vai trò và cách sử dụng của địa chỉ trong quá trình lưu trữ và truy cập dữ liệu.</p>
+<p>All data in memory has an “address”:</p>
+<p>Tất cả dữ liệu trong bộ nhớ đều có một &quot;địa chỉ&quot;. Địa chỉ này là một số duy nhất đại diện cho vị trí của dữ liệu trong không gian bộ nhớ.
+Used to locate data:</p>
+<p>Địa chỉ được sử dụng để xác định vị trí dữ liệu trong bộ nhớ. Khi cần truy cập hoặc thay đổi dữ liệu, máy tính sẽ sử dụng địa chỉ này để tìm đến đúng vị trí của dữ liệu đó.
+Always the same – only data changes:</p>
+<p>Địa chỉ của dữ liệu trong bộ nhớ luôn cố định, chỉ có dữ liệu tại địa chỉ đó có thể thay đổi. Điều này giúp máy tính dễ dàng quản lý và truy cập dữ liệu một cách hiệu quả.
+Usually don’t utilize addresses directly:</p>
+<p>Thông thường, lập trình viên không cần phải làm việc trực tiếp với địa chỉ bộ nhớ. Thay vào đó, các ngôn ngữ lập trình cung cấp các công cụ và cấu trúc dữ liệu để quản lý địa chỉ một cách tự động và an toàn.
+Variables handle most of the work:</p>
+<p>Các biến trong lập trình chịu trách nhiệm quản lý và xử lý hầu hết công việc liên quan đến địa chỉ bộ nhớ. Biến đại diện cho một vùng nhớ cụ thể và cung cấp một cách dễ dàng để truy cập và thay đổi dữ liệu mà không cần phải làm việc trực tiếp với địa chỉ.
+Tóm tắt:
+Tất cả dữ liệu trong bộ nhớ có một địa chỉ duy nhất để xác định vị trí.
+Địa chỉ bộ nhớ được sử dụng để xác định vị trí dữ liệu và luôn cố định, chỉ có dữ liệu tại địa chỉ đó có thể thay đổi.
+Lập trình viên thường không làm việc trực tiếp với địa chỉ bộ nhớ, thay vào đó, sử dụng các biến để quản lý và truy cập dữ liệu một cách an toàn và hiệu quả.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Offsets
 
 - Items can be located at an address using an “offset”
 - Offsets begin at 0
 - Represent the number of bytes away from the original address
   - Normally deal with indexes instead
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về khái niệm &quot;offset&quot; trong bộ nhớ máy tính, cách nó được sử dụng để xác định vị trí dữ liệu.</p>
+<p>Items can be located at an address using an “offset”:</p>
+<p>Các mục (items) có thể được định vị tại một địa chỉ cụ thể bằng cách sử dụng một &quot;offset&quot;. Offset là một giá trị thể hiện khoảng cách từ một địa chỉ gốc (base address) đến địa chỉ của mục cần truy cập.
+Offsets begin at 0:</p>
+<p>Các offset bắt đầu từ giá trị 0. Điều này có nghĩa là địa chỉ gốc sẽ có offset là 0.
+Represent the number of bytes away from the original address:</p>
+<p>Offset đại diện cho số byte cách xa từ địa chỉ gốc. Ví dụ, nếu offset là 4, điều đó có nghĩa là mục cần truy cập nằm cách địa chỉ gốc 4 byte.
+Normally deal with indexes instead:</p>
+<p>Thông thường, chúng ta làm việc với các chỉ số (indexes) thay vì trực tiếp làm việc với các offset. Các chỉ số thường được sử dụng trong các cấu trúc dữ liệu như mảng (array) hoặc danh sách (list) để truy cập các phần tử cụ thể.
+Tóm tắt:
+&quot;Offset&quot; được sử dụng để định vị các mục tại một địa chỉ cụ thể trong bộ nhớ.
+Offset bắt đầu từ 0 và đại diện cho số byte cách xa từ địa chỉ gốc.
+Thông thường, chúng ta làm việc với các chỉ số (indexes) để truy cập các phần tử trong các cấu trúc dữ liệu thay vì trực tiếp làm việc với offset.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## The Stack
 
 - LIFO Structure
@@ -62,7 +109,25 @@
 - Scope-Bound
 - Size Limitations
 - Suitable for Temporary Data
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về Stack, một cấu trúc dữ liệu và cơ chế quản lý bộ nhớ trong lập trình.</p>
+<p>LIFO Structure (Cấu trúc LIFO):</p>
+<p>Stack hoạt động theo nguyên tắc LIFO (Last In, First Out), nghĩa là phần tử được thêm vào cuối cùng sẽ được lấy ra đầu tiên. Điều này giống như một chồng đĩa, bạn chỉ có thể lấy đĩa trên cùng ra trước.
+Automatic Memory Management (Quản lý bộ nhớ tự động):</p>
+<p>Bộ nhớ trong Stack được quản lý tự động. Khi một hàm được gọi, các biến cục bộ của hàm đó được đẩy vào Stack. Khi hàm kết thúc, các biến này được lấy ra khỏi Stack tự động.
+Fast Allocation (Phân bổ nhanh):</p>
+<p>Phân bổ và giải phóng bộ nhớ trên Stack rất nhanh vì chỉ đơn giản là di chuyển con trỏ Stack lên hoặc xuống.
+Scope-Bound (Giới hạn phạm vi):</p>
+<p>Dữ liệu trên Stack chỉ tồn tại trong phạm vi của hàm hoặc khối mã mà nó được khai báo. Khi hàm hoặc khối mã đó kết thúc, bộ nhớ được tự động giải phóng.
+Size Limitations (Giới hạn kích thước):</p>
+<p>Stack có giới hạn kích thước nhất định. Nếu bạn cố gắng sử dụng quá nhiều bộ nhớ trên Stack, bạn có thể gặp lỗi tràn Stack (stack overflow).
+Suitable for Temporary Data (Phù hợp cho dữ liệu tạm thời):</p>
+<p>Stack thích hợp để lưu trữ dữ liệu tạm thời, chẳng hạn như các biến cục bộ trong hàm, vì bộ nhớ sẽ được giải phóng tự động khi không còn cần thiết.
+Tóm tắt:
+Stack là một cấu trúc dữ liệu LIFO với quản lý bộ nhớ tự động.
+Phân bổ và giải phóng bộ nhớ trên Stack rất nhanh.
+Stack có giới hạn kích thước và phù hợp cho dữ liệu tạm thời trong phạm vi của hàm hoặc khối mã.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## The Heap
 
 - Dynamic Memory Allocation
@@ -71,7 +136,25 @@
 - Fragmentation
 - Slower Allocation
 - Lifetime Management
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về Heap, một cơ chế quản lý bộ nhớ trong lập trình.</p>
+<p>Dynamic Memory Allocation (Phân bổ bộ nhớ động):</p>
+<p>Heap cho phép phân bổ bộ nhớ động, nghĩa là bộ nhớ có thể được cấp phát và giải phóng theo yêu cầu trong thời gian chạy của chương trình.
+Greater Flexibility (Tính linh hoạt cao hơn):</p>
+<p>Heap cung cấp tính linh hoạt cao hơn so với Stack vì bộ nhớ có thể được cấp phát và giải phóng bất kỳ lúc nào mà không phụ thuộc vào phạm vi của hàm hoặc khối mã.
+Larger Memory Area (Khu vực bộ nhớ lớn hơn):</p>
+<p>Heap thường có khu vực bộ nhớ lớn hơn Stack, cho phép lưu trữ các đối tượng lớn hơn và tồn tại lâu hơn trong suốt vòng đời của chương trình.
+Fragmentation (Phân mảnh):</p>
+<p>Một nhược điểm của Heap là phân mảnh bộ nhớ. Khi bộ nhớ được cấp phát và giải phóng nhiều lần, có thể dẫn đến phân mảnh, làm giảm hiệu suất và gây khó khăn trong việc cấp phát bộ nhớ mới.
+Slower Allocation (Phân bổ chậm hơn):</p>
+<p>Phân bổ và giải phóng bộ nhớ trên Heap thường chậm hơn so với Stack do cần phải quản lý và tìm kiếm các khối bộ nhớ phù hợp.
+Lifetime Management (Quản lý vòng đời):</p>
+<p>Quản lý vòng đời của các đối tượng trên Heap phức tạp hơn. Lập trình viên phải đảm bảo rằng bộ nhớ được giải phóng đúng cách để tránh rò rỉ bộ nhớ.
+Tóm tắt:
+Heap cho phép phân bổ bộ nhớ động với tính linh hoạt cao hơn và khu vực bộ nhớ lớn hơn.
+Tuy nhiên, nó có thể gặp phải vấn đề phân mảnh và phân bổ chậm hơn so với Stack.
+Quản lý vòng đời của các đối tượng trên Heap đòi hỏi sự cẩn thận để tránh rò rỉ bộ nhớ.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## What Is Ownership?
 
 - Ownership is a set of rules that govern how a Rust program manages memory
@@ -79,7 +162,21 @@
   - Each value in Rust has a variable that’s called its owner.
   - There can only be one owner at a time.
   - When the owner goes out of scope, the value will be dropped.
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích khái niệm &quot;Ownership&quot; trong ngôn ngữ lập trình Rust, một trong những đặc điểm nổi bật của Rust để quản lý bộ nhớ an toàn và hiệu quả.</p>
+<p>Ownership là gì?</p>
+<p>Ownership là một tập hợp các quy tắc xác định cách một chương trình Rust quản lý bộ nhớ. Rust sử dụng hệ thống ownership để đảm bảo rằng các vấn đề về bộ nhớ như double free, null pointer dereference và data race không xảy ra.
+Ba quy tắc chính của hệ thống ownership trong Rust:</p>
+<p>Mỗi giá trị trong Rust có một biến gọi là owner (chủ sở hữu):</p>
+<p>Mỗi giá trị được quản lý bởi một biến, và biến này được gọi là chủ sở hữu của giá trị đó.
+Chỉ có một chủ sở hữu tại một thời điểm:</p>
+<p>Một giá trị chỉ có thể có một chủ sở hữu tại một thời điểm. Điều này ngăn chặn việc nhiều biến cùng quản lý một giá trị và dẫn đến các vấn đề như data race.
+Khi chủ sở hữu ra khỏi phạm vi (scope), giá trị sẽ bị giải phóng:</p>
+<p>Khi biến chủ sở hữu ra khỏi phạm vi của nó (kết thúc vòng đời), giá trị mà nó quản lý sẽ tự động bị giải phóng, giải phóng bộ nhớ tương ứng.
+Tóm tắt:
+Ownership là một cơ chế quản lý bộ nhớ của Rust với ba quy tắc chính: mỗi giá trị có một chủ sở hữu, chỉ có một chủ sở hữu tại một thời điểm, và giá trị sẽ bị giải phóng khi chủ sở hữu ra khỏi phạm vi.
+Hệ thống ownership giúp Rust tránh các lỗi về quản lý bộ nhớ và đảm bảo an toàn bộ nhớ.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Managing memory
 
 - Programs must track memory
@@ -87,7 +184,23 @@
 - Rust utilizes an “ownership” model to manage memory
   - The “owner” of memory is responsible for cleaning up the memory
 - Memory can either be “moved” or “borrowed”
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Slide này giải thích về cách quản lý bộ nhớ trong các chương trình, đặc biệt là trong ngôn ngữ lập trình Rust.</p>
+<p>Programs must track memory (Các chương trình phải theo dõi bộ nhớ):</p>
+<p>Mọi chương trình cần phải theo dõi việc sử dụng bộ nhớ của mình.
+Nếu không làm như vậy, sẽ xảy ra hiện tượng &quot;leak&quot; (rò rỉ bộ nhớ), tức là bộ nhớ không được giải phóng sau khi đã sử dụng xong, dẫn đến việc lãng phí tài nguyên hệ thống.
+Rust utilizes an &quot;ownership&quot; model to manage memory (Rust sử dụng mô hình &quot;ownership&quot; để quản lý bộ nhớ):</p>
+<p>Rust sử dụng mô hình ownership để quản lý bộ nhớ, đảm bảo rằng bộ nhớ được sử dụng một cách an toàn và hiệu quả.
+The &quot;owner&quot; of memory is responsible for cleaning up the memory (Chủ sở hữu của bộ nhớ chịu trách nhiệm dọn dẹp bộ nhớ):
+Chủ sở hữu của bộ nhớ là biến đang sở hữu giá trị đó. Khi biến này ra khỏi phạm vi của nó, bộ nhớ sẽ được tự động giải phóng, ngăn chặn hiện tượng rò rỉ bộ nhớ.
+Memory can either be &quot;moved&quot; or &quot;borrowed&quot; (Bộ nhớ có thể được &quot;chuyển&quot; hoặc &quot;mượn&quot;):</p>
+<p>Moved (Chuyển): Khi một giá trị được chuyển từ biến này sang biến khác, quyền sở hữu của giá trị đó cũng được chuyển sang biến mới. Biến cũ không còn quyền truy cập vào giá trị đó nữa.
+Borrowed (Mượn): Khi một giá trị được mượn, quyền sở hữu vẫn nằm ở biến gốc, nhưng biến mượn có thể sử dụng giá trị đó trong một khoảng thời gian giới hạn. Có hai loại mượn: mượn không thay đổi (immutable borrow) và mượn có thể thay đổi (mutable borrow).
+Tóm tắt:
+Các chương trình cần theo dõi và quản lý bộ nhớ để tránh hiện tượng rò rỉ.
+Rust sử dụng mô hình ownership để đảm bảo rằng bộ nhớ được quản lý một cách an toàn.
+Trong Rust, bộ nhớ có thể được chuyển hoặc mượn, giúp linh hoạt trong việc quản lý và sử dụng bộ nhớ.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example - Move
 
 ```rust
@@ -110,7 +223,27 @@ fn main() {
 }
 
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Chi tiết từng phần:
+Định nghĩa enum Light:</p>
+<p>enum Light định nghĩa một kiểu liệt kê (enum) với hai giá trị có thể: Bright và Dull.
+Đây là một kiểu dữ liệu tùy chỉnh giúp biểu diễn trạng thái của Light.
+Hàm display_light:</p>
+<p>Hàm display_light nhận vào một tham số kiểu Light.
+Sử dụng biểu thức match để phân biệt giá trị của Light:
+Nếu Light::Bright, in ra &quot;bright&quot;.
+Nếu Light::Dull, in ra &quot;dull&quot;.
+Hàm main:</p>
+<p>Tạo một biến dull với giá trị Light::Dull.
+Gọi hàm display_light(dull).
+Gọi lại hàm display_light(dull) một lần nữa.
+Vấn đề về di chuyển (move):
+Khi dull được truyền vào hàm display_light lần đầu tiên, quyền sở hữu của dull được di chuyển vào hàm.
+Sau khi hàm display_light kết thúc, dull đã bị mất quyền sở hữu và không thể sử dụng lại.
+Do đó, khi gọi display_light(dull) lần thứ hai, sẽ gây ra lỗi vì dull không còn khả dụng.
+Kết luận:
+Ví dụ này minh họa cách quyền sở hữu trong Rust hoạt động. Khi một biến được di chuyển (moved), biến gốc sẽ không còn khả dụng sau khi di chuyển. Điều này giúp ngăn chặn các lỗi liên quan đến quản lý bộ nhớ và đảm bảo an toàn trong lập trình.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Example - Borrow
 
 ```rust
@@ -133,7 +266,26 @@ fn main() {
 }
 
 ```
-</script></section>
+
+<aside class="notes"><p>Định nghĩa enum Light:</p>
+<p>enum Light định nghĩa một kiểu liệt kê (enum) với hai giá trị có thể: Bright và Dull.
+Đây là một kiểu dữ liệu tùy chỉnh giúp biểu diễn trạng thái của Light.
+Hàm display_light:</p>
+<p>Hàm display_light nhận vào một tham chiếu tới Light (&amp;Light).
+Sử dụng biểu thức match để phân biệt giá trị của Light:
+Nếu Light::Bright, in ra &quot;bright&quot;.
+Nếu Light::Dull, in ra &quot;dull&quot;.
+Hàm main:</p>
+<p>Tạo một biến dull với giá trị Light::Dull.
+Gọi hàm display_light(&amp;dull) lần đầu tiên với tham chiếu tới dull.
+Gọi lại hàm display_light(&amp;dull) lần thứ hai với tham chiếu tới dull.
+Vấn đề về mượn tham chiếu (borrow):
+Khi dull được truyền vào hàm display_light lần đầu tiên, chỉ có tham chiếu tới dull được truyền đi, không phải quyền sở hữu.
+Sau khi hàm display_light kết thúc, dull vẫn còn khả dụng và có thể được sử dụng lại.
+Do đó, khi gọi display_light(&amp;dull) lần thứ hai, không gây ra lỗi vì dull vẫn còn khả dụng.
+Kết luận:
+Ví dụ này minh họa cách mượn tham chiếu trong Rust hoạt động. Khi một biến được mượn (borrowed), biến gốc vẫn còn khả dụng sau khi tham chiếu được sử dụng. Điều này giúp ngăn chặn các lỗi liên quan đến quản lý bộ nhớ và đảm bảo an toàn trong lập trình mà không cần phải di chuyển quyền sở hữu.</p>
+</aside></script></section>
     </article>
   </main>
 
